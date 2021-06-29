@@ -12,7 +12,8 @@ exports.fetchAppointments = asyncHandler(async (req, res, next) => {
 
   // If we do not find any appointments then send 404
   if (appointments.length === 0) {
-    return res.status(404).send({ error: "You do not have any appointments" });
+    res.status(404)
+    throw new Error("You do not have any appointments");
   }
 
   res.status(200).send(appointments);
@@ -25,12 +26,13 @@ exports.createAppointment = asyncHandler(async (req, res, next) => {
   // Checking for empty input
   for (let key in req.body) {
     if (req.body[key].trim() === "") {
-      return res.status(406).send({ error: `Please enter a valid input for ${key}` })
+      res.status(406);
+      throw new Error(`Invalid input, please do not send empty input`)
     }
   }
 
   // Creates an appointment
-  await Appointment.create(req.body);
+  const appointment = await Appointment.create(req.body);
 
-  res.status(201).send();
+  res.status(201).send(appointment);
 })
