@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
 
 const appointmentSchema = new mongoose.Schema({
-  meeting_id: {
-    type: String,
-    required: true,
-    unique: true
+  meetingId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "meeting"
   },
   name: {
     type: String,
@@ -19,7 +18,7 @@ const appointmentSchema = new mongoose.Schema({
     required: true
   },
   timezone: {
-    type: Date,
+    type: String,
     required: true
   }
 })
