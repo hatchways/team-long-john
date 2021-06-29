@@ -26,15 +26,20 @@ exports.createMeeting = asyncHandler(async (req, res, next) => {
 // @desc Get the list of meetings for logged in user
 // @access Private
 exports.getMeeting = asyncHandler(async (req, res, next) => {
-  const { userId } = req.body;
-  const meetings = await Meeting.find({
-    userId: userId,
-  });
+  try {
+    const { userId } = req.body;
+    const meetings = await Meeting.find({
+      userId: userId,
+    });
 
-  if (meetings.length > 0) {
-    res.status(200).send(meetings);
-  } else {
-    res.status(404);
-    throw new Error("No meetings found for this logged in user");
+    if (meetings.length > 0) {
+      res.status(200).send(meetings);
+    } else {
+      res.status(404);
+      throw new Error("No meetings found for this logged in user");
+    }
+  } catch {
+    res.status(400);
+    throw new Error("Invalid user Id");
   }
 });
