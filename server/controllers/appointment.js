@@ -27,7 +27,7 @@ exports.createAppointment = asyncHandler(async (req, res, next) => {
   for (let key in req.body) {
     if (req.body[key].trim() === "") {
       res.status(406);
-      throw new Error(`Invalid input, please do not send empty input`)
+      throw new Error("Invalid input, please do not send empty input(s)")
     }
   }
 
