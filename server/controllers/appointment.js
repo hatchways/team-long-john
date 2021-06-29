@@ -10,6 +10,11 @@ exports.fetchAppointments = asyncHandler(async (req, res, next) => {
   // Finds all appointments associated with the email
   const appointments = await Appointment.find({ email });
 
+  // If we do not find any appointments then send 404
+  if (appointments.length === 0) {
+    return res.status(404).send({ message: "You do not have any appointments" });
+  }
+
   res.status(200).send(appointments);
 })
 
