@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { fetchAppointments, createAppointment } = require('../controllers/appointment');
 
-router.route('/appointment/:email').get(fetchAppointments);
-router.route('/appointment').post(createAppointment);
+router.route('/').get(fetchAppointments);
+router.route('/').post(createAppointment);
 
 module.exports = router;
