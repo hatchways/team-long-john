@@ -8,7 +8,6 @@ const connectDB = require("./db");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-require("dotenv").config({ path: './sample.env' });
 
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
@@ -68,7 +67,5 @@ process.on("unhandledRejection", (err, promise) => {
   // Close server & exit process
   server.close(() => process.exit(1));
 });
-
-server.listen(process.env.PORT || 3001);
 
 module.exports = { app, server };

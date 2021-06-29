@@ -9,7 +9,6 @@ exports.fetchAppointments = asyncHandler(async (req, res, next) => {
 
   // Finds all appointments associated with the email
   const appointments = await Appointment.find({ email });
-  console.log(appointments);
 
   res.status(200).send(appointments);
 })
