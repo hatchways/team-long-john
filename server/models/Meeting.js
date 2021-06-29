@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const meetingSchema = new mongoose.Schema({
-  user_id: {
+  userId: {
     type: mongoose.Types.ObjectId,
     ref: "user",
     required: true,
