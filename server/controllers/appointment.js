@@ -21,14 +21,14 @@ exports.fetchAppointments = asyncHandler(async (req, res, next) => {
 // @route POST /appointment
 // @desc Creates an appointment
 // @access Public
-exports.createAppointment = asyncHandler(async (req, res, next) => {  
+exports.createAppointment = asyncHandler(async (req, res, next) => {    
   // Checking for empty input
   for (let key in req.body) {
     if (req.body[key].trim() === "") {
       return res.status(406).send({ error: `Please enter a valid input for ${key}` })
     }
   }
-  
+
   // Creates an appointment
   await Appointment.create(req.body);
 
