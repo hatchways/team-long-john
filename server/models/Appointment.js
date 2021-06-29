@@ -18,7 +18,7 @@ const appointmentSchema = new mongoose.Schema({
     required: true
   },
   timezone: {
-    type: Date,
+    type: String,
     required: true
   }
 })
