@@ -8,9 +8,13 @@ const connectDB = require("./db");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const passport = require('passport');
+const session = require('express-session');
+require('./utils/oauthGoogleStrategy');
 
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
+const oauthRouter = require("./routes/oauth");
 
 const { json, urlencoded } = express;
 
@@ -34,6 +38,9 @@ if (process.env.NODE_ENV === "development") {
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({ secret: SESSION_SECRET }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(join(__dirname, "public")));
 
 app.use((req, res, next) => {
@@ -43,6 +50,7 @@ app.use((req, res, next) => {
 
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
+app.use("/oauth", oauthRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
