@@ -8,6 +8,8 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiInput-underline:before': {
       borderBottom: '1.2px solid rgba(0, 0, 0, 0.2)',
     },
+    position: 'absolute',
+    width: '100%',
   },
   dashboard: { backgroundColor: '#FFFFFF' },
   drawerWrapper: {
@@ -15,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       width: '300px',
     },
+  },
+  content: {
+    position: 'relative',
   },
 }));
 
