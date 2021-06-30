@@ -16,7 +16,7 @@ exports.fetchAppointments = asyncHandler(async (req, res, next) => {
     throw new Error("You do not have any appointments");
   }
 
-  res.status(200).send(appointments);
+  res.status(200).json({ success: { appointments: appointments }});
 })
 
 // @route POST /appointment
@@ -34,5 +34,5 @@ exports.createAppointment = asyncHandler(async (req, res, next) => {
   // Creates an appointment
   const appointment = await Appointment.create(req.body);
 
-  res.status(201).send(appointment);
+  res.status(201).json({ success: { appointment: appointment }});
 })
