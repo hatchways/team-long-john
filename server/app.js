@@ -15,6 +15,8 @@ require('./utils/oauthGoogleStrategy');
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const oauthRouter = require("./routes/oauth");
+const appointmentRouter = require("./routes/appointment");
+
 
 const { json, urlencoded } = express;
 
@@ -51,6 +53,7 @@ app.use((req, res, next) => {
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/oauth", oauthRouter);
+app.use("/appointment", appointmentRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
