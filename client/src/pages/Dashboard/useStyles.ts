@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: '20px',
     fontWeight: 'bold',
   },
+  selected: {
+    color: '#f76900',
+  },
   dashNewEvent: {
     marginRight: 'auto',
     marginLeft: 'auto',

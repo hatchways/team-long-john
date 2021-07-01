@@ -1,3 +1,4 @@
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Paper } from '@material-ui/core';
@@ -18,6 +19,15 @@ import ScheduleOption from './ScheduleOption/ScheduleOption';
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
+  const [eventSelect, setEventSelect] = React.useState(true);
+
+  const eventType = (event: React.MouseEvent<HTMLElement>) => {
+    setEventSelect(true);
+  };
+
+  const scheduledEvents = (event: React.MouseEvent<HTMLElement>) => {
+    setEventSelect(false);
+  };
 
   // const { loggedInUser } = useAuth();
   // const { initSocket } = useSocket();
@@ -53,20 +63,34 @@ export default function Dashboard(): JSX.Element {
           <Box className={classes.header}>
             <Typography className={classes.headerTitle}> My CalendApp </Typography>
             <Box className={classes.headerMenu}>
-              <Button className={classes.option}> EVENT TYPES </Button>
-              <Button className={classes.option}> SCHEDULED EVENTS </Button>
+              <Button
+                className={eventSelect ? `${classes.option} ${classes.selected}` : classes.option}
+                onClick={eventType}
+              >
+                EVENT TYPES
+              </Button>
+              <Button
+                className={eventSelect ? classes.option : `${classes.option} ${classes.selected}`}
+                onClick={scheduledEvents}
+              >
+                SCHEDULED EVENTS
+              </Button>
             </Box>
           </Box>
         </Box>
-        <Box className={classes.dashNewEvent}>
-          <UserDashInfo />
-          <Grid container spacing={2}>
-            <ScheduleOption schedTime={15} />
-            <ScheduleOption schedTime={30} />
-            <ScheduleOption schedTime={45} />
-          </Grid>
-          <Button className={classes.helpButton}> Getting Started Guide </Button>
-        </Box>
+        {eventSelect ? (
+          <Box className={classes.dashNewEvent}>
+            <UserDashInfo />
+            <Grid container spacing={2}>
+              <ScheduleOption schedTime={15} />
+              <ScheduleOption schedTime={30} />
+              <ScheduleOption schedTime={45} />
+            </Grid>
+          </Box>
+        ) : (
+          <Box />
+        )}
+        <Button className={classes.helpButton}> Getting Started Guide </Button>
       </Box>
     </Box>
   );
