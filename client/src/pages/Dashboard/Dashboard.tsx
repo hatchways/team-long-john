@@ -26,6 +26,7 @@ export default function Dashboard(): JSX.Element {
   const [dashOptionSelected, setDashOption] = React.useState(dashOptions[0]);
   const schedOptions = ['UPCOMING', 'PENDING', 'PAST'];
   const [schedSelect, setSchedSelect] = React.useState(schedOptions[0]);
+  const meetingOptions = [15, 30, 45];
 
   // useEffect(() => {
   //   initSocket();
@@ -60,7 +61,7 @@ export default function Dashboard(): JSX.Element {
     return output;
   };
 
-  const meetingOptions = (options: number[]) => {
+  const displayMeetOptions = (options: number[]) => {
     const colors = ['purple', 'green', 'orange'];
     const output = [];
     for (let i = 0; i < options.length; i++) {
@@ -115,7 +116,7 @@ export default function Dashboard(): JSX.Element {
           <Box className={classes.dashNewEvent}>
             <UserDashInfo />
             <Grid container spacing={2}>
-              {meetingOptions([15, 30, 45])}
+              {displayMeetOptions(meetingOptions)}
             </Grid>
           </Box>
         ) : (
