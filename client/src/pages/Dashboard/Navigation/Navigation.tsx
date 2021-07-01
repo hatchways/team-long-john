@@ -13,6 +13,7 @@ import MenuList from '@material-ui/core/MenuList';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import useStyles from './useStyles';
 import tempImg from '../../../Images/b1f0e680702e811aa8ba333cb19c0e0ea95e8e31.png';
+import logo from '../../../Images/logo.png';
 import { Box } from '@material-ui/core';
 
 export default function Navigation(): JSX.Element {
@@ -32,23 +33,23 @@ export default function Navigation(): JSX.Element {
     <AppBar position="static" className={classes.root}>
       <CssBaseline />
       <Toolbar className={classes.navbar}>
-        <Typography className={classes.menu}> CalendApp </Typography>
+        <img src={logo} className={classes.logoImage} />
         <Box className={classes.navButtons}>
-          <Link component="button" className={classes.menu}>
+          <Link component="button" className={`${classes.option} ${classes.premium}`}>
             Upgrade Account
           </Link>
-          <Link component="button" className={classes.menu}>
+          <Link component="button" className={classes.option}>
             Integration
           </Link>
-          <Link component="button" className={classes.menu}>
+          <Link component="button" className={classes.option}>
             Home
           </Link>
         </Box>
         <Button className={classes.dropdown} onClick={handleMenu}>
           <img src={tempImg} className={classes.iconImage} />
-          <Typography className={classes.menu}> {userName} </Typography>
+          <Typography className={classes.option}> {userName} </Typography>
         </Button>
-        <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} transition disablePortal>
+        <Popper className={classes.dropdownMenu} open={Boolean(anchorEl)} anchorEl={anchorEl} transition disablePortal>
           {({ TransitionProps, placement }) => (
             <Grow
               {...TransitionProps}

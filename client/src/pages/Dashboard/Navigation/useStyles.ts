@@ -8,6 +8,7 @@ const useStyles = makeStyles({
     minHeight: '4em',
     backgroundColor: '#FFFFFF',
     border: '0.5vh',
+    marginBottom: '0.5vh',
   },
   navbar: {
     height: 'calc(100% - 0.5vh)',
@@ -18,14 +19,21 @@ const useStyles = makeStyles({
   navButtons: {
     marginLeft: 'auto',
   },
-  menu: {
+  option: {
     color: 'black',
     float: 'right',
-    padding: '0.5vh',
+    paddingRight: '20px',
+    fontWeight: 'bold',
+  },
+  premium: {
+    color: '#f76900',
   },
   dropdown: {
     height: 'calc(100% - 1em)',
     margin: '0.5vh',
+  },
+  dropdownMenu: {
+    zIndex: 100,
   },
   iconImage: {
     height: '5vh',
@@ -34,6 +42,10 @@ const useStyles = makeStyles({
     minWidth: '4em',
     borderRadius: '50%',
     padding: '0.5vh',
+  },
+  logoImage: {
+    padding: '0.5vh',
+    paddingLeft: '2vw',
   },
 });
 

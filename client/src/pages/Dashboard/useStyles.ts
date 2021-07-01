@@ -18,8 +18,58 @@ const useStyles = makeStyles((theme) => ({
       width: '300px',
     },
   },
-  content: {
+  dashWrapper: {
+    minHeight: '93.5vh',
     position: 'relative',
+    margin: 'auto',
+    backgroundColor: '#f9fbff',
+  },
+  headerWrapper: {
+    backgroundColor: 'white',
+  },
+  header: {
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    paddingTop: '30px',
+    paddingRight: '20px',
+    paddingLeft: '20px',
+    maxWidth: '1050px',
+  },
+  headerTitle: {
+    fontSize: '3em',
+    marginRight: 'auto',
+    fontWeight: 'bold',
+  },
+  headerMenu: {
+    marginTop: '5px',
+    minHeight: '45px',
+  },
+  option: {
+    color: 'black',
+    paddingTop: '10px',
+    paddingRight: '20px',
+    fontWeight: 'bold',
+  },
+  dashNewEvent: {
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    paddingTop: '30px',
+    paddingRight: '20px',
+    paddingLeft: '20px',
+    maxWidth: '1050px',
+    height: '100%',
+  },
+  helpButton: {
+    position: 'fixed',
+    bottom: '100px',
+    right: '100px',
+    padding: '10px',
+    paddingLeft: '20px',
+    paddingRight: '20px',
+    fontSize: '1.5em',
+    color: 'white',
+    backgroundColor: '#f76900',
+    borderRadius: '30px',
   },
 }));
 
