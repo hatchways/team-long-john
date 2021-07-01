@@ -5,7 +5,7 @@ const { loginUser } = require('../controllers/oauth');
 const isLoggedIn = require('../middleware/isLoggedIn');
 
 router.get('/auth/google',
-    passport.authenticate('google', { scope : ['email', 'profile'] }))
+    passport.authenticate('google', { scope : ['email', 'profile'] }));
 
 router.get('/google/callback',
     passport.authenticate('google', {
