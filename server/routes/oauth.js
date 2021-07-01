@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const { loginRegisterUser, auth, urlCallback } = require('../controllers/oauth');
+const { loginUser } = require('../controllers/oauth');
 const isLoggedIn = require('../middleware/isLoggedIn');
 
 router.get('/auth/google',
@@ -9,10 +9,10 @@ router.get('/auth/google',
 
 router.get('/google/callback',
     passport.authenticate('google', {
-        successRedirect: '/oauth/login/register/user',
+        successRedirect: '/oauth/login',
 }));
 
-router.route('/login/register/user').get(isLoggedIn, loginRegisterUser);
+router.route('/login').get(isLoggedIn, loginUser);
 
 module.exports = router;
 
