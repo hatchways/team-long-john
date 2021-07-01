@@ -4,11 +4,11 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'absolute',
     minHeight: '100vh',
     '& .MuiInput-underline:before': {
       borderBottom: '1.2px solid rgba(0, 0, 0, 0.2)',
     },
-    position: 'absolute',
     width: '100%',
   },
   dashboard: { backgroundColor: '#FFFFFF' },
@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   dashWrapper: {
-    minHeight: '93.5vh',
     position: 'relative',
+    minHeight: '93.5vh',
     margin: 'auto',
     backgroundColor: '#f9fbff',
   },
@@ -28,39 +28,73 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
   },
   header: {
+    maxWidth: '1050px',
     marginRight: 'auto',
     marginLeft: 'auto',
     paddingTop: '30px',
     paddingRight: '20px',
     paddingLeft: '20px',
-    maxWidth: '1050px',
   },
   headerTitle: {
-    fontSize: '3em',
     marginRight: 'auto',
+    fontSize: '3em',
     fontWeight: 'bold',
   },
   headerMenu: {
-    marginTop: '5px',
     minHeight: '45px',
+    marginTop: '5px',
   },
   option: {
-    color: 'black',
     paddingTop: '10px',
     paddingRight: '20px',
     fontWeight: 'bold',
+    color: 'black',
   },
   selected: {
     color: '#f76900',
   },
   dashNewEvent: {
+    maxWidth: '1050px',
+    height: '100%',
     marginRight: 'auto',
     marginLeft: 'auto',
     paddingTop: '30px',
     paddingRight: '20px',
     paddingLeft: '20px',
+  },
+  dashSchedEvent: {
     maxWidth: '1050px',
     height: '100%',
+    marginTop: '40px',
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    paddingTop: '30px',
+    paddingRight: '20px',
+    paddingLeft: '20px',
+    border: 'solid 1px',
+    borderColor: 'lightgray',
+    borderRadius: '5px',
+    backgroundColor: 'white',
+  },
+  schedButtonContainer: {
+    paddingBottom: '10px',
+  },
+  schedEventList: {
+    maxWidth: '1050px',
+    height: '100%',
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    paddingTop: '30px',
+    paddingRight: '20px',
+    paddingLeft: '20px',
+  },
+  emptyEventList: {
+    maxWidth: '1050px',
+    height: '500px',
+    fontSize: '3em',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'gray',
   },
   helpButton: {
     position: 'fixed',
@@ -69,10 +103,10 @@ const useStyles = makeStyles((theme) => ({
     padding: '10px',
     paddingLeft: '20px',
     paddingRight: '20px',
+    borderRadius: '30px',
     fontSize: '1.5em',
     color: 'white',
     backgroundColor: '#f76900',
-    borderRadius: '30px',
   },
 }));
 

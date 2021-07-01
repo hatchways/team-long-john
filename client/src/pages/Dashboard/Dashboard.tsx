@@ -1,38 +1,31 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Paper } from '@material-ui/core';
 import { Box } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import useStyles from './useStyles';
-import { useAuth } from '../../context/useAuthContext';
-import { useSocket } from '../../context/useSocketContext';
-import { useHistory } from 'react-router-dom';
-import ChatSideBanner from '../../components/ChatSideBanner/ChatSideBanner';
-import { useEffect } from 'react';
 import { Typography } from '@material-ui/core';
 import { Button } from '@material-ui/core';
-
 import Navigation from './Navigation/Navigation';
 import UserDashInfo from './UserDashInfo/UserDashInfo';
 import ScheduleOption from './ScheduleOption/ScheduleOption';
+// import { useAuth } from '../../context/useAuthContext';
+// import { useSocket } from '../../context/useSocketContext';
+// import { useHistory } from 'react-router-dom';
+// import { useEffect } from 'react';
+// import CircularProgress from '@material-ui/core/CircularProgress';
+// import { Paper } from '@material-ui/core';
 
 export default function Dashboard(): JSX.Element {
-  const classes = useStyles();
-  const [eventSelect, setEventSelect] = React.useState(true);
-
-  const eventType = (event: React.MouseEvent<HTMLElement>) => {
-    setEventSelect(true);
-  };
-
-  const scheduledEvents = (event: React.MouseEvent<HTMLElement>) => {
-    setEventSelect(false);
-  };
-
   // const { loggedInUser } = useAuth();
   // const { initSocket } = useSocket();
 
   // const history = useHistory();
+
+  const classes = useStyles();
+  const dashOptions = ['EVENT TYPES', 'SCHEDULED EVENTS'];
+  const [dashOptionSelected, setDashOption] = React.useState(dashOptions[0]);
+  const schedOptions = ['UPCOMING', 'PENDING', 'PAST'];
+  const [schedSelect, setSchedSelect] = React.useState(schedOptions[0]);
 
   // useEffect(() => {
   //   initSocket();
@@ -45,14 +38,67 @@ export default function Dashboard(): JSX.Element {
   //   return <CircularProgress />;
   // }
 
-  // return (
-  //   <Grid container component="main" className={`${classes.root} ${classes.dashboard}`}>
-  //     <CssBaseline />
-  //     <Grid item className={classes.drawerWrapper}>
-  //       <ChatSideBanner loggedInUser={loggedInUser} />
-  //     </Grid>
-  //   </Grid>
-  // );
+  const createOptions = (
+    choices: string[],
+    stateVar: string,
+    stateUpdate: React.Dispatch<React.SetStateAction<string>>,
+  ) => {
+    const output = [];
+    for (let i = 0; i < choices.length; i++) {
+      output.push(
+        <Button
+          key={choices[i]}
+          className={stateVar === choices[i] ? `${classes.option} ${classes.selected}` : classes.option}
+          onClick={function () {
+            stateUpdate(choices[i]);
+          }}
+        >
+          {choices[i]}
+        </Button>,
+      );
+    }
+    return output;
+  };
+
+  const meetingOptions = (options: number[]) => {
+    const colors = ['purple', 'green', 'orange'];
+    const output = [];
+    for (let i = 0; i < options.length; i++) {
+      output.push(
+        <ScheduleOption key={`meeting option ${i}`} schedTime={options[i]} colour={colors[i % colors.length]} />,
+      );
+    }
+    return output;
+  };
+
+  const populateSchedEvent = () => {
+    const output = [];
+    if (schedSelect === schedOptions[0]) {
+      const events = [];
+      if (events.length > 0) {
+        // Need to fill in the code where all of the appropriate events are getting populated.
+        // Then create list or div elements for each one of the events and populate the output.
+      }
+    } else if (schedSelect === schedOptions[1]) {
+      const events = [];
+      if (events.length > 0) {
+        // Need to fill in the code where all of the appropriate events are getting populated.
+        // Then create list or div elements for each one of the events and populate the output.
+      }
+    } else if (schedSelect === schedOptions[2]) {
+      const events = [];
+      if (events.length > 0) {
+        // Need to fill in the code where all of the appropriate events are getting populated.
+        // Then create list or div elements for each one of the events and populate the output.
+      }
+    }
+    output.push(
+      <Box key="empty schedule" className={classes.emptyEventList}>
+        NO EVENTS YET
+      </Box>,
+    );
+    return output;
+  };
 
   return (
     <Box className={`${classes.root} ${classes.dashboard}`}>
@@ -62,33 +108,23 @@ export default function Dashboard(): JSX.Element {
         <Box className={classes.headerWrapper}>
           <Box className={classes.header}>
             <Typography className={classes.headerTitle}> My CalendApp </Typography>
-            <Box className={classes.headerMenu}>
-              <Button
-                className={eventSelect ? `${classes.option} ${classes.selected}` : classes.option}
-                onClick={eventType}
-              >
-                EVENT TYPES
-              </Button>
-              <Button
-                className={eventSelect ? classes.option : `${classes.option} ${classes.selected}`}
-                onClick={scheduledEvents}
-              >
-                SCHEDULED EVENTS
-              </Button>
-            </Box>
+            <Box className={classes.headerMenu}> {createOptions(dashOptions, dashOptionSelected, setDashOption)} </Box>
           </Box>
         </Box>
-        {eventSelect ? (
+        {dashOptionSelected === dashOptions[0] ? (
           <Box className={classes.dashNewEvent}>
             <UserDashInfo />
             <Grid container spacing={2}>
-              <ScheduleOption schedTime={15} />
-              <ScheduleOption schedTime={30} />
-              <ScheduleOption schedTime={45} />
+              {meetingOptions([15, 30, 45])}
             </Grid>
           </Box>
         ) : (
-          <Box />
+          <Box className={classes.dashSchedEvent}>
+            <Box className={classes.schedButtonContainer}>
+              {createOptions(schedOptions, schedSelect, setSchedSelect)}
+            </Box>
+            <Box className={classes.schedEventList}> {populateSchedEvent()} </Box>
+          </Box>
         )}
         <Button className={classes.helpButton}> Getting Started Guide </Button>
       </Box>

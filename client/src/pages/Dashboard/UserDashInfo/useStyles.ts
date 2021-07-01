@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   iconWrapper: {
     width: '5vh',
   },
@@ -15,10 +15,10 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
   },
   outlinedButton: {
+    float: 'right',
     borderColor: '#f76900',
     color: '#f76900',
-    float: 'right',
   },
-}));
+});
 
 export default useStyles;

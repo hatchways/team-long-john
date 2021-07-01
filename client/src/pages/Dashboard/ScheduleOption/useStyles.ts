@@ -1,22 +1,22 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   scheduleOption: {
+    float: 'left',
     marginTop: '20px',
     width: '100%',
-    float: 'left',
   },
   paperStyleP: {
-    backgroundColor: '#6e20f8',
     height: '5px',
+    backgroundColor: '#6e20f8',
   },
   paperStyleG: {
-    backgroundColor: '#93b62e',
     height: '5px',
+    backgroundColor: '#93b62e',
   },
   paperStyleO: {
-    backgroundColor: '#f76900',
     height: '5px',
+    backgroundColor: '#f76900',
   },
   iconButtonStyle: {
     float: 'right',
@@ -26,33 +26,33 @@ const useStyles = makeStyles((theme) => ({
     marginRight: '10px',
   },
   scheduleButton: {
+    paddingBottom: '30px',
     width: '100%',
     textAlign: 'left',
-    paddingBottom: '30px',
   },
   schedInfo: {
     width: '100%',
-    textAlign: 'left',
     paddingLeft: '20px',
+    textAlign: 'left',
   },
   schedTitle: {
+    width: '100%',
     fontSize: '1.5em',
     fontWeight: 'bold',
-    width: '100%',
   },
   subInfo: {
+    padding: '30px',
     borderTop: 'solid 3px',
     borderTopColor: '#f9fbff',
-    padding: '30px',
   },
   subInfoText: {
     display: 'inline-block',
   },
   outlinedButton: {
+    float: 'right',
     borderColor: '#f76900',
     color: '#f76900',
-    float: 'right',
   },
-}));
+});
 
 export default useStyles;

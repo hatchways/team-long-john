@@ -10,14 +10,18 @@ import SettingsIcon from '@material-ui/icons/Settings';
 
 interface SchedProp {
   schedTime: number;
+  colour: string;
 }
 
 export default function ScheduleOption(prop: SchedProp): JSX.Element {
   const classes = useStyles();
-  const title =
-    prop.schedTime === 15 ? '15 minutes meeting' : prop.schedTime === 30 ? '30 minutes meeting' : '45 minutes meeting';
+  const title = `${prop.schedTime} minutes meeeting`;
   const className =
-    prop.schedTime === 15 ? classes.paperStyleP : prop.schedTime === 30 ? classes.paperStyleG : classes.paperStyleO;
+    prop.colour === 'purple'
+      ? classes.paperStyleP
+      : prop.colour === 'green'
+      ? classes.paperStyleG
+      : classes.paperStyleO;
 
   return (
     <Grid item xs={12} sm={4}>

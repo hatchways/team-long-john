@@ -47,7 +47,9 @@ export default function Navigation(): JSX.Element {
         </Box>
         <Button className={classes.dropdown} onClick={handleMenu}>
           <img src={tempImg} className={classes.iconImage} />
-          <Typography className={classes.option}> {userName} </Typography>
+          <Box className={classes.usernameContainer}>
+            <Typography className={classes.username}> {userName} </Typography>
+          </Box>
         </Button>
         <Popper className={classes.dropdownMenu} open={Boolean(anchorEl)} anchorEl={anchorEl} transition disablePortal>
           {({ TransitionProps, placement }) => (
