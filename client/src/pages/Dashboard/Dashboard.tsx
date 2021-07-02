@@ -8,6 +8,7 @@ import { Button } from '@material-ui/core';
 import Navigation from './Navigation/Navigation';
 import UserDashInfo from './UserDashInfo/UserDashInfo';
 import ScheduleOption from './ScheduleOption/ScheduleOption';
+import { string } from 'yup/lib/locale';
 // import { useAuth } from '../../context/useAuthContext';
 // import { useSocket } from '../../context/useSocketContext';
 // import { useHistory } from 'react-router-dom';
@@ -77,14 +78,32 @@ export default function Dashboard(): JSX.Element {
     const events = [];
     if (schedSelect === schedOptions[0]) {
       // Need to fill in the code where all of the appropriate events are getting populated.
+      // Note that this is just a dummy data and this code needs to change depending on the structure
+      // of the data recieved from the database.
+      events.push({ name: 'Alan', duration: 60 });
+      events.push({ name: 'Rickman', duration: 30 });
     } else if (schedSelect === schedOptions[1]) {
       // Need to fill in the code where all of the appropriate events are getting populated.
     } else if (schedSelect === schedOptions[2]) {
       // Need to fill in the code where all of the appropriate events are getting populated.
     }
     if (events.length > 0) {
-      // Need to fill in the code where all of the appropriate events are getting populated.
-      // Then create list or div elements for each one of the events and populate the output.
+      // Create list or div elements for each one of the events and populate the output.
+      for (let i = 0; i < events.length; i++) {
+        // Note that this is usinf a dummy data and this code needs to change in the future accordingly.
+        output.push(
+          <Box key={`schedule ${i}`} className={classes.schedEventData}>
+            <Box className={`${classes.schedInfo} ${classes.timeInfo}`}> TIME INFORMATION TO BE FILLED </Box>
+            <Box className={classes.schedInfo}>
+              <Typography> Meeting with {events[i].name} </Typography>
+              <Typography> {events[i].duration} minutes meeting </Typography>
+            </Box>
+            <Box className={classes.schedInfo}>
+              <Button> {'>'} DETAILS </Button>
+            </Box>
+          </Box>,
+        );
+      }
     } else {
       output.push(
         <Box key="empty schedule" className={classes.emptyEventList}>
