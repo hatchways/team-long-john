@@ -4,7 +4,10 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import Login from './pages/Login/Login';
 import Signup from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
+
 import ProfileSettings from './pages/Onboarding/ProfileSettings';
+import Availability from './pages/Onboarding/Availability';
+
 import { AuthProvider } from './context/useAuthContext';
 import { SocketProvider } from './context/useSocketContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
@@ -24,6 +27,7 @@ function App(): JSX.Element {
             <Dashboard />
           </Route>
           <Route exact path="/profile_settings" component={ProfileSettings} />
+          <Route exact path="/availability" component={Availability} />
           <Route path="*">
             <Redirect to="/login" />
           </Route>

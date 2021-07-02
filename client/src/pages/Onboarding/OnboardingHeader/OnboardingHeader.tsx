@@ -4,6 +4,7 @@ import useStyles from './useStyles';
 
 interface Props {
   headerText: string;
+  progressValue: number;
 }
 
 const BorderLinearProgress = withStyles(() => ({
@@ -21,13 +22,13 @@ const BorderLinearProgress = withStyles(() => ({
   },
 }))(LinearProgress);
 
-const OnboardingHeader = ({ headerText }: Props): JSX.Element => {
+const OnboardingHeader = ({ headerText, progressValue }: Props): JSX.Element => {
   const classes = useStyles();
 
   return (
     <div className={classes.container}>
       <h2>{headerText}</h2>
-      <BorderLinearProgress variant="determinate" value={25} />
+      <BorderLinearProgress variant="determinate" value={progressValue} />
     </div>
   );
 };

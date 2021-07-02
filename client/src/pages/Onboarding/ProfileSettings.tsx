@@ -27,6 +27,7 @@ const ProfileSettings = (): JSX.Element => {
   // Sends a GET request to check for a unique URL
   // Add a randomly generated unique url in the default value
   // If not taken, then send a PUT request for username url and time zone
+  // Redirect to the availability page if successful
   // const handleClickContinue = async () => {};
 
   // Set up later redirects to dashboard
@@ -62,7 +63,7 @@ const ProfileSettings = (): JSX.Element => {
       <CalendAppLogo />
       <Box className={classes.box}>
         <div>
-          <OnboardingHeader headerText="Welcome to CalendApp!" />
+          <OnboardingHeader headerText="Welcome to CalendApp!" progressValue={25} />
           <Box mt={5} className={classes.form}>
             <Box mb={3} mx={10} className={classes.inputBox}>
               <h4 style={{ marginRight: '15px' }}>Create your CalendApp URL:</h4>
