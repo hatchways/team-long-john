@@ -2,11 +2,13 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
   container: {
+    width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '20px 30px',
-    borderBottom: '1px solid #f1f3f8',
+  },
+  item: {
+    margin: '35px 25px',
   },
 }));
 

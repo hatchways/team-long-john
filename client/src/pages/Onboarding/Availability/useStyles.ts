@@ -3,30 +3,31 @@ import { findByLabelText } from '@testing-library/react';
 
 const useStyles = makeStyles(() => ({
   page: {
-    width: '100vw',
-    height: '100vh',
+    height: '100%',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
-  box: {
+  formBox: {
     borderRadius: 5,
     height: '60vh',
     width: '70vh',
     boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
     alignItems: 'center',
   },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
+  formItemsBox: {
+    width: '100%',
+    height: '100%',
+    borderTop: '1px solid lightgrey',
   },
-  inputBox: {
+  formItem: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    borderBottom: '1px solid lightgrey',
   },
   buttonBox: {
     display: 'flex',
@@ -35,12 +36,6 @@ const useStyles = makeStyles(() => ({
   finish: {
     color: 'white',
     backgroundColor: '#F76900',
-    height: '55px',
-    width: '200px',
-    marginBottom: '10px',
-  },
-  setUpLater: {
-    color: 'lightgray',
     height: '55px',
     width: '200px',
     marginBottom: '10px',

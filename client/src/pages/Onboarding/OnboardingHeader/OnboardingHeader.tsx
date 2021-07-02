@@ -1,4 +1,4 @@
-import { LinearProgress, withStyles } from '@material-ui/core/';
+import { Box, LinearProgress, withStyles } from '@material-ui/core/';
 
 import useStyles from './useStyles';
 
@@ -26,10 +26,10 @@ const OnboardingHeader = ({ headerText, progressValue }: Props): JSX.Element => 
   const classes = useStyles();
 
   return (
-    <div className={classes.container}>
-      <h2>{headerText}</h2>
-      <BorderLinearProgress variant="determinate" value={progressValue} />
-    </div>
+    <Box className={classes.container}>
+      <h2 className={classes.item}>{headerText}</h2>
+      <BorderLinearProgress className={classes.item} variant="determinate" value={progressValue} />
+    </Box>
   );
 };
 

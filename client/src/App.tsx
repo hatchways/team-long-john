@@ -5,8 +5,9 @@ import Login from './pages/Login/Login';
 import Signup from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 
-import ProfileSettings from './pages/Onboarding/ProfileSettings';
-import Availability from './pages/Onboarding/Availability';
+import ProfileSettings from './pages/Onboarding/ProfileSettings/ProfileSettings';
+import Confirm from './pages/Onboarding/Confirm/Confirm';
+import Availability from './pages/Onboarding/Availability/Availability';
 
 import { AuthProvider } from './context/useAuthContext';
 import { SocketProvider } from './context/useSocketContext';
@@ -27,6 +28,7 @@ function App(): JSX.Element {
             <Dashboard />
           </Route>
           <Route exact path="/profile_settings" component={ProfileSettings} />
+          <Route exact path="/confirm" component={Confirm} />
           <Route exact path="/availability" component={Availability} />
           <Route path="*">
             <Redirect to="/login" />

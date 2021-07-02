@@ -12,8 +12,8 @@ import {
   Button,
 } from '@material-ui/core/';
 
-import CalendAppLogo from '../../components/CalendAppLogo/CalendAppLogo';
-import OnboardingHeader from './OnboardingHeader/OnboardingHeader';
+import CalendAppLogo from '../../../components/CalendAppLogo/CalendAppLogo';
+import OnboardingHeader from '../OnboardingHeader/OnboardingHeader';
 import useStyles from './useStyles';
 
 interface TimeZone {
@@ -61,30 +61,28 @@ const ProfileSettings = (): JSX.Element => {
   return (
     <Box mt={5} className={classes.page}>
       <CalendAppLogo />
-      <Box className={classes.box}>
-        <div>
-          <OnboardingHeader headerText="Welcome to CalendApp!" progressValue={25} />
-          <Box mt={5} className={classes.form}>
-            <Box mb={3} mx={10} className={classes.inputBox}>
-              <h4 style={{ marginRight: '15px' }}>Create your CalendApp URL:</h4>
-              <FormControl>
-                <OutlinedInput
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <InputLabel>calendapp.com/</InputLabel>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Box>
-            <Box mb={2} mx={10} className={classes.inputBox}>
-              <h4>Select your time zone:</h4>
-              <FormControl style={{ minWidth: '35%' }} variant="outlined">
-                <Select defaultValue="">{renderTimeZones}</Select>
-              </FormControl>
-            </Box>
+      <Box className={classes.formBox}>
+        <OnboardingHeader headerText="Welcome to CalendApp!" progressValue={25} />
+        <Box className={classes.formItemsBox}>
+          <Box mt={5} mb={2} mx={10} className={classes.formItem}>
+            <h4 style={{ marginRight: '15px' }}>Create your CalendApp URL:</h4>
+            <FormControl>
+              <OutlinedInput
+                startAdornment={
+                  <InputAdornment position="start">
+                    <InputLabel>calendapp.com/</InputLabel>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
           </Box>
-        </div>
+          <Box mb={2} mx={10} className={classes.formItem}>
+            <h4>Select your time zone:</h4>
+            <FormControl style={{ minWidth: '35%' }} variant="outlined">
+              <Select defaultValue="">{renderTimeZones}</Select>
+            </FormControl>
+          </Box>
+        </Box>
         <Box mb={3} className={classes.buttonBox}>
           <Button variant="contained" className={classes.finish}>
             Continue
