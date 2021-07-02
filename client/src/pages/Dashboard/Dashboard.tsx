@@ -74,30 +74,24 @@ export default function Dashboard(): JSX.Element {
 
   const populateSchedEvent = () => {
     const output = [];
+    const events = [];
     if (schedSelect === schedOptions[0]) {
-      const events = [];
-      if (events.length > 0) {
-        // Need to fill in the code where all of the appropriate events are getting populated.
-        // Then create list or div elements for each one of the events and populate the output.
-      }
+      // Need to fill in the code where all of the appropriate events are getting populated.
     } else if (schedSelect === schedOptions[1]) {
-      const events = [];
-      if (events.length > 0) {
-        // Need to fill in the code where all of the appropriate events are getting populated.
-        // Then create list or div elements for each one of the events and populate the output.
-      }
+      // Need to fill in the code where all of the appropriate events are getting populated.
     } else if (schedSelect === schedOptions[2]) {
-      const events = [];
-      if (events.length > 0) {
-        // Need to fill in the code where all of the appropriate events are getting populated.
-        // Then create list or div elements for each one of the events and populate the output.
-      }
+      // Need to fill in the code where all of the appropriate events are getting populated.
     }
-    output.push(
-      <Box key="empty schedule" className={classes.emptyEventList}>
-        NO EVENTS YET
-      </Box>,
-    );
+    if (events.length > 0) {
+      // Need to fill in the code where all of the appropriate events are getting populated.
+      // Then create list or div elements for each one of the events and populate the output.
+    } else {
+      output.push(
+        <Box key="empty schedule" className={classes.emptyEventList}>
+          NO EVENTS YET
+        </Box>,
+      );
+    }
     return output;
   };
 
