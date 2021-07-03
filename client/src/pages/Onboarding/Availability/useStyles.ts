@@ -26,8 +26,15 @@ const useStyles = makeStyles(() => ({
   formItem: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottom: '1px solid lightgrey',
+    justifyContent: 'flex-start',
+  },
+  checkbox: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRight: '1px solid #c4c4c4',
+    padding: '0px 5px',
   },
   buttonBox: {
     display: 'flex',
@@ -39,6 +46,9 @@ const useStyles = makeStyles(() => ({
     height: '55px',
     width: '200px',
     marginBottom: '10px',
+  },
+  test: {
+    fontSize: '100px',
   },
 }));
 
