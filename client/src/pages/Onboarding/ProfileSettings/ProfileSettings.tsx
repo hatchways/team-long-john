@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment-timezone';
 
@@ -20,12 +21,25 @@ interface TimeZone {
   [key: string]: { timeZone: string; abbr: string };
 }
 
+interface ProfileSettings {
+  username: string;
+  timezone: string;
+}
+
 const ProfileSettings = (): JSX.Element => {
   const classes = useStyles();
   const filteredTimeZones: TimeZone = {};
   const history = useHistory();
 
+  const [profileSettings, setProfileSettings] = useState<ProfileSettings>({
+    username: '',
+    timezone: '',
+  });
+
   const handleClickContinue = async () => {
+    // Error handling
+    if (profileSettings.username.trim() === '') return;
+
     // Sends a GET request to check if URL is taken
 
     // If the request above is successful, then we send a PUT request
@@ -33,6 +47,17 @@ const ProfileSettings = (): JSX.Element => {
 
     // Use history to push to the confirm page
     history.push('confirm');
+  };
+
+  const handleChangeUsername = (e: { target: HTMLInputElement | HTMLTextAreaElement }) => {
+    const { name, value } = e.target;
+
+    setProfileSettings({ ...profileSettings, [name]: value });
+  };
+
+  const handleChangeSelect = async (e: React.ChangeEvent<{ value: unknown }>) => {
+    // Have to write it this way since Material-UI is not a real select element
+    setProfileSettings({ ...profileSettings, timezone: e.target.value as string });
   };
 
   // Set up later redirects to dashboard
@@ -76,6 +101,8 @@ const ProfileSettings = (): JSX.Element => {
             <h4 style={{ marginRight: '15px' }}>Create your CalendApp URL:</h4>
             <FormControl>
               <OutlinedInput
+                name="username"
+                onChange={(e) => handleChangeUsername(e)}
                 startAdornment={
                   <InputAdornment position="start">
                     <InputLabel>calendapp.com/</InputLabel>
@@ -87,7 +114,9 @@ const ProfileSettings = (): JSX.Element => {
           <Box mb={2} mx={10} className={classes.formItem}>
             <h4>Select your time zone:</h4>
             <FormControl style={{ minWidth: '35%' }} variant="outlined">
-              <Select defaultValue="">{renderTimeZones}</Select>
+              <Select onChange={(e) => handleChangeSelect(e)} defaultValue="">
+                {renderTimeZones}
+              </Select>
             </FormControl>
           </Box>
         </Box>
