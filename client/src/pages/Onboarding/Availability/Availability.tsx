@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Box, Button, TextField, Checkbox } from '@material-ui/core/';
 
 import CalendAppLogo from '../../../components/CalendAppLogo/CalendAppLogo';
@@ -9,13 +9,54 @@ const Availability = (): JSX.Element => {
   const classes = useStyles();
   const days = ['Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays'];
 
-  const renderCheckboxes = days.map((day: string) => {
-    return (
-      <Box key={day} height={75} width={100} className={classes.checkbox}>
-        <Checkbox defaultChecked style={{ color: '#F76900' }} />
-        <p style={{ marginTop: '0px' }}>{day}</p>
-      </Box>
-    );
+  // Keeps track of available hours and days
+  const [openTimes, setOpenTimes] = useState({ start: '08:00', end: '17:00' });
+  const [openDays, setOpenDays] = useState(['Mondays', 'Tuesdays']);
+
+  const handleChangeTimes = (e: { target: HTMLInputElement | HTMLTextAreaElement }) => {
+    setOpenTimes({ ...openTimes, [e.target.name]: e.target.value });
+  };
+
+  const handleChangeDays = (e: { target: HTMLInputElement | HTMLTextAreaElement }) => {
+    const { name, value } = e.target;
+  };
+
+  const renderCheckboxes = days.map((day: string, idx: number) => {
+    // Pulling out the first and last box so we can customize the first and last box borders
+    if (idx === 0) {
+      return (
+        <Box
+          key={day}
+          width={150}
+          height={100}
+          className={classes.checkbox}
+          style={{ borderRight: '1px solid #c4c4c4' }}
+        >
+          <Checkbox onChange={(e) => handleChangeDays(e)} value={day} style={{ color: '#F76900' }} />
+          <p style={{ marginTop: '0px' }}>{day}</p>
+        </Box>
+      );
+    } else if (idx === days.length - 1) {
+      return (
+        <Box key={day} width={150} height={100} className={classes.checkbox} style={{ borderRight: '0px' }}>
+          <Checkbox onChange={(e) => handleChangeDays(e)} value={day} style={{ color: '#F76900' }} />
+          <p style={{ marginTop: '0px' }}>{day}</p>
+        </Box>
+      );
+    } else {
+      return (
+        <Box
+          key={day}
+          width={150}
+          height={100}
+          className={classes.checkbox}
+          style={{ borderRight: '1px solid #c4c4c4' }}
+        >
+          <Checkbox onChange={(e) => handleChangeDays(e)} value={day} defaultChecked style={{ color: '#F76900' }} />
+          <p style={{ marginTop: '0px' }}>{day}</p>
+        </Box>
+      );
+    }
   });
 
   return (
@@ -29,6 +70,8 @@ const Availability = (): JSX.Element => {
           </Box>
           <Box mx={6} className={classes.formItem}>
             <TextField
+              onChange={(e) => handleChangeTimes(e)}
+              name="start"
               variant="outlined"
               id="time"
               type="time"
@@ -39,10 +82,12 @@ const Availability = (): JSX.Element => {
             />
             <p style={{ fontSize: '30px', margin: '0 50px' }}>-</p>
             <TextField
+              onChange={(e) => handleChangeTimes(e)}
+              name="end"
               variant="outlined"
               id="time"
               type="time"
-              defaultValue="05:00"
+              defaultValue="17:00"
               InputProps={{
                 style: { fontSize: 15, fontWeight: 'bold' },
               }}
@@ -51,11 +96,7 @@ const Availability = (): JSX.Element => {
           <Box mx={6}>
             <h4>Available Days:</h4>
           </Box>
-          <Box
-            mx={6}
-            className={classes.formItem}
-            style={{ border: '1px solid #c4c4c4', borderRadius: '4px', borderRight: '0px' }}
-          >
+          <Box mx={6} className={classes.formItem} style={{ border: '1px solid #c4c4c4', borderRadius: '10px' }}>
             {renderCheckboxes}
           </Box>
         </Box>

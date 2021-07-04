@@ -44,7 +44,7 @@ const useStyles = makeStyles(() => ({
   setUpLater: {
     color: 'lightgray',
     height: '55px',
-    width: '200px',
+    width: '150px',
     marginBottom: '10px',
   },
 }));

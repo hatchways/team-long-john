@@ -26,14 +26,12 @@ const useStyles = makeStyles(() => ({
   formItem: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-start',
   },
   checkbox: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRight: '1px solid #c4c4c4',
     padding: '0px 5px',
   },
   buttonBox: {
@@ -44,7 +42,7 @@ const useStyles = makeStyles(() => ({
     color: 'white',
     backgroundColor: '#F76900',
     height: '55px',
-    width: '200px',
+    width: '150px',
     marginBottom: '10px',
   },
   test: {

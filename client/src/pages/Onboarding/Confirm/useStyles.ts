@@ -37,7 +37,7 @@ const useStyles = makeStyles(() => ({
     color: 'white',
     backgroundColor: '#F76900',
     height: '55px',
-    width: '200px',
+    width: '150px',
     marginBottom: '10px',
   },
 }));
