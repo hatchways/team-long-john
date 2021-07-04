@@ -38,6 +38,7 @@ const ProfileSettings = (): JSX.Element => {
   // Set up later redirects to dashboard
   const handleClickSetUpLater = () => {
     // Use history to push to the dashboard page
+    alert("I haven't been implemented yet!");
   };
 
   // Filtering out list of unnecessary time zones (lots of duplicates)
@@ -94,7 +95,9 @@ const ProfileSettings = (): JSX.Element => {
           <Button onClick={handleClickContinue} variant="contained" className={classes.finish}>
             Continue
           </Button>
-          <Button className={classes.setUpLater}>Set up later</Button>
+          <Button onClick={handleClickSetUpLater} className={classes.setUpLater}>
+            Set up later
+          </Button>
         </Box>
       </Box>
     </Box>

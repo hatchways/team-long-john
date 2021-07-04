@@ -1,11 +1,23 @@
+import { useHistory } from 'react-router-dom';
 import { Box, Button } from '@material-ui/core/';
 
 import CalendAppLogo from '../../../components/CalendAppLogo/CalendAppLogo';
 import OnboardingHeader from '../OnboardingHeader/OnboardingHeader';
 import useStyles from './useStyles';
 
-const Availability = (): JSX.Element => {
+const Confirm = (): JSX.Element => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleClickContinue = async () => {
+    // Sends a GET request to check if URL is taken
+
+    // If the request above is successful, then we send a PUT request
+    // to update username URL and time zone
+
+    // Use history to push to the confirm page
+    history.push('availability');
+  };
 
   return (
     <Box mt={5} className={classes.page}>
@@ -30,7 +42,7 @@ const Availability = (): JSX.Element => {
           </Box>
         </Box>
         <Box mb={3} className={classes.buttonsContainer}>
-          <Button variant="contained" className={classes.finish}>
+          <Button onClick={handleClickContinue} variant="contained" className={classes.finish}>
             Continue
           </Button>
         </Box>
@@ -39,4 +51,4 @@ const Availability = (): JSX.Element => {
   );
 };
 
-export default Availability;
+export default Confirm;

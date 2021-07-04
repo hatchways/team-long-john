@@ -30,7 +30,7 @@ const Availability = (): JSX.Element => {
   };
 
   const handleClickFinish = () => {
-    console.log("I haven't been integrated to our server yet!");
+    alert("I haven't been implemented yet!");
   };
 
   const renderCheckboxes = days.map((day: string, idx: number) => {
