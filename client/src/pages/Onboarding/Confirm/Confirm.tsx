@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Button } from '@material-ui/core/';
 
 import CalendAppLogo from '../../../components/CalendAppLogo/CalendAppLogo';
@@ -11,9 +10,9 @@ const Availability = (): JSX.Element => {
   return (
     <Box mt={5} className={classes.page}>
       <CalendAppLogo />
-      <Box className={classes.formBox}>
+      <Box className={classes.formContainer}>
         <OnboardingHeader headerText="Your Google calendar is connected!" progressValue={50} />
-        <Box className={classes.formItemsBox}>
+        <Box className={classes.formItemsContainer}>
           <Box mx={6} my={1} className={classes.formItem}>
             <h4 style={{ marginLeft: '-20px' }}>Here is how CalendApp will work with john-doe@gmail.com:</h4>
           </Box>
@@ -30,7 +29,7 @@ const Availability = (): JSX.Element => {
             <h4 style={{ color: 'lightgrey', cursor: 'pointer' }}>EDIT</h4>
           </Box>
         </Box>
-        <Box mb={3} className={classes.buttonBox}>
+        <Box mb={3} className={classes.buttonsContainer}>
           <Button variant="contained" className={classes.finish}>
             Continue
           </Button>

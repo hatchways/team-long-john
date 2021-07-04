@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  formBox: {
+  formContainer: {
     borderRadius: 5,
     height: '60vh',
     width: '70vh',
@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  formItemsBox: {
+  formItemsContainer: {
     width: '100%',
     height: '100%',
     borderTop: '1px solid lightgrey',
@@ -30,9 +30,11 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  buttonBox: {
+  buttonsContainer: {
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   finish: {
     color: 'white',

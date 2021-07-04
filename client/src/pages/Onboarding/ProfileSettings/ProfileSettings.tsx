@@ -61,9 +61,9 @@ const ProfileSettings = (): JSX.Element => {
   return (
     <Box mt={5} className={classes.page}>
       <CalendAppLogo />
-      <Box className={classes.formBox}>
+      <Box className={classes.formContainer}>
         <OnboardingHeader headerText="Welcome to CalendApp!" progressValue={25} />
-        <Box className={classes.formItemsBox}>
+        <Box className={classes.formItemsContainer}>
           <Box mt={5} mb={2} mx={10} className={classes.formItem}>
             <h4 style={{ marginRight: '15px' }}>Create your CalendApp URL:</h4>
             <FormControl>
@@ -83,7 +83,7 @@ const ProfileSettings = (): JSX.Element => {
             </FormControl>
           </Box>
         </Box>
-        <Box mb={3} className={classes.buttonBox}>
+        <Box mb={3} className={classes.buttonsContainer}>
           <Button variant="contained" className={classes.finish}>
             Continue
           </Button>

@@ -115,7 +115,7 @@ const Availability = (): JSX.Element => {
             {renderCheckboxes}
           </Box>
         </Box>
-        <Box mb={3} className={classes.button}>
+        <Box mb={3} className={classes.buttonsContainer}>
           <Button onClick={handleClickFinish} variant="contained" className={classes.finish}>
             Finish
           </Button>

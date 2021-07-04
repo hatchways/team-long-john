@@ -48,7 +48,7 @@ const useStyles = makeStyles(() => ({
   enabledCheckboxText: {
     marginTop: '0',
   },
-  button: {
+  buttonsContainer: {
     display: 'flex',
     flexDirection: 'column',
   },
