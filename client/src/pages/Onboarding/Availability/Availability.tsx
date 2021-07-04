@@ -11,14 +11,26 @@ const Availability = (): JSX.Element => {
 
   // Keeps track of available hours and days
   const [openTimes, setOpenTimes] = useState({ start: '08:00', end: '17:00' });
-  const [openDays, setOpenDays] = useState(['Mondays', 'Tuesdays']);
+  const [openDays, setOpenDays] = useState<string[]>([]);
 
   const handleChangeTimes = (e: { target: HTMLInputElement | HTMLTextAreaElement }) => {
     setOpenTimes({ ...openTimes, [e.target.name]: e.target.value });
   };
 
-  const handleChangeDays = (e: { target: HTMLInputElement | HTMLTextAreaElement }) => {
-    const { name, value } = e.target;
+  const handleChangeDays = (e: { target: HTMLInputElement | HTMLTextAreaElement }, idx: number) => {
+    const { value } = e.target;
+    const copy = openDays;
+
+    // If value is already in here, then we want to remove it
+    if (copy.includes(value)) copy[idx] = '';
+    // else the value is not in here, then add it
+    else copy[idx] = value;
+
+    setOpenDays([...copy]);
+  };
+
+  const handleClickFinish = () => {
+    console.log("I haven't been integrated to our server yet!");
   };
 
   const renderCheckboxes = days.map((day: string, idx: number) => {
@@ -32,14 +44,14 @@ const Availability = (): JSX.Element => {
           className={classes.checkbox}
           style={{ borderRight: '1px solid #c4c4c4' }}
         >
-          <Checkbox onChange={(e) => handleChangeDays(e)} value={day} style={{ color: '#F76900' }} />
+          <Checkbox onChange={(e) => handleChangeDays(e, idx)} value={day} style={{ color: '#F76900' }} />
           <p style={{ marginTop: '0px' }}>{day}</p>
         </Box>
       );
     } else if (idx === days.length - 1) {
       return (
         <Box key={day} width={150} height={100} className={classes.checkbox} style={{ borderRight: '0px' }}>
-          <Checkbox onChange={(e) => handleChangeDays(e)} value={day} style={{ color: '#F76900' }} />
+          <Checkbox onChange={(e) => handleChangeDays(e, idx)} value={day} style={{ color: '#F76900' }} />
           <p style={{ marginTop: '0px' }}>{day}</p>
         </Box>
       );
@@ -52,7 +64,7 @@ const Availability = (): JSX.Element => {
           className={classes.checkbox}
           style={{ borderRight: '1px solid #c4c4c4' }}
         >
-          <Checkbox onChange={(e) => handleChangeDays(e)} value={day} defaultChecked style={{ color: '#F76900' }} />
+          <Checkbox onChange={(e) => handleChangeDays(e, idx)} value={day} style={{ color: '#F76900' }} />
           <p style={{ marginTop: '0px' }}>{day}</p>
         </Box>
       );
@@ -101,7 +113,7 @@ const Availability = (): JSX.Element => {
           </Box>
         </Box>
         <Box mb={3} className={classes.buttonBox}>
-          <Button variant="contained" className={classes.finish}>
+          <Button onClick={handleClickFinish} variant="contained" className={classes.finish}>
             Finish
           </Button>
         </Box>
