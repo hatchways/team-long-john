@@ -1,4 +1,4 @@
-import React from 'react';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment-timezone';
 
 import {
@@ -23,15 +23,22 @@ interface TimeZone {
 const ProfileSettings = (): JSX.Element => {
   const classes = useStyles();
   const filteredTimeZones: TimeZone = {};
+  const history = useHistory();
 
-  // Sends a GET request to check for a unique URL
-  // Add a randomly generated unique url in the default value
-  // If not taken, then send a PUT request for username url and time zone
-  // Redirect to the availability page if successful
-  // const handleClickContinue = async () => {};
+  const handleClickContinue = async () => {
+    // Sends a GET request to check if URL is taken
+
+    // If the request above is successful, then we send a PUT request
+    // to update username URL and time zone
+
+    // Use history to push to the confirm page
+    history.push('confirm');
+  };
 
   // Set up later redirects to dashboard
-  // const handleClickSetUpLater = () => {};
+  const handleClickSetUpLater = () => {
+    // Use history to push to the dashboard page
+  };
 
   // Filtering out list of unnecessary time zones (lots of duplicates)
   moment.tz.names().map((timeZone): void => {
@@ -84,7 +91,7 @@ const ProfileSettings = (): JSX.Element => {
           </Box>
         </Box>
         <Box mb={3} className={classes.buttonsContainer}>
-          <Button variant="contained" className={classes.finish}>
+          <Button onClick={handleClickContinue} variant="contained" className={classes.finish}>
             Continue
           </Button>
           <Button className={classes.setUpLater}>Set up later</Button>
