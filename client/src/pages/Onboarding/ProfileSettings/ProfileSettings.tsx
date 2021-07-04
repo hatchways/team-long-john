@@ -38,7 +38,7 @@ const ProfileSettings = (): JSX.Element => {
 
   const handleClickContinue = async () => {
     // Error handling
-    if (profileSettings.username.trim() === '') return;
+    if (profileSettings.username.trim() === '' || profileSettings.timezone.trim() === '') return;
 
     // Sends a GET request to check if URL is taken
 
