@@ -34,38 +34,41 @@ const Availability = (): JSX.Element => {
   };
 
   const renderCheckboxes = days.map((day: string, idx: number) => {
+    // Conditionally renders disabled/enabled checkboxes
+    const isEnabled = openDays[idx] === day;
+
     // Pulling out the first and last box so we can customize the first and last box borders
     if (idx === 0) {
       return (
-        <Box
-          key={day}
-          width={150}
-          height={100}
-          className={classes.checkbox}
-          style={{ borderRight: '1px solid #c4c4c4' }}
-        >
-          <Checkbox onChange={(e) => handleChangeDays(e, idx)} value={day} style={{ color: '#F76900' }} />
-          <p style={{ marginTop: '0px' }}>{day}</p>
+        <Box key={day} className={classes.checkboxContainer} style={{ borderRight: '1px solid #c4c4c4' }}>
+          <Checkbox
+            value={day}
+            onChange={(e) => handleChangeDays(e, idx)}
+            className={isEnabled ? classes.enabledCheckbox : classes.disabledCheckbox}
+          />
+          <p className={isEnabled ? classes.enabledCheckboxText : classes.disabledCheckboxText}>{day}</p>
         </Box>
       );
     } else if (idx === days.length - 1) {
       return (
-        <Box key={day} width={150} height={100} className={classes.checkbox} style={{ borderRight: '0px' }}>
-          <Checkbox onChange={(e) => handleChangeDays(e, idx)} value={day} style={{ color: '#F76900' }} />
-          <p style={{ marginTop: '0px' }}>{day}</p>
+        <Box key={day} className={classes.checkboxContainer} style={{ borderRight: '0px' }}>
+          <Checkbox
+            value={day}
+            onChange={(e) => handleChangeDays(e, idx)}
+            className={isEnabled ? classes.enabledCheckbox : classes.disabledCheckbox}
+          />
+          <p className={isEnabled ? classes.enabledCheckboxText : classes.disabledCheckboxText}>{day}</p>
         </Box>
       );
     } else {
       return (
-        <Box
-          key={day}
-          width={150}
-          height={100}
-          className={classes.checkbox}
-          style={{ borderRight: '1px solid #c4c4c4' }}
-        >
-          <Checkbox onChange={(e) => handleChangeDays(e, idx)} value={day} style={{ color: '#F76900' }} />
-          <p style={{ marginTop: '0px' }}>{day}</p>
+        <Box key={day} className={classes.checkboxContainer} style={{ borderRight: '1px solid #c4c4c4' }}>
+          <Checkbox
+            value={day}
+            onChange={(e) => handleChangeDays(e, idx)}
+            className={isEnabled ? classes.enabledCheckbox : classes.disabledCheckbox}
+          />
+          <p className={isEnabled ? classes.enabledCheckboxText : classes.disabledCheckboxText}>{day}</p>
         </Box>
       );
     }
@@ -74,9 +77,9 @@ const Availability = (): JSX.Element => {
   return (
     <Box mt={5} className={classes.page}>
       <CalendAppLogo />
-      <Box className={classes.formBox}>
+      <Box className={classes.formContainer}>
         <OnboardingHeader headerText="Set Your Availability" progressValue={75} />
-        <Box className={classes.formItemsBox}>
+        <Box className={classes.formItemsContainer}>
           <Box mx={6}>
             <h4>Available Hours:</h4>
           </Box>
@@ -112,7 +115,7 @@ const Availability = (): JSX.Element => {
             {renderCheckboxes}
           </Box>
         </Box>
-        <Box mb={3} className={classes.buttonBox}>
+        <Box mb={3} className={classes.button}>
           <Button onClick={handleClickFinish} variant="contained" className={classes.finish}>
             Finish
           </Button>

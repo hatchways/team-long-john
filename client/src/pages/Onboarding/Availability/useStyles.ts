@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  formBox: {
+  formContainer: {
     borderRadius: 5,
     height: '60vh',
     width: '70vh',
@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  formItemsBox: {
+  formItemsContainer: {
     width: '100%',
     height: '100%',
     borderTop: '1px solid lightgrey',
@@ -26,14 +26,29 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
   },
-  checkbox: {
+  checkboxContainer: {
+    height: '80px',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '0px 5px',
+    padding: '0 5px',
   },
-  buttonBox: {
+  disabledCheckbox: {
+    color: '#c4c4c4 !important',
+  },
+  enabledCheckbox: {
+    color: '#F76900 !important',
+  },
+  disabledCheckboxText: {
+    color: '#c4c4c4',
+    marginTop: '0',
+  },
+  enabledCheckboxText: {
+    marginTop: '0',
+  },
+  button: {
     display: 'flex',
     flexDirection: 'column',
   },
@@ -43,9 +58,6 @@ const useStyles = makeStyles(() => ({
     height: '55px',
     width: '150px',
     marginBottom: '10px',
-  },
-  test: {
-    fontSize: '100px',
   },
 }));
 
