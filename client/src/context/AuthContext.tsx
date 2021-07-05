@@ -1,20 +1,26 @@
-import { createContext, useState, FunctionComponent } from 'react';
-import { useHistory } from 'react-router-dom';
+import { createContext, useContext, useState, FunctionComponent } from 'react';
 
 interface AuthContext {
-  isDemo: boolean;
+  isDemoStatus: boolean;
+  updateIsDemoContext: (status: boolean) => void;
 }
 
 export const AuthContext = createContext<AuthContext>({
-  isDemo: false,
+  isDemoStatus: false,
+  updateIsDemoContext: () => null,
 });
 
 export const AuthProvider: FunctionComponent = ({ children }): JSX.Element => {
   // default undefined before loading, once loaded provide user or null if logged out
-  const [isDemo, setIsDemo] = useState<boolean>(false);
-  const history = useHistory();
+  const [isDemoStatus, setIsDemo] = useState<boolean>(false);
 
-  return <AuthContext.Provider value={{ isDemo }}>{children}</AuthContext.Provider>;
+  const updateIsDemoContext = (status: boolean) => {
+    setIsDemo(status);
+  };
+
+  return <AuthContext.Provider value={{ isDemoStatus, updateIsDemoContext }}>{children}</AuthContext.Provider>;
 };
 
-export default createContext(AuthContext);
+export function useAuth(): AuthContext {
+  return useContext(AuthContext);
+}
