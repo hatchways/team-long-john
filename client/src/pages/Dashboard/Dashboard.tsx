@@ -17,7 +17,7 @@ import { useAuth } from '../../context/AuthContext';
 
 export default function Dashboard(): JSX.Element {
   // Test: When authentication or the demo user is complete change the below line to... const { loggedInUser } = useAuth();
-  const loggedInUser = mockLoggedInUser;
+  const loggedInUser = ''; // mockLoggedInUser;
   const { initSocket } = useSocket();
 
   const history = useHistory();
@@ -28,14 +28,14 @@ export default function Dashboard(): JSX.Element {
   const schedOptions = ['UPCOMING', 'PENDING', 'PAST'];
   const [schedSelect, setSchedSelect] = React.useState(schedOptions[0]);
   const meetingOptions = [15, 30, 45];
-  const { isDemoStatus } = useAuth();
 
   useEffect(() => {
     initSocket();
   }, [initSocket]);
 
   if (loggedInUser === undefined) return <CircularProgress />;
-  if (!loggedInUser || !isDemoStatus) {
+
+  if (!loggedInUser) {
     history.push('/login');
     // loading for a split seconds until history.push works
     return <CircularProgress />;
