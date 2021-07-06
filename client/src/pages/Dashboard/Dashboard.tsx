@@ -8,16 +8,16 @@ import { Button } from '@material-ui/core';
 import Navigation from './Navigation/Navigation';
 import UserDashInfo from './UserDashInfo/UserDashInfo';
 import ScheduleOption from './ScheduleOption/ScheduleOption';
-import { useAuth } from '../../context/useAuthContext';
 import { useSocket } from '../../context/useSocketContext';
 import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { mockLoggedInUser } from '../../mocks/mockUser';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Dashboard(): JSX.Element {
   // Test: When authentication or the demo user is complete change the below line to... const { loggedInUser } = useAuth();
-  const loggedInUser = mockLoggedInUser;
+  const loggedInUser = ''; // mockLoggedInUser;
   const { initSocket } = useSocket();
 
   const history = useHistory();
@@ -34,6 +34,7 @@ export default function Dashboard(): JSX.Element {
   }, [initSocket]);
 
   if (loggedInUser === undefined) return <CircularProgress />;
+
   if (!loggedInUser) {
     history.push('/login');
     // loading for a split seconds until history.push works
