@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
+const cloudinary = require('cloudinary').v2;
 require('./utils/oauthGoogleStrategy');
 
 const userRouter = require('./routes/user');
@@ -30,6 +31,14 @@ const cookieSettings = {
 if (process.env.NODE_ENV === 'development') {
 	app.use(logger('dev'));
 }
+
+// Initializes our cloudinary
+cloudinary.config({
+	cloud_name: 'calend-app',
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
+	secure: true
+});
 
 app.use(json());
 app.use(urlencoded({ extended: false }));
