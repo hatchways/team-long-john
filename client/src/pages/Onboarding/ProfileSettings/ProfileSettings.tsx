@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment-timezone';
+import { useAuth } from '../../../context/useAuthContext';
 
 import {
   Box,
@@ -41,9 +42,28 @@ const ProfileSettings = (): JSX.Element => {
     if (profileSettings.username.trim() === '' || profileSettings.timezone.trim() === '') return;
 
     // Sends a GET request to check if URL is taken
+    const url = `/users/${profileSettings.username}`;
+    let usernameTaken = true;
+    fetch(url)
+      .then((res) => {
+        if (res && res.status === 200) {
+          alert('This url is already taken!');
+        } else if (res && res.status === 404) {
+          usernameTaken = false;
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
 
     // If the request above is successful, then we send a PUT request
     // to update username URL and time zone
+    if (!usernameTaken) {
+      const { loggedInUser } = useAuth();
+      if (loggedInUser) {
+        loggedInUser.username = profileSettings.username;
+      }
+    }
 
     // Use history to push to the confirm page
     history.push('confirm');
