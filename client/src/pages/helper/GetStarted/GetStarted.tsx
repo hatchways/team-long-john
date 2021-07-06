@@ -47,7 +47,7 @@ export default function GetStarted(prop: GSProp): JSX.Element {
         </Box>
         <Box className={classes.redirect}>
           <Typography className={classes.redirectText}>
-            {prop.signup ? 'Already have an account?' : "Don't have an account?"}
+            {prop.signup ? 'Already have an account? ' : "Don't have an account? "}
             <Link component={reactLink} to={prop.redirTarget} className={classes.link}>
               {prop.signup ? 'Log In' : 'Sign up'}
             </Link>
