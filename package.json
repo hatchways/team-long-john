@@ -6,5 +6,8 @@
   },
   "scripts": {
     "prepare": "husky install"
+  },
+  "dependencies": {
+    "moment-timezone": "^0.5.33"
   }
 }
