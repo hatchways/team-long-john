@@ -7,10 +7,8 @@ import useStyles from './useStyles';
 const DemoButton = (): JSX.Element => {
   const history = useHistory();
   const classes = useStyles();
-  const { updateIsDemoContext } = useAuth();
 
   const handleClick = () => {
-    updateIsDemoContext(true);
     history.push('/dashboard');
   };
 
