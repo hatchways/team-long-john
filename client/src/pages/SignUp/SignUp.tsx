@@ -1,20 +1,21 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import { FormikHelpers } from 'formik';
-import Typography from '@material-ui/core/Typography';
 import useStyles from './useStyles';
 import register from '../../helpers/APICalls/register';
-import SignUpForm from './SignUpForm/SignUpForm';
-import AuthHeader from '../../components/AuthHeader/AuthHeader';
 import { useAuth } from '../../context/useAuthContext';
 import { useSnackBar } from '../../context/useSnackbarContext';
+import React from 'react';
+import GetStarted from '../helper/GetStarted/GetStarted';
+import AuthenticateMenu from '../helper/AuthenticateMenu/AuthenticateMenu';
 
 export default function Register(): JSX.Element {
   const classes = useStyles();
   const { updateLoginContext } = useAuth();
   const { updateSnackBarMessage } = useSnackBar();
+
+  const [validated, setValidated] = React.useState(false);
+  const [userEmail, setUserEmail] = React.useState('');
 
   const handleSubmit = (
     { username, email, password }: { email: string; password: string; username: string },
@@ -37,25 +38,34 @@ export default function Register(): JSX.Element {
     });
   };
 
+  const textChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setUserEmail(event.currentTarget.value);
+  };
+
+  const initiateSignUp = () => {
+    // We need to check if there is already an account with the associated userEmail.
+    // If there is none, then turn validated to true.
+    // For now, it will always be changed to true for test purposes.
+    setValidated(true);
+  };
+
+  const googleAuth = () => {
+    // Authentication with google should be done here.
+  };
+
+  const diffEmail = () => {
+    // This event handler is invoked when the user wants to choose a different email.
+    setValidated(false);
+  };
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={12} sm={8} md={7} elevation={6} component={Paper} square>
-        <Box className={classes.authWrapper}>
-          <AuthHeader linkTo="/login" asideText="Already have an account?" btnText="Login" />
-          <Box width="100%" maxWidth={450} p={3} alignSelf="center">
-            <Grid container>
-              <Grid item xs>
-                <Typography className={classes.welcome} component="h1" variant="h5">
-                  Create an account
-                </Typography>
-              </Grid>
-            </Grid>
-            <SignUpForm handleSubmit={handleSubmit} />
-          </Box>
-          <Box p={1} alignSelf="center" />
-        </Box>
-      </Grid>
+      {validated ? (
+        <AuthenticateMenu signup={true} email={userEmail} google={googleAuth} diffEmail={diffEmail} />
+      ) : (
+        <GetStarted signup={true} redirTarget="/login" textChange={textChange} initiater={initiateSignUp} />
+      )}
     </Grid>
   );
 }
