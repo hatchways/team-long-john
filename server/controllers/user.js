@@ -10,7 +10,7 @@ exports.searchUsers = asyncHandler(async (req, res, next) => {
   let users;
   if (searchString) {
     users = await User.find({
-      username: { $regex: searchString, $options: "i" },
+      username: { $regex: searchString, $options: "i" }
     });
   }
 
@@ -40,9 +40,9 @@ exports.getUser = asyncHandler(async (req, res, next) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        register_date: user.register_date,
-      },
-    },
+        register_date: user.register_date
+      }
+    }
   });
 });
 
@@ -62,8 +62,8 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        register_date: user.register_date,
-      },
-    },
+        register_date: user.register_date
+      }
+    }
   });
 });
