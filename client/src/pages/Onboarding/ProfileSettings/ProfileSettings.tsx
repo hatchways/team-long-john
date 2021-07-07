@@ -36,6 +36,8 @@ const ProfileSettings = (): JSX.Element => {
     timezone: '',
   });
 
+  console.log(profileSettings);
+
   const handleClickContinue = async () => {
     // Error handling
     if (profileSettings.username.trim() === '' || profileSettings.timezone.trim() === '') return;
