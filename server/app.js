@@ -2,7 +2,6 @@ const colors = require("colors");
 const path = require("path");
 const http = require("http");
 const express = require("express");
-const socketio = require("socket.io");
 const { notFound, errorHandler } = require("./middleware/error");
 const connectDB = require("./db");
 const { join } = require("path");
@@ -12,7 +11,6 @@ const passport = require("passport");
 const session = require("express-session");
 require("./utils/oauthGoogleStrategy");
 
-const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const oauthRouter = require("./routes/oauth");
 const appointmentRouter = require("./routes/appointment");
@@ -31,35 +29,26 @@ cloudinary.config({
   secure: true
 });
 
-const io = socketio(server, {
-  cors: {
-    origin: "*"
-  }
-});
-
-io.on("connection", (socket) => {
-  console.log("connected");
-});
+const cookieSettings = {
+  secret: process.env.SESSION_SECRET,
+  maxAge: 7 * 24 * 60 * 60 * 1000, // Session lasts for 7 days
+};
 
 if (process.env.NODE_ENV === "development") {
   app.use(logger("dev"));
 }
+
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({ secret: process.env.SESSION_SECRET }));
+app.use(session(cookieSettings));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(join(__dirname, "public")));
 
-app.use((req, res, next) => {
-  req.io = io;
-  next();
-});
-
-app.use("/auth", authRouter);
+// Routes
+app.use("/auth", oauthRouter);
 app.use("/users", userRouter);
-app.use("/oauth", oauthRouter);
 app.use("/appointment", appointmentRouter);
 app.use("/meeting", meetingRouter);
 
