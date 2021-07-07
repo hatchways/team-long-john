@@ -14,6 +14,7 @@ import { SocketProvider } from './context/useSocketContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
 
 import './App.css';
+import Scheduler from './pages/Scheduler/Scheduler';
 
 function App(): JSX.Element {
   return (
@@ -27,6 +28,7 @@ function App(): JSX.Element {
           <Route exact path="/dashboard">
             <Dashboard />
           </Route>
+          <Route exact path="/scheduler" component={Scheduler} />
           <Route exact path="/profile_settings" component={ProfileSettings} />
           <Route exact path="/confirm" component={Confirm} />
           <Route exact path="/availability" component={Availability} />
