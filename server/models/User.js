@@ -33,12 +33,6 @@ const userSchema = new mongoose.Schema({
     type: [String],
     default: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
   },
-  appointments: [
-    {
-      type: mongoose.Types.ObjectId,
-      ref: "appointment",
-    },
-  ],
 });
 
 module.exports = User = mongoose.model("user", userSchema);
