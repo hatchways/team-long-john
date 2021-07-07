@@ -28,10 +28,10 @@ exports.loadUser = asyncHandler(async (req, res, next) => {
   res.send(req.user);
 });
 
-// @route GET /auth/user
+// @route GET /auth/logout
 // @desc Logs the user out and redirects them to the login page
 // @access Public
 exports.logOut = asyncHandler(async (req, res, next) => {
   req.logout();
-  res.redirect("http://localhost:3000/login");
+  res.redirect(`${process.env.CALEND_APP_DEV_URL}/login`);
 });

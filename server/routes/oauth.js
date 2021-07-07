@@ -19,7 +19,7 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: "http://localhost:3000/dashboard",
+    successRedirect: `${process.env.CALEND_APP_DEV_URL}/dashboard`,
   })
 );
 
