@@ -12,8 +12,7 @@ import { useSocket } from '../../context/useSocketContext';
 import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { mockLoggedInUser } from '../../mocks/mockUser';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuthContext';
 
 export default function Dashboard(): JSX.Element {
   // Test: When authentication or the demo user is complete change the below line to... const { loggedInUser } = useAuth();

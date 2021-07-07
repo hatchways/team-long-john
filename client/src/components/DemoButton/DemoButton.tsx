@@ -1,7 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuthContext';
 import useStyles from './useStyles';
 
 const DemoButton = (): JSX.Element => {

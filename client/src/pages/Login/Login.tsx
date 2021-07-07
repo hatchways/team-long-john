@@ -7,13 +7,13 @@ import Typography from '@material-ui/core/Typography';
 import useStyles from './useStyles';
 import login from '../../helpers/APICalls/login';
 import LoginForm from './LoginForm/LoginForm';
-import AuthHeader from '../../components/AuthHeader/AuthHeader';
+// import AuthHeader from '../../components/AuthHeader/AuthHeader';
 import { useAuth } from '../../context/useAuthContext';
 import { useSnackBar } from '../../context/useSnackbarContext';
 
 export default function Login(): JSX.Element {
   const classes = useStyles();
-  const { updateLoginContext } = useAuth();
+  // const { updateLoginContext } = useAuth();
   const { updateSnackBarMessage } = useSnackBar();
 
   const handleSubmit = (
@@ -25,7 +25,7 @@ export default function Login(): JSX.Element {
         setSubmitting(false);
         updateSnackBarMessage(data.error.message);
       } else if (data.success) {
-        updateLoginContext(data.success);
+        // updateLoginContext(data.success);
       } else {
         // should not get here from backend but this catch is for an unknown issue
         console.error({ data });
@@ -41,7 +41,7 @@ export default function Login(): JSX.Element {
       <CssBaseline />
       <Grid item xs={12} sm={8} md={7} elevation={6} component={Paper} square>
         <Box className={classes.authWrapper}>
-          <AuthHeader linkTo="/signup" asideText="Don't have an account?" btnText="Create account" />
+          {/* <AuthHeader linkTo="/signup" asideText="Don't have an account?" btnText="Create account" /> */}
           <Box width="100%" maxWidth={450} p={3} alignSelf="center">
             <Grid container>
               <Grid item xs>
