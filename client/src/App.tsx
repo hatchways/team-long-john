@@ -14,17 +14,17 @@ function App(): JSX.Element {
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
-        {/* <AuthProvider> */}
-        <Switch>
-          <Route exact path="/profile_settings" component={ProfileSettings} />
-          <Route exact path="/confirm" component={Confirm} />
-          <Route exact path="/availability" component={Availability} />
-          <Route exact path="/dashboard" component={Dashboard} />
-          <Route path="*">
-            <Redirect to="/login" />
-          </Route>
-        </Switch>
-        {/* </AuthProvider> */}
+        <AuthProvider>
+          <Switch>
+            <Route exact path="/profile_settings" component={ProfileSettings} />
+            <Route exact path="/confirm" component={Confirm} />
+            <Route exact path="/availability" component={Availability} />
+            <Route exact path="/dashboard" component={Dashboard} />
+            <Route path="*">
+              <Redirect to="/login" />
+            </Route>
+          </Switch>
+        </AuthProvider>
       </BrowserRouter>
     </MuiThemeProvider>
   );
