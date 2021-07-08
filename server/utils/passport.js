@@ -26,7 +26,7 @@ passport.use(
       }
 
       await new User({
-        username: profile.name,
+        username: profile.displayName,
         email: profile.emails[0].value,
         googleRefreshToken: refreshToken
       }).save();
