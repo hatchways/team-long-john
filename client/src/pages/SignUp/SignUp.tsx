@@ -8,6 +8,7 @@ import { useSnackBar } from '../../context/useSnackbarContext';
 import React from 'react';
 import GetStarted from '../helper/GetStarted/GetStarted';
 import AuthenticateMenu from '../helper/AuthenticateMenu/AuthenticateMenu';
+import { generateKeyPair } from 'crypto';
 
 export default function Register(): JSX.Element {
   const classes = useStyles();
@@ -46,7 +47,7 @@ export default function Register(): JSX.Element {
     // We need to check if there is already an account with the associated userEmail.
     const url = '/auth/user';
     const request = new Request(url, {
-      method: 'post',
+      method: 'POST',
       body: JSON.stringify({
         email: userEmail,
       }),
@@ -70,6 +71,21 @@ export default function Register(): JSX.Element {
 
   const googleAuth = () => {
     // Authentication with google should be done here.
+    const url = `/auth/google`;
+    const request = new Request(url, {
+      method: 'GET',
+    });
+    fetch(request)
+      .then((res) => {
+        if (res && res.status === 200) {
+          console.log(res);
+        } else if (res && res.status === 401) {
+          alert('Authentication failed');
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
   };
 
   const diffEmail = () => {

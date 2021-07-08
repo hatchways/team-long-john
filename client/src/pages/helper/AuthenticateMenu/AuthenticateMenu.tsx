@@ -2,7 +2,6 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import useStyles from './useStyles';
 import logo from '../../../Images/logo.png';
-import Button from '@material-ui/core/Button';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Link from '@material-ui/core/Link';
 
@@ -17,7 +16,6 @@ interface AuthProp {
 
 export default function AuthenticateMenu(prop: AuthProp): JSX.Element {
   const classes = useStyles();
-  console.log(prop.email);
 
   return (
     <Box className={classes.wrapper}>
@@ -47,7 +45,7 @@ export default function AuthenticateMenu(prop: AuthProp): JSX.Element {
         <Box className={classes.redirect}>
           <Typography className={classes.redirectText}>
             Want to use different email?
-            <Link component={Button} onClick={prop.diffEmail} className={classes.link}>
+            <Link component={ButtonBase} onClick={prop.diffEmail} className={classes.link}>
               Click here
             </Link>
           </Typography>
