@@ -9,8 +9,6 @@ const {
 } = require("../controllers/auth");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
-router.post("/user", doesUserExist);
-
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["email", "profile"] }, loginUser)
@@ -23,7 +21,6 @@ router.get(
   })
 );
 
-router.get("/user", isLoggedIn, loadUser);
 router.get("/logout", isLoggedIn, logOut);
 
 module.exports = router;

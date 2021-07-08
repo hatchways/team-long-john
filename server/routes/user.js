@@ -1,12 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const protect = require("../middleware/auth");
-const { searchUsers, getUser, updateUser } = require("../controllers/user");
+const { doesUserExist, getUser, updateUser } = require("../controllers/user");
 
-router.route("/").get(protect, searchUsers);
-
-router.route("/:username").get(getUser);
-
+router.post("/user", doesUserExist);
+router.get("/user", isLoggedIn, getUser);
 router.route("/:id").patch(updateUser);
 
 module.exports = router;
