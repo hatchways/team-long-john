@@ -8,18 +8,12 @@ import { Button } from '@material-ui/core';
 import Navigation from './Navigation/Navigation';
 import UserDashInfo from './UserDashInfo/UserDashInfo';
 import ScheduleOption from './ScheduleOption/ScheduleOption';
-import { useSocket } from '../../context/useSocketContext';
-import { useHistory } from 'react-router-dom';
-import { useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useAuth } from '../../context/useAuthContext';
 
 export default function Dashboard(): JSX.Element {
-  // Test: When authentication or the demo user is complete change the below line to... const { loggedInUser } = useAuth();
-  const loggedInUser = ''; // mockLoggedInUser;
-  const { initSocket } = useSocket();
-
-  const history = useHistory();
+  // When authentication or the demo user is complete change the below line to... const { loggedInUser } = useAuth();
+  const loggedInUser = '';
 
   const classes = useStyles();
   const dashOptions = ['EVENT TYPES', 'SCHEDULED EVENTS'];
@@ -28,17 +22,7 @@ export default function Dashboard(): JSX.Element {
   const [schedSelect, setSchedSelect] = React.useState(schedOptions[0]);
   const meetingOptions = [15, 30, 45];
 
-  useEffect(() => {
-    initSocket();
-  }, [initSocket]);
-
   if (loggedInUser === undefined) return <CircularProgress />;
-
-  if (!loggedInUser) {
-    history.push('/login');
-    // loading for a split seconds until history.push works
-    return <CircularProgress />;
-  }
 
   const createOptions = (
     choices: string[],
