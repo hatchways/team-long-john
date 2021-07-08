@@ -6,7 +6,11 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["email", "profile"] })
+  passport.authenticate("google", {
+    scope: ["email", "profile", "https://www.googleapis.com/auth/calendar"],
+    accessType: "offline",
+    prompt: "consent"
+  })
 );
 
 router.get(

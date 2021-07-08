@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 
-// @route POST /user
+// @route POST /users
 // @desc Checks if user exists
 // @access Public
 exports.doesUserExist = asyncHandler(async (req, res, next) => {
@@ -21,7 +21,7 @@ exports.doesUserExist = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @route GET /user
+// @route GET /users/me
 // @desc Sends the logged in user's information back
 // @access Public
 exports.getUser = asyncHandler(async (req, res, next) => {
