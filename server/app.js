@@ -22,6 +22,13 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 
+cloudinary.config({
+  cloud_name: "calend-app",
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true
+});
+
 const cookieSettings = {
   secret: process.env.SESSION_SECRET,
   maxAge: 7 * 24 * 60 * 60 * 1000, // Session lasts for 7 days
