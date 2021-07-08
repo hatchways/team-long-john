@@ -19,7 +19,8 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: `${process.env.CALEND_APP_DEV_URL}/dashboard`
+    successRedirect: `${process.env.CALEND_APP_DEV_URL}/dashboard`,
+    failureRedirect: `${process.env.CALEND_APP_DEV_URL}/login`
   })
 );
 
