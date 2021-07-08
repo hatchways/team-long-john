@@ -31,7 +31,7 @@ export default function Scheduler(): JSX.Element {
   const duration = 60;
   const availableDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const userTimeZone = 'America/Toronto';
-  const startTime = '11:20';
+  const startTime = '08:20';
   const endTime = '20:00';
 
   const today = new Date();
@@ -79,11 +79,6 @@ export default function Scheduler(): JSX.Element {
   };
 
   const updateDate = (event: Date) => {
-    // Since clicking on the calendar gives the date object in the local timezone,
-    // only extract the year, month, and date info from the event.
-    // Then create a moment using the timezone and get ISOString.
-    const dateInfo = moment(event).format('YYYY-MM-DD');
-    const momentTZ = moment.tz(dateInfo, timeZone);
     setDateSelected(event);
   };
 
@@ -105,7 +100,7 @@ export default function Scheduler(): JSX.Element {
   const checkDisableTime = (timeValue: string) => {
     // Put further disabling based on user's google calendar info here.
     const userMoment = calenDateToUserTZ(timeValue);
-    return userMoment.isBefore(moment(today));
+    return userMoment.isBefore(moment(today)) || !availableDays.includes(userMoment.format('dddd'));
   };
 
   const timeButtonBuilder = (curMoment: moment.Moment, endMoment: moment.Moment) => {
