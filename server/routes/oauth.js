@@ -5,7 +5,7 @@ const {
   loadUser,
   logOut,
   loginUser,
-  doesUserExist,
+  doesUserExist
 } = require("../controllers/oauth");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
@@ -13,13 +13,17 @@ router.post("/user", doesUserExist);
 
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["email", "profile"] }, loginUser)
+  passport.authenticate(
+    "google",
+    { scope: ["email", "profile"], accessType: "offline" },
+    loginUser
+  )
 );
 
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: "http://localhost:3000/dashboard",
+    successRedirect: "http://localhost:3000/dashboard"
   })
 );
 
