@@ -43,13 +43,8 @@ export default function Login(): JSX.Element {
 
   const initiateLogIn = () => {
     // We need to check if there is an account with the associated userEmail.
-    const url = `/users/email`;
-    const request = new Request(url, {
-      method: 'POST',
-      body: JSON.stringify({
-        email: userEmail,
-      }),
-    });
+    const url = `/users/email/${userEmail}`;
+    const request = new Request(url);
     fetch(request)
       .then((res) => {
         if (res && res.status === 200) {

@@ -68,12 +68,12 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @route POST /users/email/
+// @route GET /users/email/:email
 // @desc Search a user by username
 // @access Private
 exports.getUserByEmail = asyncHandler(async (req, res, next) => {
-  const { userEmail } = req.body;
-  const user = await User.findOne({ userEmail });
+  const userEmail = req.params.userEmail;
+  const user = await User.findOne({ email: userEmail });
 
   if (!user) {
     res.status(404);

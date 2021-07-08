@@ -12,7 +12,7 @@ router.route("/").get(protect, searchUsers);
 
 router.route("/:username").get(getUser);
 
-router.route("/email").post(getUserByEmail);
+router.route("/email/:userEmail").get(getUserByEmail);
 
 router.route("/:id").patch(updateUser);
 

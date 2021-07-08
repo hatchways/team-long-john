@@ -45,17 +45,8 @@ export default function Register(): JSX.Element {
 
   const initiateSignUp = () => {
     // We need to check if there is already an account with the associated userEmail.
-    const url = '/users/email';
-    const request = new Request(url, {
-      method: 'POST',
-      body: JSON.stringify({
-        email: userEmail,
-      }),
-      headers: {
-        Accept: 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-      },
-    });
+    const url = `/users/email/${userEmail}`;
+    const request = new Request(url);
     fetch(request)
       .then((res) => {
         if (res && res.status === 200) {
