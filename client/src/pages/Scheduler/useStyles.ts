@@ -1,7 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-// const drawerWidth = 240,
-
 const useStyles = makeStyles({
   '@global': {
     '::-webkit-scrollbar': {
@@ -235,6 +233,16 @@ const useStyles = makeStyles({
     height: '50px',
     marginBottom: '10px',
     border: 'solid 2px lightgray',
+    '&$disabled': {
+      border: '#F9FBFF',
+    },
+  },
+  schedMenuInfo: {
+    display: 'inline',
+    marginRight: '5px',
+  },
+  schedMenuTime: {
+    color: '#b0b9cd',
   },
 });
 
