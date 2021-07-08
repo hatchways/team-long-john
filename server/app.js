@@ -9,7 +9,8 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const passport = require("passport");
 const session = require("express-session");
-require("./utils/oauthGoogleStrategy");
+const cloudinary = require("cloudinary");
+require("./utils/passport");
 
 const userRouter = require("./routes/user");
 const authRouter = require("./routes/auth");
@@ -47,7 +48,7 @@ app.use(passport.session());
 app.use(express.static(join(__dirname, "public")));
 
 // Routes
-app.use("/auth", oauthRouter);
+app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/appointment", appointmentRouter);
 app.use("/meeting", meetingRouter);
