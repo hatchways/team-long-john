@@ -43,9 +43,26 @@ export default function Login(): JSX.Element {
 
   const initiateLogIn = () => {
     // We need to check if there is an account with the associated userEmail.
-    // If there is, then turn validated to true.
-    // For now, it will always be changed to true for test purposes.
-    setValidated(true);
+    const url = `/auth/user`;
+    const request = new Request(url, {
+      method: 'post',
+      body: JSON.stringify({
+        email: userEmail,
+      }),
+    });
+    fetch(request)
+      .then((res) => {
+        if (res && res.status === 200) {
+          setValidated(true);
+        } else if (res && res.status === 401) {
+          alert(
+            'No user with the given email exists. Please create an account if you wish to make one with this email.',
+          );
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
   };
 
   const googleAuth = () => {

@@ -50,6 +50,8 @@ const useStyles = makeStyles(() => ({
     marginBottom: '75px',
     marginLeft: 'auto',
     marginRight: 'auto',
+    borderRadius: '5px',
+    boxShadow: '0 3px 5px 0 rgba(0, 0, 0, 0.19)',
     fontWeight: 'bold',
     fontSize: '1.2em',
     color: 'white',

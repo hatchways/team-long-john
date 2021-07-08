@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import { Link as reactLink } from 'react-router-dom';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
 type textChangeFunc = (args: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 type initiaterFunc = () => void;
@@ -41,9 +42,9 @@ export default function GetStarted(prop: GSProp): JSX.Element {
               },
             }}
           />
-          <Button className={classes.button} onClick={prop.initiater} variant="contained">
+          <ButtonBase className={classes.buttonGS} onClick={prop.initiater}>
             Get Started
-          </Button>
+          </ButtonBase>
         </Box>
         <Box className={classes.redirect}>
           <Typography className={classes.redirectText}>

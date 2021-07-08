@@ -10,7 +10,7 @@ exports.searchUsers = asyncHandler(async (req, res, next) => {
   let users;
   if (searchString) {
     users = await User.find({
-      username: { $regex: searchString, $options: "i" }
+      username: { $regex: searchString, $options: "i" },
     });
   }
 
@@ -26,23 +26,23 @@ exports.searchUsers = asyncHandler(async (req, res, next) => {
 // @desc Get a user by username
 // @access Private
 exports.getUser = asyncHandler(async (req, res, next) => {
-    const username = req.params.username
-    const user = await User.findOne({ username });
+  const username = req.params.username;
+  const user = await User.findOne({ username });
 
-    if (!user) {
-        res.status(404);
-        throw new Error("User not found" );
-    }
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
 
-    res.status(200).json({
-        success: {
-          user: {
-            id: user._id,
-            username: user.username,
-            email: user.email,
-            register_date: user.register_date
-       }
-    }
+  res.status(200).json({
+    success: {
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        register_date: user.register_date,
+      },
+    },
   });
 });
 
@@ -50,20 +50,44 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 // @desc Update user
 // @access Private
 exports.updateUser = asyncHandler(async (req, res, next) => {
-    const id = req.params.id;
-    updates = req.body;
-    options = { new: true };
+  const id = req.params.id;
+  updates = req.body;
+  options = { new: true };
 
-    const user = await User.findByIdAndUpdate(id, updates, options);
+  const user = await User.findByIdAndUpdate(id, updates, options);
 
-    res.status(200).json({
-        success: {
-          user: {
-            id: user._id,
-            username: user.username,
-            email: user.email,
-            register_date: user.register_date
-       }
-    }
+  res.status(200).json({
+    success: {
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        register_date: user.register_date,
+      },
+    },
+  });
+});
+
+// @route GET /users/email/:email
+// @desc Get a user by username
+// @access Private
+exports.getUserByEmail = asyncHandler(async (req, res, next) => {
+  const userEmail = req.params.email;
+  const user = await User.findOne({ userEmail });
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  res.status(200).json({
+    success: {
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        register_date: user.register_date,
+      },
+    },
   });
 });

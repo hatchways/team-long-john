@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import useStyles from './useStyles';
 import logo from '../../../Images/logo.png';
 import Button from '@material-ui/core/Button';
+import ButtonBase from '@material-ui/core/ButtonBase';
 import Link from '@material-ui/core/Link';
 
 type simpleFunc = () => void;
@@ -39,9 +40,9 @@ export default function AuthenticateMenu(prop: AuthProp): JSX.Element {
               <Typography className={classes.subHeader} />
             </Box>
           )}
-          <Button className={classes.button} onClick={prop.google} variant="contained">
+          <ButtonBase className={classes.button} onClick={prop.google}>
             {prop.signup ? 'Sign up' : 'Login'} with Google
-          </Button>
+          </ButtonBase>
         </Box>
         <Box className={classes.redirect}>
           <Typography className={classes.redirectText}>

@@ -16,6 +16,8 @@ const oauthRouter = require("./routes/oauth");
 const appointmentRouter = require("./routes/appointment");
 const meetingRouter = require("./routes/meeting");
 
+const cloudinary = require("cloudinary");
+
 const { json, urlencoded } = express;
 
 connectDB();
@@ -26,7 +28,7 @@ cloudinary.config({
   cloud_name: "calend-app",
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
-  secure: true
+  secure: true,
 });
 
 const cookieSettings = {

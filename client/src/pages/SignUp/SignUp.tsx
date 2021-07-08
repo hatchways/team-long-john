@@ -44,9 +44,28 @@ export default function Register(): JSX.Element {
 
   const initiateSignUp = () => {
     // We need to check if there is already an account with the associated userEmail.
-    // If there is none, then turn validated to true.
-    // For now, it will always be changed to true for test purposes.
-    setValidated(true);
+    const url = '/auth/user';
+    const request = new Request(url, {
+      method: 'post',
+      body: JSON.stringify({
+        email: userEmail,
+      }),
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+    });
+    fetch(request)
+      .then((res) => {
+        if (res && res.status === 200) {
+          alert('An user with the given email exists. Please try logging in with this email.');
+        } else if (res && res.status === 401) {
+          setValidated(true);
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
   };
 
   const googleAuth = () => {
