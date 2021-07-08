@@ -1,20 +1,29 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { validateRegister, validateLogin } = require('../validate');
-const protect = require('../middleware/auth');
+const passport = require("passport");
 const {
-  registerUser,
-  loginUser,
   loadUser,
-  logoutUser,
-} = require('../controllers/auth');
+  logOut,
+  loginUser,
+  doesUserExist
+} = require("../controllers/auth");
+const isLoggedIn = require("../middleware/isLoggedIn");
 
-router.route('/register').post(validateRegister, registerUser);
+router.post("/user", doesUserExist);
 
-router.route('/login').post(validateLogin, loginUser);
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["email", "profile"] }, loginUser)
+);
 
-router.route('/user').get(protect, loadUser);
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "http://localhost:3000/dashboard"
+  })
+);
 
-router.route('/logout').get(logoutUser);
+router.get("/user", isLoggedIn, loadUser);
+router.get("/logout", isLoggedIn, logOut);
 
 module.exports = router;

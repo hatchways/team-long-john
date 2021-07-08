@@ -12,7 +12,7 @@ const session = require("express-session");
 require("./utils/oauthGoogleStrategy");
 
 const userRouter = require("./routes/user");
-const oauthRouter = require("./routes/oauth");
+const authRouter = require("./routes/auth");
 const appointmentRouter = require("./routes/appointment");
 const meetingRouter = require("./routes/meeting");
 
@@ -31,7 +31,7 @@ cloudinary.config({
 
 const cookieSettings = {
   secret: process.env.SESSION_SECRET,
-  maxAge: 7 * 24 * 60 * 60 * 1000, // Session lasts for 7 days
+  maxAge: 7 * 24 * 60 * 60 * 1000 // Session lasts for 7 days
 };
 
 if (process.env.NODE_ENV === "development") {
