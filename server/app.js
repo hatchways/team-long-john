@@ -25,7 +25,7 @@ const server = http.createServer(app);
 
 const cookieSettings = {
   secret: process.env.SESSION_SECRET,
-  maxAge: 7 * 24 * 60 * 60 * 1000, // Session lasts for 7 days
+  maxAge: 7 * 24 * 60 * 60 * 1000 // Session lasts for 7 days
 };
 
 if (process.env.NODE_ENV === "development") {

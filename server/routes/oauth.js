@@ -1,23 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const {
-  loadUser,
-  logOut,
-  loginUser,
-  doesUserExist
-} = require("../controllers/oauth");
+const { loadUser, logOut, doesUserExist } = require("../controllers/oauth");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 router.post("/user", doesUserExist);
 
 router.get(
   "/google",
-  passport.authenticate(
-    "google",
-    { scope: ["email", "profile"], accessType: "offline" },
-    loginUser
-  )
+  passport.authenticate("google", {
+    scope: ["email", "profile", "https://www.googleapis.com/auth/calendar"],
+    accessType: "offline"
+  })
 );
 
 router.get(
@@ -27,7 +21,7 @@ router.get(
   })
 );
 
-router.get("/user", isLoggedIn, loadUser);
-router.get("/logout", isLoggedIn, logOut);
+router.get("/user", loadUser);
+router.get("/logout", logOut);
 
 module.exports = router;

@@ -1,14 +1,7 @@
-const GoogleStrategy = require("passport-google-oauth2").Strategy;
 const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+
 const User = require("../models/User");
-
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function (user, done) {
-  done(null, user);
-});
 
 passport.use(
   new GoogleStrategy(
@@ -19,18 +12,21 @@ passport.use(
       proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
-      const existingUser = await User.findOne({ email: profile.email });
+      const existingUser = await User.findOne({
+        email: profile.emails[0].value
+      });
 
       if (existingUser) {
         await User.findOneAndUpdate(
-          { email: profile.email },
+          { email: profile.emails[0].value },
           { $set: { googleRefreshToken: refreshToken } }
         );
+
         return done(null, existingUser);
       }
 
       await new User({
-        email: profile.email,
+        email: profile.emails[0].value,
         googleRefreshToken: refreshToken
       }).save();
 
@@ -38,3 +34,13 @@ passport.use(
     }
   )
 );
+
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
