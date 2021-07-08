@@ -1,17 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const {
-  loadUser,
-  logOut,
-  loginUser,
-  doesUserExist
-} = require("../controllers/auth");
+const { logOut } = require("../controllers/auth");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["email", "profile"] }, loginUser)
+  passport.authenticate("google", { scope: ["email", "profile"] })
 );
 
 router.get(
