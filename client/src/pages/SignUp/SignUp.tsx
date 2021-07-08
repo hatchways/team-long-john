@@ -45,7 +45,7 @@ export default function Register(): JSX.Element {
 
   const initiateSignUp = () => {
     // We need to check if there is already an account with the associated userEmail.
-    const url = '/auth/user';
+    const url = '/users/email';
     const request = new Request(url, {
       method: 'POST',
       body: JSON.stringify({
@@ -60,7 +60,7 @@ export default function Register(): JSX.Element {
       .then((res) => {
         if (res && res.status === 200) {
           alert('An user with the given email exists. Please try logging in with this email.');
-        } else if (res && res.status === 401) {
+        } else if (res && res.status === 404) {
           setValidated(true);
         }
       })
@@ -71,21 +71,6 @@ export default function Register(): JSX.Element {
 
   const googleAuth = () => {
     // Authentication with google should be done here.
-    const url = `/auth/google`;
-    const request = new Request(url, {
-      method: 'GET',
-    });
-    fetch(request)
-      .then((res) => {
-        if (res && res.status === 200) {
-          console.log(res);
-        } else if (res && res.status === 401) {
-          alert('Authentication failed');
-        }
-      })
-      .catch((error) => {
-        alert(error);
-      });
   };
 
   const diffEmail = () => {

@@ -33,5 +33,8 @@ exports.loadUser = asyncHandler(async (req, res, next) => {
 // @access Public
 exports.logOut = asyncHandler(async (req, res, next) => {
   req.logout();
-  res.redirect("http://localhost:3000/login");
+  req.session.destroy((err) => {
+    if (err) return next(err);
+    res.redirect(`${process.env.CALEND_APP_DEV_URL}/login`);
+  });
 });

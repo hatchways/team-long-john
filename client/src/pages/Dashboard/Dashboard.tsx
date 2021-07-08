@@ -14,6 +14,7 @@ import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { mockLoggedInUser } from '../../mocks/mockUser';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
 export default function Dashboard(): JSX.Element {
   // Test: When authentication or the demo user is complete change the below line to... const { loggedInUser } = useAuth();
@@ -135,7 +136,7 @@ export default function Dashboard(): JSX.Element {
             <Box className={classes.schedEventList}> {populateSchedEvent()} </Box>
           </Box>
         )}
-        <Button className={classes.helpButton}> Getting Started Guide </Button>
+        <ButtonBase className={classes.helpButton}> Getting Started Guide </ButtonBase>
       </Box>
     </Box>
   );

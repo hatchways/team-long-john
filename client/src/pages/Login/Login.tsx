@@ -43,7 +43,7 @@ export default function Login(): JSX.Element {
 
   const initiateLogIn = () => {
     // We need to check if there is an account with the associated userEmail.
-    const url = `/auth/user`;
+    const url = `/users/email`;
     const request = new Request(url, {
       method: 'POST',
       body: JSON.stringify({
@@ -54,7 +54,7 @@ export default function Login(): JSX.Element {
       .then((res) => {
         if (res && res.status === 200) {
           setValidated(true);
-        } else if (res && res.status === 401) {
+        } else if (res && res.status === 404) {
           alert(
             'No user with the given email exists. Please create an account if you wish to make one with this email.',
           );

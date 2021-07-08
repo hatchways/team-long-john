@@ -44,6 +44,7 @@ const useStyles = makeStyles(() => ({
   button: {
     display: 'block',
     padding: '15px',
+    width: '250px',
     paddingLeft: '35px',
     paddingRight: '35px',
     marginTop: '75px',
@@ -52,6 +53,7 @@ const useStyles = makeStyles(() => ({
     marginRight: 'auto',
     borderRadius: '5px',
     boxShadow: '0 3px 5px 0 rgba(0, 0, 0, 0.19)',
+    textAlign: 'center',
     fontWeight: 'bold',
     fontSize: '1.2em',
     color: 'white',

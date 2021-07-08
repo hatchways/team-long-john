@@ -68,11 +68,11 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @route GET /users/email/:email
-// @desc Get a user by username
+// @route POST /users/email/
+// @desc Search a user by username
 // @access Private
 exports.getUserByEmail = asyncHandler(async (req, res, next) => {
-  const userEmail = req.params.email;
+  const { userEmail } = req.body;
   const user = await User.findOne({ userEmail });
 
   if (!user) {
@@ -82,12 +82,7 @@ exports.getUserByEmail = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: {
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        register_date: user.register_date,
-      },
+      message: "Account exists",
     },
   });
 });

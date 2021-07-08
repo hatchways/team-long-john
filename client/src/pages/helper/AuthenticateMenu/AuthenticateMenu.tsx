@@ -38,7 +38,12 @@ export default function AuthenticateMenu(prop: AuthProp): JSX.Element {
               <Typography className={classes.subHeader} />
             </Box>
           )}
-          <ButtonBase className={classes.button} onClick={prop.google}>
+          <ButtonBase
+            href="http://localhost:3001/auth/google"
+            component={Link}
+            className={classes.button}
+            onClick={prop.google}
+          >
             {prop.signup ? 'Sign up' : 'Login'} with Google
           </ButtonBase>
         </Box>
