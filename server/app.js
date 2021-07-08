@@ -17,6 +17,7 @@ const userRouter = require("./routes/user");
 const authRouter = require("./routes/auth");
 const appointmentRouter = require("./routes/appointment");
 const meetingRouter = require("./routes/meeting");
+const availabilityRouter = require("./routes/availability");
 
 const { json, urlencoded } = express;
 
