@@ -17,7 +17,7 @@ const {
 // filter out those times on the front end
 // @access Public
 exports.getAvailability = asyncHandler(async (req, res, next) => {
-  const { day, email } = req.query;
+  let { day, email } = req.query;
 
   const user = await User.findOne({ email: email });
   const { username, availableDays, timezone, availableHours } = user;
