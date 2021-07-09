@@ -54,6 +54,7 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/appointment", appointmentRouter);
 app.use("/meeting", meetingRouter);
+app.use("/availability", availabilityRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
