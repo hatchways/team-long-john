@@ -9,10 +9,10 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const passport = require("passport");
 const session = require("express-session");
-require("./utils/oauthGoogleStrategy");
+require("./utils/passport");
 
 const userRouter = require("./routes/user");
-const oauthRouter = require("./routes/oauth");
+const authRouter = require("./routes/auth");
 const appointmentRouter = require("./routes/appointment");
 const meetingRouter = require("./routes/meeting");
 
@@ -28,12 +28,12 @@ cloudinary.config({
   cloud_name: "calend-app",
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
-  secure: true,
+  secure: true
 });
 
 const cookieSettings = {
   secret: process.env.SESSION_SECRET,
-  maxAge: 7 * 24 * 60 * 60 * 1000, // Session lasts for 7 days
+  maxAge: 7 * 24 * 60 * 60 * 1000 // Session lasts for 7 days
 };
 
 if (process.env.NODE_ENV === "development") {
@@ -49,7 +49,7 @@ app.use(passport.session());
 app.use(express.static(join(__dirname, "public")));
 
 // Routes
-app.use("/auth", oauthRouter);
+app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/appointment", appointmentRouter);
 app.use("/meeting", meetingRouter);
