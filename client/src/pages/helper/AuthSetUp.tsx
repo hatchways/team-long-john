@@ -25,8 +25,11 @@ export default function AuthSetUp(): JSX.Element {
       }
     })
     .then((data) => {
-      console.log(data);
-      history.push('/dashboard');
+      if (data === undefined) {
+        history.push('/profile_settings');
+      } else {
+        history.push('/dashboard');
+      }
     })
     .catch((error) => {
       alert(error);
