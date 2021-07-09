@@ -11,3 +11,22 @@ module.exports.retrieveCalendar = (clientId, clientSecret, refreshToken) => {
 
   return calendar;
 };
+
+// Checks a user's availability on a given day and time range
+module.exports.getAvailability = async (calendar, timeMin, timeMax, zone) => {
+  const res = await calendar.freebusy.query({
+    resource: {
+      timeMin: timeMin,
+      timeMax: timeMax,
+      timeZone: zone,
+      items: [{ id: "primary" }] // Focusing on a user's primary calendar
+    }
+  });
+
+  if (res.status !== 200) {
+    throw new Error("Unable to get availability");
+  }
+
+  // Returning the times a user is not available
+  return res.data.calendars.primary.busy;
+};
