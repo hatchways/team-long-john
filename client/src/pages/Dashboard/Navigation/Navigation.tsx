@@ -61,7 +61,9 @@ export default function Navigation(): JSX.Element {
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList>
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem component={Link} href="http://localhost:3001/auth/logout" onClick={handleClose}>
+                      Logout
+                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

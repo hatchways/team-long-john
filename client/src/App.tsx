@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import ProfileSettings from './pages/Onboarding/ProfileSettings/ProfileSettings';
 import Confirm from './pages/Onboarding/Confirm/Confirm';
 import Availability from './pages/Onboarding/Availability/Availability';
+import AuthSetUp from './pages/helper/AuthSetUp';
 
 import { AuthProvider } from './context/useAuthContext';
 import { SocketProvider } from './context/useSocketContext';
@@ -24,6 +25,7 @@ function App(): JSX.Element {
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
+          <Route exact path="/AuthSetup" component={AuthSetUp} />
           <Route exact path="/dashboard">
             <Dashboard />
           </Route>

@@ -9,14 +9,14 @@ router.get(
   passport.authenticate("google", {
     scope: ["email", "profile", "https://www.googleapis.com/auth/calendar"],
     accessType: "offline",
-    prompt: "consent"
+    prompt: "consent",
   })
 );
 
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: "http://localhost:3000/dashboard"
+    successRedirect: "http://localhost:3000/AuthSetup",
   })
 );
 
