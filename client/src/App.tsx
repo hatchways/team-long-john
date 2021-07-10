@@ -26,9 +26,7 @@ function App(): JSX.Element {
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/AuthSetup" component={AuthSetUp} />
-            <Route exact path="/dashboard">
-              <Dashboard />
-            </Route>
+            <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/profile_settings" component={ProfileSettings} />
             <Route exact path="/confirm" component={Confirm} />
             <Route exact path="/availability" component={Availability} />

@@ -1,15 +1,11 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import { FormikHelpers } from 'formik';
-import login from '../../helpers/APICalls/login';
 import { useAuth } from '../../context/useAuthContext';
-import { useSnackBar } from '../../context/useSnackbarContext';
 import { useHistory } from 'react-router-dom';
 
 export default function AuthSetUp(): JSX.Element {
   const history = useHistory();
   const { updateLoginContext } = useAuth();
-  const { updateSnackBarMessage } = useSnackBar();
 
   const url = '/users/me';
   const request = new Request(url, {
@@ -25,7 +21,8 @@ export default function AuthSetUp(): JSX.Element {
       }
     })
     .then((data) => {
-      if (data.username) {
+      updateLoginContext(data.success);
+      if (data.success.user.username) {
         history.push('/dashboard');
       } else {
         history.push('/profile_settings');

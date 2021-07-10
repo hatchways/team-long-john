@@ -22,7 +22,7 @@ import { useAuth } from '../../../context/useAuthContext';
 export default function Navigation(): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const classes = useStyles();
-  const { loggedInUser } = useAuth();
+  const { loggedInUser, logout } = useAuth();
 
   if (loggedInUser === undefined || loggedInUser === null) {
     return <CircularProgress />;
@@ -34,6 +34,7 @@ export default function Navigation(): JSX.Element {
 
   const handleClose = () => {
     setAnchorEl(null);
+    logout();
   };
 
   return (
@@ -68,7 +69,7 @@ export default function Navigation(): JSX.Element {
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList>
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem component={Link} href="http://localhost:3001/auth/logout" onClick={handleClose}>
+                    <MenuItem component={Link} onClick={handleClose}>
                       Logout
                     </MenuItem>
                   </MenuList>
