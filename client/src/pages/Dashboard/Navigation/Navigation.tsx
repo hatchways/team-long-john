@@ -15,11 +15,18 @@ import useStyles from './useStyles';
 import tempImg from '../../../Images/b1f0e680702e811aa8ba333cb19c0e0ea95e8e31.png';
 import logo from '../../../Images/logo.png';
 import { Box } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+import { useAuth } from '../../../context/useAuthContext';
 
 export default function Navigation(): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const classes = useStyles();
-  const userName = 'TEMP USER';
+  const { loggedInUser } = useAuth();
+
+  if (loggedInUser === undefined || loggedInUser === null) {
+    return <CircularProgress />;
+  }
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -48,7 +55,7 @@ export default function Navigation(): JSX.Element {
         <Button className={classes.dropdown} onClick={handleMenu}>
           <img src={tempImg} className={classes.iconImage} />
           <Box className={classes.usernameContainer}>
-            <Typography className={classes.username}> {userName} </Typography>
+            <Typography className={classes.username}> {loggedInUser.username} </Typography>
           </Box>
         </Button>
         <Popper className={classes.dropdownMenu} open={Boolean(anchorEl)} anchorEl={anchorEl} transition disablePortal>
