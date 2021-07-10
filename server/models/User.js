@@ -12,8 +12,13 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  googleId: {
-    type: String
+  google: {
+    id: {
+      type: String
+    },
+    refreshToken: {
+      type: String
+    }
   },
   register_date: {
     type: Date,

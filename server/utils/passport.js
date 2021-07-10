@@ -20,7 +20,7 @@ passport.use(
       if (existingUser) {
         await User.findOneAndUpdate(
           { email: profile.emails[0].value },
-          { $set: { googleRefreshToken: refreshToken } }
+          { $set: { google: { refreshToken: refreshToken } } }
         );
 
         return done(null, existingUser);
@@ -29,8 +29,10 @@ passport.use(
       await new User({
         name: profile.displayName,
         email: profile.emails[0].value,
-        googleId: profile.id,
-        googleRefreshToken: refreshToken
+        google: {
+          id: profile.id,
+          refreshToken: refreshToken
+        }
       }).save();
 
       return done(null, profile);
@@ -47,7 +49,7 @@ passport.deserializeUser(async function (id, done) {
     const oldUser = await User.findById(id);
     done(null, oldUser);
   } else {
-    const newUser = await User.findOne({ googleId: id });
+    const newUser = await User.findOne({ "google.id": id });
     done(null, newUser);
   }
 });
