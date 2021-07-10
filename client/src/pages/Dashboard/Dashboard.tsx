@@ -9,6 +9,7 @@ import Navigation from './Navigation/Navigation';
 import UserDashInfo from './UserDashInfo/UserDashInfo';
 import ScheduleOption from './ScheduleOption/ScheduleOption';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import { useAuth } from '../../context/useAuthContext';
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();

@@ -10,7 +10,7 @@ exports.doesUserExist = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ email: email });
 
   if (!user) {
-    res.status(401);
+    res.status(404);
     throw new Error(`No account exists with the email: ${email}`);
   }
 

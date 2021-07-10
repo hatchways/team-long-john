@@ -51,6 +51,7 @@ export default function Register(): JSX.Element {
       body: JSON.stringify({
         email: userEmail,
       }),
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -60,7 +61,7 @@ export default function Register(): JSX.Element {
       .then((res) => {
         if (res && res.status === 200) {
           alert('An user with the given email exists. Please try logging in with this email.');
-        } else if (res && res.status === 401) {
+        } else if (res && res.status === 404) {
           setValidated(true);
         }
       })

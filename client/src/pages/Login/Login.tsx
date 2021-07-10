@@ -49,6 +49,7 @@ export default function Login(): JSX.Element {
       body: JSON.stringify({
         email: userEmail,
       }),
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -58,7 +59,7 @@ export default function Login(): JSX.Element {
       .then((res) => {
         if (res && res.status === 200) {
           setValidated(true);
-        } else if (res && res.status === 401) {
+        } else if (res && res.status === 404) {
           alert(
             'No user with the given email exists. Please create an account if you wish to make one with this email.',
           );

@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
@@ -28,6 +29,7 @@ passport.use(
       await new User({
         name: profile.displayName,
         email: profile.emails[0].value,
+        googleId: profile.id,
         googleRefreshToken: refreshToken
       }).save();
 
@@ -40,8 +42,12 @@ passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
-passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
-    done(err, user);
-  });
+passport.deserializeUser(async function (id, done) {
+  if (mongoose.isValidObjectId(id)) {
+    const oldUser = await User.findById(id);
+    done(null, oldUser);
+  } else {
+    const newUser = await User.findOne({ googleId: id });
+    done(null, newUser);
+  }
 });

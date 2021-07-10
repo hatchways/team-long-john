@@ -5,7 +5,6 @@ import login from '../../helpers/APICalls/login';
 import { useAuth } from '../../context/useAuthContext';
 import { useSnackBar } from '../../context/useSnackbarContext';
 import { useHistory } from 'react-router-dom';
-import React from 'react';
 
 export default function AuthSetUp(): JSX.Element {
   const history = useHistory();
@@ -15,45 +14,26 @@ export default function AuthSetUp(): JSX.Element {
   const url = '/users/me';
   const request = new Request(url, {
     method: 'GET',
+    credentials: 'include',
   });
   fetch(request)
     .then((res) => {
       if (res && res.status === 200) {
         return res.json();
       } else if (res && res.status === 401) {
-        alert('User is not logged in.');
+        alert('Req.user is undefined');
       }
     })
     .then((data) => {
-      if (data === undefined) {
-        history.push('/profile_settings');
-      } else {
+      if (data.username) {
         history.push('/dashboard');
+      } else {
+        history.push('/profile_settings');
       }
     })
     .catch((error) => {
       alert(error);
     });
-
-  const handleSubmit = (
-    { email, password }: { email: string; password: string },
-    { setSubmitting }: FormikHelpers<{ email: string; password: string }>,
-  ) => {
-    login(email, password).then((data) => {
-      if (data.error) {
-        setSubmitting(false);
-        updateSnackBarMessage(data.error.message);
-      } else if (data.success) {
-        updateLoginContext(data.success);
-      } else {
-        // should not get here from backend but this catch is for an unknown issue
-        console.error({ data });
-
-        setSubmitting(false);
-        updateSnackBarMessage('An unexpected error occurred. Please try again');
-      }
-    });
-  };
 
   return <Grid />;
 }

@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const passport = require("passport");
 const session = require("express-session");
+const cors = require("cors");
 require("./utils/passport");
 
 const userRouter = require("./routes/user");
@@ -40,6 +41,7 @@ if (process.env.NODE_ENV === "development") {
   app.use(logger("dev"));
 }
 
+app.use(cors());
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
