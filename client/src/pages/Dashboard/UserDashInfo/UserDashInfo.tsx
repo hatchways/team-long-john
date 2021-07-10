@@ -30,7 +30,7 @@ export default function UserDashInfo(): JSX.Element {
             </TableCell>
             <TableCell>
               <Box>
-                <Typography className={classes.userName}> {loggedInUser.username} </Typography>
+                <Typography className={classes.userName}> {loggedInUser.name} </Typography>
               </Box>
               <Box>
                 <Typography> calendapp.com/{loggedInUser.username} </Typography>
