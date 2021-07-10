@@ -9,22 +9,30 @@ import Confirm from './pages/Onboarding/Confirm/Confirm';
 import Availability from './pages/Onboarding/Availability/Availability';
 
 import './App.css';
+import Scheduler from './pages/Scheduler/Scheduler';
 
 function App(): JSX.Element {
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
-        <AuthProvider>
-          <Switch>
-            <Route exact path="/profile_settings" component={ProfileSettings} />
-            <Route exact path="/confirm" component={Confirm} />
-            <Route exact path="/availability" component={Availability} />
-            <Route exact path="/dashboard" component={Dashboard} />
-            <Route path="*">
-              <Redirect to="/login" />
-            </Route>
-          </Switch>
-        </AuthProvider>
+        {/* <SnackBarProvider>
+          <AuthProvider> */}
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/dashboard">
+            <Dashboard />
+          </Route>
+          <Route exact path="/scheduler" component={Scheduler} />
+          <Route exact path="/profile_settings" component={ProfileSettings} />
+          <Route exact path="/confirm" component={Confirm} />
+          <Route exact path="/availability" component={Availability} />
+          <Route path="*">
+            <Redirect to="/login" />
+          </Route>
+        </Switch>
+        {/* </AuthProvider>
+        </SnackBarProvider> */}
       </BrowserRouter>
     </MuiThemeProvider>
   );
