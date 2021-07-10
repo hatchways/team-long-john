@@ -17,28 +17,8 @@ export default function Login(): JSX.Element {
   const [validated, setValidated] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState('');
 
-  const handleSubmit = (
-    { email, password }: { email: string; password: string },
-    { setSubmitting }: FormikHelpers<{ email: string; password: string }>,
-  ) => {
-    login(email, password).then((data) => {
-      if (data.error) {
-        setSubmitting(false);
-        updateSnackBarMessage(data.error.message);
-      } else if (data.success) {
-        updateLoginContext(data.success);
-      } else {
-        // should not get here from backend but this catch is for an unknown issue
-        console.error({ data });
-
-        setSubmitting(false);
-        updateSnackBarMessage('An unexpected error occurred. Please try again');
-      }
-    });
-  };
-
   const textChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setUserEmail(event.currentTarget.value);
+    setUserEmail(event.currentTarget.value.toLowerCase());
   };
 
   const initiateLogIn = () => {
@@ -70,10 +50,6 @@ export default function Login(): JSX.Element {
       });
   };
 
-  const googleAuth = () => {
-    // Authentication with google should be done here.
-  };
-
   const diffEmail = () => {
     // This event handler is invoked when the user wants to choose a different email.
     setValidated(false);
@@ -83,7 +59,7 @@ export default function Login(): JSX.Element {
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       {validated ? (
-        <AuthenticateMenu signup={false} email={userEmail} google={googleAuth} diffEmail={diffEmail} />
+        <AuthenticateMenu signup={false} email={userEmail} diffEmail={diffEmail} />
       ) : (
         <GetStarted signup={false} redirTarget="/signup" textChange={textChange} initiater={initiateLogIn} />
       )}

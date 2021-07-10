@@ -26,6 +26,7 @@ const useStyles = makeStyles(() => ({
     marginTop: '30px',
     margin: '75px',
     paddingTop: '75px',
+    wordWrap: 'break-word',
   },
   header: {
     marginLeft: '30px',
