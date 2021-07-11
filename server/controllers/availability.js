@@ -42,7 +42,7 @@ exports.getAvailability = asyncHandler(async (req, res, next) => {
   const calendar = retrieveCalendar(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    user.googleRefreshToken
+    user.google.googleRefreshToken
   );
 
   // Returns the times when the user is busy based off of their availability
