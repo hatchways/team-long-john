@@ -1,11 +1,24 @@
 const { google } = require("googleapis");
 const { OAuth2 } = google.auth;
 
+module.exports.getTokenWithRefresh = async (
+  clientId,
+  clientSecret,
+  refreshToken
+) => {
+  const oAuth2Client = new OAuth2(clientId, clientSecret);
+  oAuth2Client.setCredentials({ refresh_token: refreshToken });
+
+  const token = await oAuth2Client.getRequestHeaders();
+
+  return token.Authorization.replace("Bearer ", "");
+};
+
 // Returns a user's calendar
-module.exports.retrieveCalendar = (clientId, clientSecret, refreshToken) => {
+module.exports.retrieveCalendar = (clientId, clientSecret, accessToken) => {
   const oAuth2Client = new OAuth2(clientId, clientSecret);
 
-  oAuth2Client.setCredentials({ refresh_token: refreshToken });
+  oAuth2Client.setCredentials({ access_token: accessToken });
 
   const calendar = google.calendar({ version: "v3", auth: oAuth2Client });
 
