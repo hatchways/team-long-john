@@ -2,14 +2,13 @@ const colors = require("colors");
 const path = require("path");
 const http = require("http");
 const express = require("express");
-const { notFound, errorHandler } = require("./middleware/error");
+const { notFound, errorHandler } = require("./middlewares/error");
 const connectDB = require("./db");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const session = require("express-session");
 const cloudinary = require("cloudinary");
-
 const passport = require("passport");
 require("./utils/passport");
 

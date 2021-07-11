@@ -32,15 +32,23 @@ const userSchema = new mongoose.Schema({
     type: [String],
     default: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
   },
+  google: {
+    id: {
+      type: String 
+    },
+    refreshToken: {
+      type: String
+    } 
+  },
+  timezone: {
+    type: String,
+  },
   appointments: [
     {
       type: mongoose.Types.ObjectId,
-      ref: "appointment"
-    }
-  ],
-  googleRefreshToken: {
-    type: String
-  }
+      ref: "appointment",
+    },
+  ]
 });
 
 module.exports = User = mongoose.model("user", userSchema);
