@@ -2,12 +2,14 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   username: {
-    type: String
+    type: String,
+    lowercase: true
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    lowercase: true
   },
   register_date: {
     type: Date,
@@ -34,20 +36,20 @@ const userSchema = new mongoose.Schema({
   },
   google: {
     id: {
-      type: String 
+      type: String
     },
     refreshToken: {
       type: String
-    } 
+    }
   },
   timezone: {
-    type: String,
+    type: String
   },
   appointments: [
     {
       type: mongoose.Types.ObjectId,
-      ref: "appointment",
-    },
+      ref: "appointment"
+    }
   ]
 });
 

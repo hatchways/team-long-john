@@ -1,8 +1,6 @@
 const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 
-const { validateEmail } = require("../utils/validate");
-
 // @route POST /users
 // @desc Checks if user exists
 // @access Public
