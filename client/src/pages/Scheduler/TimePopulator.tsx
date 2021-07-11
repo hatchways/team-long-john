@@ -1,23 +1,9 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 import useStyles from './useStyles';
-import { ButtonBase } from '@material-ui/core';
 import moment from 'moment-timezone';
 import Button from '@material-ui/core/Button';
-
-type eventHandler = (args: React.MouseEvent<HTMLButtonElement>) => void;
-type strArgFunc = (args: string) => boolean;
-
-interface TPProps {
-  startTime: string;
-  endTime: string;
-  userTimeZone: string;
-  timeZone: string;
-  today: Date;
-  duration: number;
-  getDateInfo: eventHandler;
-  checkDisableTime: strArgFunc;
-}
+import { TPProps } from '../../interface/SchedulerProps';
 
 export default function TimePopulator(props: TPProps): JSX.Element {
   const classes = useStyles();
@@ -31,7 +17,7 @@ export default function TimePopulator(props: TPProps): JSX.Element {
           key={time}
           value={time}
           className={classes.timeSched}
-          onClick={props.getDateInfo}
+          onClick={props.checkConfirmation}
           disabled={props.checkDisableTime(time)}
         >
           {time}
