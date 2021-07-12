@@ -1,20 +1,26 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { validateRegister, validateLogin } = require('../validate');
-const protect = require('../middleware/auth');
-const {
-  registerUser,
-  loginUser,
-  loadUser,
-  logoutUser,
-} = require('../controllers/auth');
+const passport = require("passport");
+const { logOut } = require("../controllers/auth");
+const isLoggedIn = require("../middleware/isLoggedIn");
 
-router.route('/register').post(validateRegister, registerUser);
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    successRedirect: `${process.env.CALEND_APP_DEV_URL}/AuthSetup`,
+    failureRedirect: `${process.env.CALEND_APP_DEV_URL}/login`,
+  })
+);
 
-router.route('/login').post(validateLogin, loginUser);
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["email", "profile", "https://www.googleapis.com/auth/calendar"],
+    accessType: "offline",
+    prompt: "consent",
+  })
+);
 
-router.route('/user').get(protect, loadUser);
-
-router.route('/logout').get(logoutUser);
+router.get("/logout", isLoggedIn, logOut);
 
 module.exports = router;

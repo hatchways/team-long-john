@@ -1,38 +1,54 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
-    unique: true
+  },
+  name: {
+    type: String,
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
-  password: {
-    type: String,
-    required: true
+  google: {
+    id: {
+      type: String,
+    },
+    refreshToken: {
+      type: String,
+    },
   },
   register_date: {
     type: Date,
-    default: Date.now
-  }
-});
-
-userSchema.methods.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
-};
-
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    next();
-  }
-
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+    default: Date.now,
+  },
+  timezone: {
+    type: String,
+  },
+  availableHours: {
+    type: {
+      times: {
+        start: String,
+        end: String,
+      },
+    },
+    default: {
+      start: "08:00",
+      end: "17:00",
+    },
+  },
+  availableDays: {
+    type: [String],
+    default: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+  },
+  appointments: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "appointment",
+    },
+  ],
 });
 
 module.exports = User = mongoose.model("user", userSchema);
