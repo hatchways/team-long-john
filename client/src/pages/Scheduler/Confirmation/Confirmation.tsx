@@ -13,8 +13,9 @@ export default function Confirmation(props: confirmProp): JSX.Element {
 
   const completeAppointment = () => {
     // Communicate with the BE to create an appointment with given information.
-    // Redirect the user to the appointment completion page:
-    // /completion/:appointmentID
+    // Redirect the user to the appointment completion page: /completion/:appointmentID
+    // For testing purpose, the current url for completeion page is /completion.
+    history.push('/completion');
   };
 
   return (
