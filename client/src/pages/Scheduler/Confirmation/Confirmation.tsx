@@ -12,7 +12,9 @@ export default function Confirmation(props: confirmProp): JSX.Element {
   const timeString = props.time.format('HH:mm on MMMM DD, YYYY');
 
   const completeAppointment = () => {
-    // Redirect to the appointment completion page with enough information.
+    // Communicate with the BE to create an appointment with given information.
+    // Redirect the user to the appointment completion page:
+    // /completion/:appointmentID
   };
 
   return (

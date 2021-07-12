@@ -7,6 +7,7 @@ import { AuthProvider } from './context/useAuthContext';
 import ProfileSettings from './pages/Onboarding/ProfileSettings/ProfileSettings';
 import Confirm from './pages/Onboarding/Confirm/Confirm';
 import Availability from './pages/Onboarding/Availability/Availability';
+import Completion from './pages/Scheduler/Completion/Completion';
 
 import './App.css';
 import Scheduler from './pages/Scheduler/Scheduler';
@@ -18,17 +19,18 @@ function App(): JSX.Element {
         {/* <SnackBarProvider>
           <AuthProvider> */}
         <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
+          {/* <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} /> */}
           <Route exact path="/dashboard">
             <Dashboard />
           </Route>
-          <Route exact path="/scheduler" component={Scheduler} />
+          <Route exact path="/scheduler/:username/:duration" component={Scheduler} />\
+          <Route exact path="/completion" component={Completion} />
           <Route exact path="/profile_settings" component={ProfileSettings} />
           <Route exact path="/confirm" component={Confirm} />
           <Route exact path="/availability" component={Availability} />
           <Route path="*">
-            <Redirect to="/login" />
+            <Redirect to="/dashboard" />
           </Route>
         </Switch>
         {/* </AuthProvider>
