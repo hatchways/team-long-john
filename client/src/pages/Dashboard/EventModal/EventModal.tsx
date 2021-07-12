@@ -16,12 +16,20 @@ interface IForm {
 export default function EventModal({ open, setOpen }: Props): JSX.Element {
   const classes = useStyles();
 
-  const handleClose = () => setOpen(false);
-
   const [formInput, setFormInput] = useState<IForm>({
     title: '',
     duration: '',
   });
+
+  const handleClose = () => setOpen(false);
+
+  const handleChange = (e: { target: HTMLInputElement | HTMLTextAreaElement }) => {
+    setFormInput({ ...formInput, [e.target.name]: e.target.value });
+  };
+
+  const handleClick = () => {
+    console.log('hi');
+  };
 
   const modalBody = (
     <div className={classes.paper}>
@@ -30,11 +38,11 @@ export default function EventModal({ open, setOpen }: Props): JSX.Element {
       </Box>
       <Box mt={2} className={classes.formItem}>
         <h3>Enter the title of the event:</h3>
-        <OutlinedInput className={classes.formInput} />
+        <OutlinedInput name="title" onChange={(e) => handleChange(e)} className={classes.formInput} />
       </Box>
       <Box className={classes.formItem}>
         <h3>Enter the duration of the event:</h3>
-        <OutlinedInput className={classes.formInput} />
+        <OutlinedInput name="duration" onChange={(e) => handleChange(e)} className={classes.formInput} />
       </Box>
       <Box mt={2.5} className={classes.buttonBox}>
         <Button className={classes.button}>Create Event</Button>
