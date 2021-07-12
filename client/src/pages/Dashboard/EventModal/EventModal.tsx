@@ -10,7 +10,6 @@ interface Props {
 }
 
 interface IForm {
-  title: string;
   duration: string;
 }
 
@@ -18,10 +17,7 @@ export default function EventModal({ open, setOpen }: Props): JSX.Element {
   const classes = useStyles();
   const { updateSnackBarMessage } = useSnackBar();
 
-  const [form, setForm] = useState<IForm>({
-    title: '',
-    duration: '',
-  });
+  const [form, setForm] = useState<IForm>({ duration: '' });
 
   const handleClose = () => setOpen(false);
 
@@ -29,24 +25,26 @@ export default function EventModal({ open, setOpen }: Props): JSX.Element {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleClick = () => {
-    const { title, duration } = form;
+  const handleClick = async () => {
+    const { duration } = form;
 
-    if (title.trim() === '' || duration.trim() === '') {
-      updateSnackBarMessage('Please enter a value for title or duration');
+    if (duration.trim() === '') {
+      updateSnackBarMessage('Please enter a valid event duration');
     }
 
-    console.log('I have not been implemented yet!');
+    const res = await fetch('/meeting', {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify(form),
+    });
+
+    console.log(res);
   };
 
   const modalBody = (
     <div className={classes.paper}>
       <Box className={classes.formHeader}>
         <h1>Create New Event</h1>
-      </Box>
-      <Box mt={1} className={classes.formItem}>
-        <h3>Enter the title of the event:</h3>
-        <OutlinedInput name="title" onChange={(e) => handleChange(e)} className={classes.formInput} />
       </Box>
       <Box className={classes.formItem}>
         <h3>Enter the duration of the event:</h3>
