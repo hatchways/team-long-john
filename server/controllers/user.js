@@ -2,47 +2,34 @@ const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 
 // @route POST /users
-// @desc Search for users
-// @access Private
-exports.searchUsers = asyncHandler(async (req, res, next) => {
-  const searchString = req.query.search;
+// @desc Checks if user exists
+// @access Public
+exports.doesUserExist = asyncHandler(async (req, res, next) => {
+  const { email } = req.body;
 
-  let users;
-  if (searchString) {
-    users = await User.find({
-      username: { $regex: searchString, $options: "i" }
-    });
-  }
-
-  if (!users) {
-    res.status(404);
-    throw new Error("No users found in search");
-  }
-
-  res.status(200).json({ users: users });
-});
-
-// @route GET /users/:username
-// @desc Get a user by username
-// @access Private
-exports.getUser = asyncHandler(async (req, res, next) => {
-  const username = req.params.username;
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ email: email });
 
   if (!user) {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error(`No account exists with the email: ${email}`);
   }
 
   res.status(200).json({
     success: {
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        register_date: user.register_date
-      }
-    }
+      message: "Account exists",
+    },
+  });
+});
+
+// @route GET /users/me
+// @desc Sends the logged in user's information back
+// @access Public
+exports.getUser = asyncHandler(async (req, res, next) => {
+  res.status(200).json({
+    success: {
+      message: `Account information for ${req.user.username}`,
+      user: req.user,
+    },
   });
 });
 
@@ -62,8 +49,11 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        register_date: user.register_date
-      }
-    }
+        register_date: user.register_date,
+        timezone: user.timezone,
+        availableHours: user.availableHours,
+        availableDays: user.availableDays,
+      },
+    },
   });
 });

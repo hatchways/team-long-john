@@ -2,19 +2,22 @@ const colors = require("colors");
 const path = require("path");
 const http = require("http");
 const express = require("express");
-const { notFound, errorHandler } = require("./middlewares/error");
+const { notFound, errorHandler } = require("./middleware/error");
 const connectDB = require("./db");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const passport = require("passport");
 const session = require("express-session");
-require("./utils/GoogleStrategy");
+const cors = require("cors");
+require("./utils/passport");
 
 const userRouter = require("./routes/user");
 const authRouter = require("./routes/auth");
 const appointmentRouter = require("./routes/appointment");
 const meetingRouter = require("./routes/meeting");
+
+const cloudinary = require("cloudinary");
 
 const { json, urlencoded } = express;
 
@@ -26,18 +29,19 @@ cloudinary.config({
   cloud_name: "calend-app",
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
-  secure: true
+  secure: true,
 });
 
 const cookieSettings = {
   secret: process.env.SESSION_SECRET,
-  maxAge: 7 * 24 * 60 * 60 * 1000 // Session lasts for 7 days
+  maxAge: 7 * 24 * 60 * 60 * 1000, // Session lasts for 7 days
 };
 
 if (process.env.NODE_ENV === "development") {
   app.use(logger("dev"));
 }
 
+app.use(cors());
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());

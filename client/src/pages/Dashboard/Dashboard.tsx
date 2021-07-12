@@ -8,19 +8,15 @@ import { Button } from '@material-ui/core';
 import Navigation from './Navigation/Navigation';
 import UserDashInfo from './UserDashInfo/UserDashInfo';
 import ScheduleOption from './ScheduleOption/ScheduleOption';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import ButtonBase from '@material-ui/core/ButtonBase';
 import { useAuth } from '../../context/useAuthContext';
 
 import EventModal from './EventModal/EventModal';
 
 export default function Dashboard(): JSX.Element {
-  // When authentication or the demo user is complete change the below line to... const { loggedInUser } = useAuth();
-  const loggedInUser = '';
-
+  const classes = useStyles();
   // Controls whether to open or close our modal
   const [open, setOpen] = React.useState<boolean>(false);
-
-  const classes = useStyles();
   const dashOptions = ['EVENT TYPES', 'SCHEDULED EVENTS'];
   const [dashOptionSelected, setDashOption] = React.useState(dashOptions[0]);
   const schedOptions = ['UPCOMING', 'PENDING', 'PAST'];
@@ -127,7 +123,7 @@ export default function Dashboard(): JSX.Element {
             <Box className={classes.schedEventList}> {populateSchedEvent()} </Box>
           </Box>
         )}
-        <Button className={classes.helpButton}> Getting Started Guide </Button>
+        <ButtonBase className={classes.helpButton}> Getting Started Guide </ButtonBase>
       </Box>
     </Box>
   );
