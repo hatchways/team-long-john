@@ -11,9 +11,14 @@ import ScheduleOption from './ScheduleOption/ScheduleOption';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useAuth } from '../../context/useAuthContext';
 
+import EventModal from './EventModal/EventModal';
+
 export default function Dashboard(): JSX.Element {
   // When authentication or the demo user is complete change the below line to... const { loggedInUser } = useAuth();
   const loggedInUser = '';
+
+  // Controls whether to open or close our modal
+  const [open, setOpen] = React.useState<boolean>(false);
 
   const classes = useStyles();
   const dashOptions = ['EVENT TYPES', 'SCHEDULED EVENTS'];
@@ -23,6 +28,8 @@ export default function Dashboard(): JSX.Element {
   const meetingOptions = [15, 30, 45];
 
   if (loggedInUser === undefined) return <CircularProgress />;
+
+  const handleOpen = () => setOpen(true);
 
   const createOptions = (
     choices: string[],
@@ -97,6 +104,7 @@ export default function Dashboard(): JSX.Element {
     <Box className={`${classes.root} ${classes.dashboard}`}>
       <CssBaseline />
       <Navigation />
+      <EventModal open={open} setOpen={setOpen} />
       <Box className={classes.dashWrapper}>
         <Box className={classes.headerWrapper}>
           <Box className={classes.header}>
@@ -105,7 +113,7 @@ export default function Dashboard(): JSX.Element {
           </Box>
         </Box>
         {dashOptionSelected === dashOptions[0] ? (
-          <Box className={classes.dashNewEvent}>
+          <Box onClick={handleOpen} className={classes.dashNewEvent}>
             <UserDashInfo />
             <Grid container spacing={2}>
               {displayMeetOptions(meetingOptions)}
