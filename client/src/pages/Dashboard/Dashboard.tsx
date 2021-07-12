@@ -9,7 +9,6 @@ import Navigation from './Navigation/Navigation';
 import UserDashInfo from './UserDashInfo/UserDashInfo';
 import ScheduleOption from './ScheduleOption/ScheduleOption';
 import ButtonBase from '@material-ui/core/ButtonBase';
-import { useAuth } from '../../context/useAuthContext';
 
 import EventModal from './EventModal/EventModal';
 
@@ -22,8 +21,6 @@ export default function Dashboard(): JSX.Element {
   const schedOptions = ['UPCOMING', 'PENDING', 'PAST'];
   const [schedSelect, setSchedSelect] = React.useState(schedOptions[0]);
   const meetingOptions = [15, 30, 45];
-
-  if (loggedInUser === undefined) return <CircularProgress />;
 
   const handleOpen = () => setOpen(true);
 
