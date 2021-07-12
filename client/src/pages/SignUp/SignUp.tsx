@@ -1,8 +1,6 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import useStyles from './useStyles';
-import { useAuth } from '../../context/useAuthContext';
-import { useSnackBar } from '../../context/useSnackbarContext';
 import React from 'react';
 import GetStarted from '../helper/GetStarted/GetStarted';
 import AuthenticateMenu from '../helper/AuthenticateMenu/AuthenticateMenu';
@@ -10,8 +8,6 @@ import initiateSignUp from '../../helpers/APICalls/signup';
 
 export default function Register(): JSX.Element {
   const classes = useStyles();
-  const { updateLoginContext } = useAuth();
-  const { updateSnackBarMessage } = useSnackBar();
 
   const [validated, setValidated] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState('');
