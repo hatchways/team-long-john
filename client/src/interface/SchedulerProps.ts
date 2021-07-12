@@ -11,9 +11,13 @@ export interface disableDateProp {
   view: string;
 }
 
-export interface urlProp {
+export interface schedUrlProp {
   username: string;
   duration: string;
+}
+
+export interface completionUrlProp {
+  appointID: string;
 }
 
 export interface confirmProp {

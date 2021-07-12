@@ -11,7 +11,7 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import FormControl from '@material-ui/core/FormControl';
 import BuildTimeZones from './BuildTimeZones';
 import TimePopulator from './TimePopulator';
-import { disableDateProp, urlProp } from '../../interface/SchedulerProps';
+import { disableDateProp, schedUrlProp } from '../../interface/SchedulerProps';
 import Confirmation from './Confirmation/Confirmation';
 
 export default function Scheduler(): JSX.Element {
@@ -20,7 +20,7 @@ export default function Scheduler(): JSX.Element {
 
   // This is the username of the person who is hosting the appointment, not the current user.
   // When integrating, search the user by this username to get specific information.
-  const { username, duration } = useParams<urlProp>();
+  const { username, duration } = useParams<schedUrlProp>();
   const availableDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const userTimeZone = 'America/Toronto';
   const startTime = '08:10';
