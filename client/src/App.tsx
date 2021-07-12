@@ -29,7 +29,7 @@ function App(): JSX.Element {
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/AuthSetup" component={AuthSetUp} />
             <Route exact path="/dashboard" component={Dashboard} />
-            <Route exact path="/scheduler/:username/:duration" component={Scheduler} />\
+            <Route exact path="/scheduler/:username/:duration" component={Scheduler} />
             <Route exact path="/completion" component={Completion} />
             <Route exact path="/profile_settings" component={ProfileSettings} />
             <Route exact path="/confirm" component={Confirm} />
