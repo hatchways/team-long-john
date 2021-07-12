@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: '1px solid lightgrey',
   },
   formItem: {
-    padding: '7.5px 25px',
+    padding: '7.5px 50px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
