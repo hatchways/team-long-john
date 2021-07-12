@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 0, 3),
-    height: '40vh',
+    height: '32.5vh',
     width: '70vh',
   },
   formHeader: {
