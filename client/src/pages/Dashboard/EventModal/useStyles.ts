@@ -24,13 +24,13 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: '1px solid lightgrey',
   },
   formItem: {
-    padding: '7.5px 50px',
+    padding: '0 50px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   formInput: {
-    height: '45px',
+    width: '120px',
   },
   buttonBox: {
     display: 'flex',
