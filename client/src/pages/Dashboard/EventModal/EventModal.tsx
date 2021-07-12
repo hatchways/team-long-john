@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Box, OutlinedInput, Button } from '@material-ui/core';
+import { useSnackBar } from '../../../context/useSnackbarContext';
 
 import useStyles from './useStyles';
 
@@ -15,8 +16,9 @@ interface IForm {
 
 export default function EventModal({ open, setOpen }: Props): JSX.Element {
   const classes = useStyles();
+  const { updateSnackBarMessage } = useSnackBar();
 
-  const [formInput, setFormInput] = useState<IForm>({
+  const [form, setForm] = useState<IForm>({
     title: '',
     duration: '',
   });
@@ -24,11 +26,17 @@ export default function EventModal({ open, setOpen }: Props): JSX.Element {
   const handleClose = () => setOpen(false);
 
   const handleChange = (e: { target: HTMLInputElement | HTMLTextAreaElement }) => {
-    setFormInput({ ...formInput, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleClick = () => {
-    console.log('hi');
+    const { title, duration } = form;
+
+    if (title.trim() === '' || duration.trim() === '') {
+      updateSnackBarMessage('Please enter a value for title or duration');
+    }
+
+    console.log('I have not been implemented yet!');
   };
 
   const modalBody = (
@@ -45,7 +53,9 @@ export default function EventModal({ open, setOpen }: Props): JSX.Element {
         <OutlinedInput name="duration" onChange={(e) => handleChange(e)} className={classes.formInput} />
       </Box>
       <Box mt={2.5} className={classes.buttonBox}>
-        <Button className={classes.button}>Create Event</Button>
+        <Button onClick={handleClick} className={classes.button}>
+          Create Event
+        </Button>
       </Box>
     </div>
   );
