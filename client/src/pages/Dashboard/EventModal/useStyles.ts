@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { Block } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -7,11 +8,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   paper: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    overflow: 'auto',
     backgroundColor: theme.palette.background.paper,
     border: '1px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 0, 3),
-    height: '32.5vh',
+    height: '40vh',
     width: '70vh',
   },
   formHeader: {

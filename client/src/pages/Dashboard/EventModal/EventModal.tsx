@@ -44,7 +44,7 @@ export default function EventModal({ open, setOpen }: Props): JSX.Element {
       <Box className={classes.formHeader}>
         <h1>Create New Event</h1>
       </Box>
-      <Box mt={2} className={classes.formItem}>
+      <Box mt={1} className={classes.formItem}>
         <h3>Enter the title of the event:</h3>
         <OutlinedInput name="title" onChange={(e) => handleChange(e)} className={classes.formInput} />
       </Box>
@@ -52,7 +52,7 @@ export default function EventModal({ open, setOpen }: Props): JSX.Element {
         <h3>Enter the duration of the event:</h3>
         <OutlinedInput name="duration" onChange={(e) => handleChange(e)} className={classes.formInput} />
       </Box>
-      <Box mt={2.5} className={classes.buttonBox}>
+      <Box className={classes.buttonBox}>
         <Button onClick={handleClick} className={classes.button}>
           Create Event
         </Button>
