@@ -18,8 +18,6 @@ const appointmentRouter = require("./routes/appointment");
 const meetingRouter = require("./routes/meeting");
 const availabilityRouter = require("./routes/availability");
 
-const cloudinary = require("cloudinary");
-
 const { json, urlencoded } = express;
 
 connectDB();
@@ -30,19 +28,18 @@ cloudinary.config({
   cloud_name: "calend-app",
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
-  secure: true,
+  secure: true
 });
 
 const cookieSettings = {
   secret: process.env.SESSION_SECRET,
-  maxAge: 7 * 24 * 60 * 60 * 1000, // Session lasts for 7 days
+  maxAge: 7 * 24 * 60 * 60 * 1000 // Session lasts for 7 days
 };
 
 if (process.env.NODE_ENV === "development") {
   app.use(logger("dev"));
 }
 
-app.use(cors());
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
