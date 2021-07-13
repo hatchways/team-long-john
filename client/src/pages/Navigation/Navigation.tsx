@@ -12,12 +12,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import useStyles from './useStyles';
-import tempImg from '../../../Images/b1f0e680702e811aa8ba333cb19c0e0ea95e8e31.png';
-import logo from '../../../Images/logo.png';
+import tempImg from '../../Images/b1f0e680702e811aa8ba333cb19c0e0ea95e8e31.png';
+import logo from '../../Images/logo.png';
 import { Box } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { useAuth } from '../../../context/useAuthContext';
+import { useAuth } from '../../context/useAuthContext';
 
 export default function Navigation(): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -44,10 +44,10 @@ export default function Navigation(): JSX.Element {
           <Link to="/upgrade" className={`${classes.option} ${classes.premium}`}>
             Upgrade Account
           </Link>
-          <Link to="integration" className={classes.option}>
+          <Link to="/integration" className={classes.option}>
             Integration
           </Link>
-          <Link to="dashboard" className={classes.option}>
+          <Link to="/dashboard" className={classes.option}>
             Home
           </Link>
         </Box>

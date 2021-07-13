@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CircularProgress } from '@material-ui/core';
 
+import Navigation from '../Navigation/Navigation';
 import { useAuth } from '../../context/useAuthContext';
 import useStyles from './useStyles';
 
@@ -12,6 +13,7 @@ const Upgrade = (): JSX.Element => {
 
   return (
     <div>
+      <Navigation />
       <p>Upgrade</p>
     </div>
   );
