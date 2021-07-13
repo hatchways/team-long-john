@@ -27,9 +27,13 @@ export default function Scheduler(): JSX.Element {
   const endTime = '22:00';
 
   const today = new Date();
+  // Timezone selected on the scheduler.
   const [timeZone, setTimeZone] = useState(userTimeZone);
+  // Date selected on the calendar. Does not take account of timeZone (uses user's PC timezone).
   const [dateSelected, setDateSelected] = useState(today);
+  // Date selected to the ISO string.
   const [dateSelISO, setDateSelISO] = useState(today.toISOString());
+  // Used to open or close the confirmation dialog when time slot is clicked.
   const [confirmTrigger, setConfirmTrigger] = useState(false);
 
   const changeTimeZone = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -49,6 +53,7 @@ export default function Scheduler(): JSX.Element {
   };
 
   const calenDateToUserTZ = (timeValue: string) => {
+    // Converts "current" time in the selected timezone to the user's base timezone.
     const dateInfo = moment(dateSelected).format('YYYY-MM-DD');
     const momentTZ = moment.tz(`${dateInfo} ${timeValue}`, timeZone);
     const userMoment = moment.tz(momentTZ, userTimeZone);
