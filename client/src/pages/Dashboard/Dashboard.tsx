@@ -9,15 +9,20 @@ import Navigation from './Navigation/Navigation';
 import UserDashInfo from './UserDashInfo/UserDashInfo';
 import ScheduleOption from './ScheduleOption/ScheduleOption';
 import ButtonBase from '@material-ui/core/ButtonBase';
-import { useAuth } from '../../context/useAuthContext';
+
+import EventModal from './EventModal/EventModal';
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
+  // Controls whether to open or close our modal
+  const [open, setOpen] = React.useState<boolean>(false);
   const dashOptions = ['EVENT TYPES', 'SCHEDULED EVENTS'];
   const [dashOptionSelected, setDashOption] = React.useState(dashOptions[0]);
   const schedOptions = ['UPCOMING', 'PENDING', 'PAST'];
   const [schedSelect, setSchedSelect] = React.useState(schedOptions[0]);
   const meetingOptions = [15, 30, 45];
+
+  const handleOpen = () => setOpen(true);
 
   const createOptions = (
     choices: string[],
@@ -92,6 +97,7 @@ export default function Dashboard(): JSX.Element {
     <Box className={`${classes.root} ${classes.dashboard}`}>
       <CssBaseline />
       <Navigation />
+      <EventModal open={open} setOpen={setOpen} />
       <Box className={classes.dashWrapper}>
         <Box className={classes.headerWrapper}>
           <Box className={classes.header}>
@@ -100,7 +106,7 @@ export default function Dashboard(): JSX.Element {
           </Box>
         </Box>
         {dashOptionSelected === dashOptions[0] ? (
-          <Box className={classes.dashNewEvent}>
+          <Box onClick={handleOpen} className={classes.dashNewEvent}>
             <UserDashInfo />
             <Grid container spacing={2}>
               {displayMeetOptions(meetingOptions)}

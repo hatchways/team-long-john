@@ -34,7 +34,7 @@ export const SnackBarProvider: FunctionComponent = ({ children }): JSX.Element =
       {children}
       <Snackbar
         anchorOrigin={{
-          vertical: 'bottom',
+          vertical: 'top',
           horizontal: 'center',
         }}
         open={open}
