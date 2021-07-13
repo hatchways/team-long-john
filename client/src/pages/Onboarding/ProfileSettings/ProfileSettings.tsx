@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment-timezone';
 import { useAuth } from '../../../context/useAuthContext';
+import CalendAppLogo from '../../../components/CalendAppLogo/CalendAppLogo';
+import OnboardingHeader from '../OnboardingHeader/OnboardingHeader';
+import useStyles from './useStyles';
+import { CheckURL } from '../../../helpers/APICalls/onboarding';
 
 import {
   Box,
@@ -13,11 +17,6 @@ import {
   FormControl,
   Button,
 } from '@material-ui/core/';
-
-import CalendAppLogo from '../../../components/CalendAppLogo/CalendAppLogo';
-import OnboardingHeader from '../OnboardingHeader/OnboardingHeader';
-import useStyles from './useStyles';
-import { CheckURL, UpdateURL } from '../../../helpers/APICalls/onboarding';
 
 interface TimeZone {
   [key: string]: { timeZone: string; abbr: string };
@@ -59,12 +58,6 @@ const ProfileSettings = (): JSX.Element => {
     // Have to write it this way since Material-UI is not a real select element
     setProfileSettings({ ...profileSettings, timezone: e.target.value as string });
   };
-
-  // // Set up later redirects to dashboard
-  // const handleClickSetUpLater = () => {
-  //   // Use history to push to the dashboard page
-  //   alert("I haven't been implemented yet!");
-  // };
 
   // Filtering out list of unnecessary time zones (lots of duplicates)
   moment.tz.names().map((timeZone): void => {
@@ -124,9 +117,6 @@ const ProfileSettings = (): JSX.Element => {
           <Button onClick={handleClickContinue} variant="contained" className={classes.finish}>
             Continue
           </Button>
-          {/* <Button onClick={handleClickSetUpLater} className={classes.setUpLater}>
-            Set up later
-          </Button> */}
         </Box>
       </Box>
     </Box>

@@ -34,13 +34,11 @@ const Confirm = (): JSX.Element => {
             <p>
               1. We will check <b>{loggedInUser.email}</b> for conflicts
             </p>
-            {/* <h4 style={{ color: 'lightgrey', cursor: 'pointer' }}>EDIT</h4> */}
           </Box>
           <Box mx={6} mb={1} className={classes.formItem}>
             <p>
               2. We will add event to <b>{loggedInUser.email}</b>
             </p>
-            {/* <h4 style={{ color: 'lightgrey', cursor: 'pointer' }}>EDIT</h4> */}
           </Box>
         </Box>
         <Box mb={3} className={classes.buttonsContainer}>
