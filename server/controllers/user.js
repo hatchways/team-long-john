@@ -10,7 +10,7 @@ exports.doesUserExist = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ email: email });
 
   if (!user) {
-    res.status(401);
+    res.status(404);
     throw new Error(`No account exists with the email: ${email}`);
   }
 
@@ -28,7 +28,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: {
       message: `Account information for ${req.user.username}`,
-      user: req.user,
+      user: req.user
     }
   });
 });
