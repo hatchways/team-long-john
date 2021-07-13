@@ -10,60 +10,50 @@ interface Props {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface IForm {
-  userId: string;
-  duration: string;
-}
-
 export default function EventModal({ open, setOpen }: Props): JSX.Element {
   const classes = useStyles();
   const { updateSnackBarMessage } = useSnackBar();
-  const { loggedInUser } = useAuth();
+  const loggedInUser: any = useAuth().loggedInUser;
 
-  const [form, setForm] = useState<IForm>({ userId: '', duration: '' });
+  const [duration, setDuration] = useState<any>('');
 
   const handleClose = () => setOpen(false);
 
   const handleChange = (e: React.ChangeEvent<{ value: unknown }>) => {
-    setForm({ ...form, duration: e.target.value as string });
+    setDuration(e.target.value);
   };
 
   const handleClick = async () => {
-    const { duration } = form;
-    const user: any = loggedInUser;
-
     if (duration === '') {
       updateSnackBarMessage('Please enter a valid event duration');
     }
 
-    // Appending user id and sending our request
-    if (user._id) {
-      setForm({ ...form, userId: user._id });
+    const res = await fetch('/meeting', {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({
+        userId: loggedInUser._id,
+        duration: duration,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    });
 
-      const res = await fetch('/meeting', {
-        method: 'POST',
-        credentials: 'include',
-        body: JSON.stringify(form),
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-      });
-
-      if (res.status === 400) {
-        const message = await res.json();
-        updateSnackBarMessage(message.error);
-        return;
-      }
-
-      if (res.status === 406) {
-        const message = await res.json();
-        updateSnackBarMessage(message.error);
-        return;
-      }
-
-      setOpen(false);
+    if (res.status === 400) {
+      const message = await res.json();
+      updateSnackBarMessage(message.error);
+      return;
     }
+
+    if (res.status === 406) {
+      const message = await res.json();
+      updateSnackBarMessage(message.error);
+      return;
+    }
+
+    setOpen(false);
   };
 
   const modalBody = (
@@ -75,7 +65,7 @@ export default function EventModal({ open, setOpen }: Props): JSX.Element {
         <h3>Enter the duration of the event:</h3>
         <FormControl>
           <InputLabel>Duration</InputLabel>
-          <Select value={form.duration} onChange={handleChange} className={classes.formInput}>
+          <Select value={duration} onChange={handleChange} className={classes.formInput}>
             <MenuItem value="">None</MenuItem>
             <MenuItem value={15}>15</MenuItem>
             <MenuItem value={30}>30</MenuItem>

@@ -40,14 +40,13 @@ exports.createMeeting = asyncHandler(async (req, res, next) => {
 // @desc Get the list of meetings for logged in user
 // @access Private
 exports.getMeeting = asyncHandler(async (req, res, next) => {
-  const { userId } = req.body;
-  if (!userId || !mongoose.isValidObjectId(userId)) {
+  if (!req.query.userId) {
     res.status(400);
     throw new Error("Invalid userId");
   }
 
   const meetings = await Meeting.find({
-    userId: userId
+    userId: req.query.userId
   });
 
   if (meetings.length > 0) {

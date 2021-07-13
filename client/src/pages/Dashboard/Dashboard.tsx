@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Box } from '@material-ui/core';
@@ -9,8 +9,15 @@ import Navigation from './Navigation/Navigation';
 import UserDashInfo from './UserDashInfo/UserDashInfo';
 import ScheduleOption from './ScheduleOption/ScheduleOption';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
+import { useAuth } from '../../context/useAuthContext';
 import EventModal from './EventModal/EventModal';
+
+interface Meeting {
+  userId: string;
+  duration: number;
+}
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
@@ -20,7 +27,37 @@ export default function Dashboard(): JSX.Element {
   const [dashOptionSelected, setDashOption] = React.useState(dashOptions[0]);
   const schedOptions = ['UPCOMING', 'PENDING', 'PAST'];
   const [schedSelect, setSchedSelect] = React.useState(schedOptions[0]);
-  const meetingOptions = [15, 30, 45];
+  const loggedInUser: any = useAuth().loggedInUser;
+  const [meetingOptions, setMeetingOptions] = useState<number[]>([]);
+
+  const fetchMeetings = useCallback(async () => {
+    if (loggedInUser) {
+      const copyOfMeetingOptions: number[] = [];
+
+      const res = await fetch(`/meeting?userId=${loggedInUser._id}`, {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      });
+
+      const meetings = await res.json();
+
+      meetings.map((meeting: Meeting) => copyOfMeetingOptions.push(meeting.duration));
+      copyOfMeetingOptions.sort((a, b) => a - b);
+
+      setMeetingOptions(copyOfMeetingOptions);
+    }
+  }, [loggedInUser]);
+
+  useEffect(() => {
+    fetchMeetings();
+  }, [fetchMeetings, meetingOptions, loggedInUser]);
+
+  if (loggedInUser === undefined || loggedInUser === null) {
+    return <CircularProgress />;
+  }
 
   const handleOpen = () => setOpen(true);
 
