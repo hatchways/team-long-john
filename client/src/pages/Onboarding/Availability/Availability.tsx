@@ -1,11 +1,16 @@
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Box, Button, TextField, Checkbox } from '@material-ui/core/';
 
 import CalendAppLogo from '../../../components/CalendAppLogo/CalendAppLogo';
 import OnboardingHeader from '../OnboardingHeader/OnboardingHeader';
 import useStyles from './useStyles';
+import { UpdateAvail } from '../../../helpers/APICalls/onboarding';
+import { useAuth } from '../../../context/useAuthContext';
 
 const Availability = (): JSX.Element => {
+  const { loggedInUser } = useAuth();
+  const history = useHistory();
   const classes = useStyles();
   const days = ['Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays'];
 
@@ -30,7 +35,11 @@ const Availability = (): JSX.Element => {
   };
 
   const handleClickFinish = () => {
-    alert("I haven't been implemented yet!");
+    if (loggedInUser) {
+      UpdateAvail(loggedInUser.email, openTimes, openDays, history);
+    } else {
+      alert('No loggedInUser is set!');
+    }
   };
 
   const renderCheckboxes = days.map((day: string, idx: number) => {

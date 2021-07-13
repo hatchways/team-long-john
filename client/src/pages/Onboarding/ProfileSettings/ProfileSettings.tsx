@@ -17,6 +17,7 @@ import {
 import CalendAppLogo from '../../../components/CalendAppLogo/CalendAppLogo';
 import OnboardingHeader from '../OnboardingHeader/OnboardingHeader';
 import useStyles from './useStyles';
+import { CheckURL, UpdateURL } from '../../../helpers/APICalls/onboarding';
 
 interface TimeZone {
   [key: string]: { timeZone: string; abbr: string };
@@ -30,6 +31,7 @@ interface ProfileSettings {
 const ProfileSettings = (): JSX.Element => {
   const classes = useStyles();
   const filteredTimeZones: TimeZone = {};
+  const { loggedInUser } = useAuth();
   const history = useHistory();
 
   const [profileSettings, setProfileSettings] = useState<ProfileSettings>({
@@ -40,33 +42,11 @@ const ProfileSettings = (): JSX.Element => {
   const handleClickContinue = async () => {
     // Error handling
     if (profileSettings.username.trim() === '' || profileSettings.timezone.trim() === '') return;
-
-    // Sends a GET request to check if URL is taken
-    const url = `/users/${profileSettings.username}`;
-    let usernameTaken = true;
-    fetch(url)
-      .then((res) => {
-        if (res && res.status === 200) {
-          alert('This url is already taken!');
-        } else if (res && res.status === 404) {
-          usernameTaken = false;
-        }
-      })
-      .catch((error) => {
-        alert(error);
-      });
-
-    // If the request above is successful, then we send a PUT request
-    // to update username URL and time zone
-    if (!usernameTaken) {
-      const { loggedInUser } = useAuth();
-      if (loggedInUser) {
-        loggedInUser.username = profileSettings.username;
-      }
+    if (loggedInUser) {
+      CheckURL(profileSettings.username, loggedInUser.email, history);
+    } else {
+      alert('No loggedInUser is set!');
     }
-
-    // Use history to push to the confirm page
-    history.push('confirm');
   };
 
   const handleChangeUsername = (e: { target: HTMLInputElement | HTMLTextAreaElement }) => {
@@ -80,11 +60,11 @@ const ProfileSettings = (): JSX.Element => {
     setProfileSettings({ ...profileSettings, timezone: e.target.value as string });
   };
 
-  // Set up later redirects to dashboard
-  const handleClickSetUpLater = () => {
-    // Use history to push to the dashboard page
-    alert("I haven't been implemented yet!");
-  };
+  // // Set up later redirects to dashboard
+  // const handleClickSetUpLater = () => {
+  //   // Use history to push to the dashboard page
+  //   alert("I haven't been implemented yet!");
+  // };
 
   // Filtering out list of unnecessary time zones (lots of duplicates)
   moment.tz.names().map((timeZone): void => {
@@ -144,9 +124,9 @@ const ProfileSettings = (): JSX.Element => {
           <Button onClick={handleClickContinue} variant="contained" className={classes.finish}>
             Continue
           </Button>
-          <Button onClick={handleClickSetUpLater} className={classes.setUpLater}>
+          {/* <Button onClick={handleClickSetUpLater} className={classes.setUpLater}>
             Set up later
-          </Button>
+          </Button> */}
         </Box>
       </Box>
     </Box>

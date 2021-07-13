@@ -57,3 +57,55 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
     },
   });
 });
+
+// @route POST /users/username/
+// @desc Update user
+// @access Private
+exports.userNameExist = asyncHandler(async (req, res, next) => {
+  const { username } = req.body;
+
+  const user = await User.findOne({ username: username });
+  console.log(user);
+
+  if (!user) {
+    res.status(404);
+    throw new Error(`No account exists with the username: ${username}`);
+  }
+
+  res.status(200).json({
+    success: {
+      message: "Account with this username exists",
+    },
+  });
+});
+
+// @route PATCH /users/email/:email
+// @desc Update user
+// @access Private
+exports.updateUserByEmail = asyncHandler(async (req, res, next) => {
+  const email = req.params.email;
+  updates = req.body;
+  options = { new: true };
+
+  const query = { email: email };
+  const user = await User.findOneAndUpdate(query, updates, options);
+
+  if (!user) {
+    res.status(404);
+    throw new Error(`No account exists with the email: ${email}`);
+  }
+
+  res.status(200).json({
+    success: {
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        register_date: user.register_date,
+        timezone: user.timezone,
+        availableHours: user.availableHours,
+        availableDays: user.availableDays,
+      },
+    },
+  });
+});
