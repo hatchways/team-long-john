@@ -8,5 +8,7 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 router.post("/", doesUserExist);
 router.get("/me", isLoggedIn, getUser);
 router.patch("/:id", validateUpdateUser, updateUser);
+router.post("/username", userNameExist);
+router.route("/email/:email").patch(updateUserByEmail);
 
 module.exports = router;
