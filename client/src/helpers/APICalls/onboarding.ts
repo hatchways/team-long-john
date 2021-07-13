@@ -5,7 +5,7 @@ interface times {
   end: string;
 }
 
-const CheckURL = (username: string, email: string, history: RouteComponentProps['history']) => {
+const CheckURL = (username: string, timeZone: string, email: string, history: RouteComponentProps['history']) => {
   const url = '/users/username';
   const request = new Request(url, {
     method: 'POST',
@@ -23,7 +23,7 @@ const CheckURL = (username: string, email: string, history: RouteComponentProps[
       if (res && res.status === 200) {
         alert('This url is already taken!');
       } else if (res && res.status === 404) {
-        UpdateURL(username, email, history);
+        UpdateURL(username, timeZone, email, history);
       }
     })
     .catch((error) => {
@@ -31,12 +31,13 @@ const CheckURL = (username: string, email: string, history: RouteComponentProps[
     });
 };
 
-const UpdateURL = (username: string, email: string, history: RouteComponentProps['history']) => {
+const UpdateURL = (username: string, timeZone: string, email: string, history: RouteComponentProps['history']) => {
   const url = `users/email/${email}`;
   const request = new Request(url, {
     method: 'PATCH',
     body: JSON.stringify({
       username: username,
+      timezone: timeZone,
     }),
     credentials: 'include',
     headers: {
@@ -63,7 +64,7 @@ const UpdateAvail = (email: string, openTimes: times, openDays: string[], histor
     method: 'PATCH',
     body: JSON.stringify({
       availableHours: openTimes,
-      availableDays: openDays,
+      availableDays: openDays.filter(Boolean),
     }),
     credentials: 'include',
     headers: {

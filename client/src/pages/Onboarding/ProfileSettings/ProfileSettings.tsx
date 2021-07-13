@@ -43,7 +43,7 @@ const ProfileSettings = (): JSX.Element => {
     // Error handling
     if (profileSettings.username.trim() === '' || profileSettings.timezone.trim() === '') return;
     if (loggedInUser) {
-      CheckURL(profileSettings.username, loggedInUser.email, history);
+      CheckURL(profileSettings.username, profileSettings.timezone, loggedInUser.email, history);
     } else {
       alert('No loggedInUser is set!');
     }
