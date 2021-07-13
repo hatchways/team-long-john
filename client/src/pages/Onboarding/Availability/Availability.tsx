@@ -9,7 +9,7 @@ import { UpdateAvail } from '../../../helpers/APICalls/onboarding';
 import { useAuth } from '../../../context/useAuthContext';
 
 const Availability = (): JSX.Element => {
-  const { loggedInUser } = useAuth();
+  const { loggedInUser, logout } = useAuth();
   const history = useHistory();
   const classes = useStyles();
   const days = ['Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays'];
@@ -36,7 +36,7 @@ const Availability = (): JSX.Element => {
 
   const handleClickFinish = () => {
     if (loggedInUser) {
-      UpdateAvail(loggedInUser.email, openTimes, openDays, history);
+      UpdateAvail(loggedInUser.email, openTimes, openDays, logout);
     } else {
       alert('No loggedInUser is set!');
     }

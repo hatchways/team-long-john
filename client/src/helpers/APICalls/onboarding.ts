@@ -1,5 +1,7 @@
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 
+type simpleFunc = () => void;
+
 interface times {
   start: string;
   end: string;
@@ -58,7 +60,7 @@ const UpdateURL = (username: string, timeZone: string, email: string, history: R
     });
 };
 
-const UpdateAvail = (email: string, openTimes: times, openDays: string[], history: RouteComponentProps['history']) => {
+const UpdateAvail = (email: string, openTimes: times, openDays: string[], logout: simpleFunc) => {
   const url = `users/email/${email}`;
   const request = new Request(url, {
     method: 'PATCH',
@@ -75,7 +77,8 @@ const UpdateAvail = (email: string, openTimes: times, openDays: string[], histor
   fetch(request)
     .then((res) => {
       if (res && res.status === 200) {
-        history.push('/dashboard');
+        alert('Your account has successfully been created. Please login to use your account.');
+        logout();
       } else if (res && res.status === 404) {
         alert('There is no user with the specified email.');
       }
