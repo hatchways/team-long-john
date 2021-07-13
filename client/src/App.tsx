@@ -9,6 +9,7 @@ import ProfileSettings from './pages/Onboarding/ProfileSettings/ProfileSettings'
 import Confirm from './pages/Onboarding/Confirm/Confirm';
 import Availability from './pages/Onboarding/Availability/Availability';
 import AuthSetUp from './pages/helper/AuthSetUp';
+import Upgrade from './pages/Upgrade/Upgrade';
 
 import { AuthProvider } from './context/useAuthContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
@@ -29,6 +30,7 @@ function App(): JSX.Element {
               <Route exact path="/profile_settings" component={ProfileSettings} />
               <Route exact path="/confirm" component={Confirm} />
               <Route exact path="/availability" component={Availability} />
+              <Route exact path="/upgrade" component={Upgrade} />
               <Route path="*">
                 <Redirect to="/login" />
               </Route>

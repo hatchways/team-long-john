@@ -1,7 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -22,7 +22,7 @@ import { useAuth } from '../../../context/useAuthContext';
 export default function Navigation(): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const classes = useStyles();
-  const { loggedInUser, logout } = useAuth();
+  const { loggedInUser } = useAuth();
 
   if (loggedInUser === undefined || loggedInUser === null) {
     return <CircularProgress />;
@@ -34,7 +34,6 @@ export default function Navigation(): JSX.Element {
 
   const handleClose = () => {
     setAnchorEl(null);
-    logout();
   };
 
   return (
@@ -43,13 +42,13 @@ export default function Navigation(): JSX.Element {
       <Toolbar className={classes.navbar}>
         <img src={logo} className={classes.logoImage} />
         <Box className={classes.navButtons}>
-          <Link component="button" className={`${classes.option} ${classes.premium}`}>
+          <Link to="/upgrade" className={`${classes.option} ${classes.premium}`}>
             Upgrade Account
           </Link>
-          <Link component="button" className={classes.option}>
+          <Link to="integration" className={classes.option}>
             Integration
           </Link>
-          <Link component="button" className={classes.option}>
+          <Link to="dashboard" className={classes.option}>
             Home
           </Link>
         </Box>
@@ -69,9 +68,7 @@ export default function Navigation(): JSX.Element {
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList>
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem component={Link} onClick={handleClose}>
-                      Logout
-                    </MenuItem>
+                    <MenuItem onClick={handleClose}>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
