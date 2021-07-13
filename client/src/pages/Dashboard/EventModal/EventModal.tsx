@@ -54,9 +54,12 @@ export default function EventModal({ open, setOpen }: Props): JSX.Element {
         const message = await res.json();
         updateSnackBarMessage(message.error);
         return;
-      } else if (res.status === 406) {
+      }
+
+      if (res.status === 406) {
         const message = await res.json();
         updateSnackBarMessage(message.error);
+        return;
       }
 
       setOpen(false);
