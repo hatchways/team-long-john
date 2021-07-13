@@ -143,8 +143,8 @@ export default function Dashboard(): JSX.Element {
           </Box>
         </Box>
         {dashOptionSelected === dashOptions[0] ? (
-          <Box onClick={handleOpen} className={classes.dashNewEvent}>
-            <UserDashInfo />
+          <Box className={classes.dashNewEvent}>
+            <UserDashInfo handleOpen={handleOpen} />
             <Grid container spacing={2}>
               {displayMeetOptions(meetingOptions)}
             </Grid>
