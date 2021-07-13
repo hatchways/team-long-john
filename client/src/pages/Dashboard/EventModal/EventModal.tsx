@@ -26,8 +26,6 @@ export default function EventModal({ open, setOpen }: Props): JSX.Element {
     setForm({ ...form, duration: e.target.value as string });
   };
 
-  console.log(form);
-
   const handleClick = async () => {
     const { duration } = form;
 
