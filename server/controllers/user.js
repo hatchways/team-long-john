@@ -10,14 +10,14 @@ exports.doesUserExist = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ email: email });
 
   if (!user) {
-    res.status(404);
+    res.status(401);
     throw new Error(`No account exists with the email: ${email}`);
   }
 
   res.status(200).json({
     success: {
-      message: "Account exists",
-    },
+      message: "Account exists"
+    }
   });
 });
 
@@ -29,7 +29,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
     success: {
       message: `Account information for ${req.user.username}`,
       user: req.user,
-    },
+    }
   });
 });
 
@@ -52,8 +52,8 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
         register_date: user.register_date,
         timezone: user.timezone,
         availableHours: user.availableHours,
-        availableDays: user.availableDays,
-      },
-    },
+        availableDays: user.availableDays
+      }
+    }
   });
 });

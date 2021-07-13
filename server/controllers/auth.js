@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 
-// @route GET /auth/user
+// @route GET /auth/logout
 // @desc Logs the user out and redirects them to the login page
 // @access Public
 exports.logOut = asyncHandler(async (req, res, next) => {

@@ -7,15 +7,16 @@ const connectDB = require("./db");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const passport = require("passport");
 const session = require("express-session");
-const cors = require("cors");
+const cloudinary = require("cloudinary");
+const passport = require("passport");
 require("./utils/passport");
 
 const userRouter = require("./routes/user");
 const authRouter = require("./routes/auth");
 const appointmentRouter = require("./routes/appointment");
 const meetingRouter = require("./routes/meeting");
+const availabilityRouter = require("./routes/availability");
 
 const cloudinary = require("cloudinary");
 
@@ -55,6 +56,7 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/appointment", appointmentRouter);
 app.use("/meeting", meetingRouter);
+app.use("/availability", availabilityRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
