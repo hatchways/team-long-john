@@ -10,7 +10,7 @@ exports.doesUserExist = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ email: email });
 
   if (!user) {
-    res.status(401);
+    res.status(404);
     throw new Error(`No account exists with the email: ${email}`);
   }
 
@@ -65,7 +65,6 @@ exports.userNameExist = asyncHandler(async (req, res, next) => {
   const { username } = req.body;
 
   const user = await User.findOne({ username: username });
-  console.log(user);
 
   if (!user) {
     res.status(404);
@@ -117,7 +116,6 @@ exports.userNameExist = asyncHandler(async (req, res, next) => {
   const { username } = req.body;
 
   const user = await User.findOne({ username: username });
-  console.log(user);
 
   if (!user) {
     res.status(404);
