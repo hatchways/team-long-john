@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Box, FormControl, Select, InputLabel, MenuItem, Button } from '@material-ui/core';
 import { useSnackBar } from '../../../context/useSnackbarContext';
+import { useAuth } from '../../../context/useAuthContext';
 
 import useStyles from './useStyles';
 
@@ -17,6 +18,7 @@ interface IForm {
 export default function EventModal({ open, setOpen }: Props): JSX.Element {
   const classes = useStyles();
   const { updateSnackBarMessage } = useSnackBar();
+  const { loggedInUser } = useAuth();
 
   const [form, setForm] = useState<IForm>({ userId: '', duration: '' });
 
@@ -26,20 +28,24 @@ export default function EventModal({ open, setOpen }: Props): JSX.Element {
     setForm({ ...form, duration: e.target.value as string });
   };
 
-  console.log(form);
-
   const handleClick = async () => {
     const { duration } = form;
+    const user: any = loggedInUser;
 
     if (duration === '') {
       updateSnackBarMessage('Please enter a valid event duration');
     }
 
-    const res = await fetch('/meeting', {
-      method: 'POST',
-      credentials: 'include',
-      body: JSON.stringify(form),
-    });
+    // Appending user id and sending our request
+    if (user._id) {
+      setForm({ ...form, userId: user._id });
+
+      const res = await fetch('/meeting', {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify(form),
+      });
+    }
   };
 
   const modalBody = (
