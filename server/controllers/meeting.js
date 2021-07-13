@@ -7,14 +7,9 @@ const mongoose = require("mongoose");
 // @access Private
 exports.createMeeting = asyncHandler(async (req, res, next) => {
   const { userId, duration } = req.body;
-  const validDuration = ["15", "30", "45"];
+  const validDuration = [15, 30, 45, 60];
 
-  if (
-    !userId ||
-    !duration ||
-    !mongoose.isValidObjectId(userId) ||
-    !validDuration.includes(duration)
-  ) {
+  if (!userId || !duration || !validDuration.includes(duration)) {
     res.status(400);
     throw new Error("Invalid meeting data");
   }
@@ -25,9 +20,9 @@ exports.createMeeting = asyncHandler(async (req, res, next) => {
     success: {
       meeting: {
         username: meeting.userId,
-        duration: meeting.duration,
-      },
-    },
+        duration: meeting.duration
+      }
+    }
   });
 });
 
@@ -42,7 +37,7 @@ exports.getMeeting = asyncHandler(async (req, res, next) => {
   }
 
   const meetings = await Meeting.find({
-    userId: userId,
+    userId: userId
   });
 
   if (meetings.length > 0) {

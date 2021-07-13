@@ -44,7 +44,16 @@ export default function EventModal({ open, setOpen }: Props): JSX.Element {
         method: 'POST',
         credentials: 'include',
         body: JSON.stringify(form),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
       });
+
+      if (res.status === 400) {
+        const message = await res.json();
+        updateSnackBarMessage(message.error);
+      }
     }
   };
 
