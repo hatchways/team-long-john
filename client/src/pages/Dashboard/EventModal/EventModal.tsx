@@ -15,7 +15,7 @@ export default function EventModal({ open, setOpen }: Props): JSX.Element {
   const { updateSnackBarMessage } = useSnackBar();
   const loggedInUser: any = useAuth().loggedInUser;
 
-  const [duration, setDuration] = useState<any>('');
+  const [duration, setDuration] = useState<number | string | unknown>('');
 
   const handleClose = () => setOpen(false);
 

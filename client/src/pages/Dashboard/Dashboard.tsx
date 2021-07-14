@@ -44,10 +44,15 @@ export default function Dashboard(): JSX.Element {
 
       const meetings = await res.json();
 
-      meetings.map((meeting: Meeting) => copyOfMeetingOptions.push(meeting.duration));
-      copyOfMeetingOptions.sort((a, b) => a - b);
+      if (meetings.success) {
+        meetings.success.data.map((meeting: Meeting) => copyOfMeetingOptions.push(meeting.duration));
 
-      setMeetingOptions(copyOfMeetingOptions);
+        if (copyOfMeetingOptions.length > 2) {
+          copyOfMeetingOptions.sort((a, b) => a - b);
+        }
+
+        setMeetingOptions(copyOfMeetingOptions);
+      }
     }
   }, [loggedInUser]);
 
