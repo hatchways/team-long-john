@@ -26,12 +26,21 @@ const Checkout = (): JSX.Element => {
 
   const { updateSnackBarMessage } = useSnackBar();
 
-  const handleChange = (e: any): any => {
+  const handleChange = (e: { target: HTMLInputElement | HTMLTextAreaElement }) => {
     const { name, value } = e.target;
     setCardInfo({ ...cardInfo, [name]: value });
   };
 
-  const handleClick = (): any => {
+  // Had to duplicate these because TypeScript and Material-UI conflicts
+  const handleChangeMonth = async (e: React.ChangeEvent<{ value: unknown }>) => {
+    setCardInfo({ ...cardInfo, expirationMonth: e.target.value as string });
+  };
+
+  const handleChangeYear = async (e: React.ChangeEvent<{ value: unknown }>) => {
+    setCardInfo({ ...cardInfo, expirationYear: e.target.value as string });
+  };
+
+  const handleClick = (): void => {
     const { cardNumber, expirationMonth, expirationYear, cvc } = cardInfo;
 
     if (
@@ -84,12 +93,16 @@ const Checkout = (): JSX.Element => {
                   className={`${classes.selectButton} ${classes.root}`}
                   style={{ borderRight: '1px solid #bcbcbc' }}
                 >
-                  <Select value={cardInfo.expirationMonth}>{renderMonths}</Select>
+                  <Select value={cardInfo.expirationMonth} onChange={(e) => handleChangeMonth(e)}>
+                    {renderMonths}
+                  </Select>
                 </FormControl>
               </Box>
               <Box>
                 <FormControl variant="outlined" className={`${classes.selectButton} ${classes.root}`}>
-                  <Select value={cardInfo.expirationYear}>{renderYears}</Select>
+                  <Select value={cardInfo.expirationYear} onChange={(e) => handleChangeYear(e)}>
+                    {renderYears}
+                  </Select>
                 </FormControl>
               </Box>
             </Box>
