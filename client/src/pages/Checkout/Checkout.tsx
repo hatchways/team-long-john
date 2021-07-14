@@ -49,7 +49,7 @@ const Checkout = (): JSX.Element => {
       expirationYear.trim() === '' ||
       cvc.trim() === ''
     ) {
-      return updateSnackBarMessage('Please enter valid input');
+      return updateSnackBarMessage('Please enter a valid card');
     }
   };
 
@@ -68,7 +68,7 @@ const Checkout = (): JSX.Element => {
   return (
     <Box className={classes.page}>
       <Navigation />
-      <Box my={5} px={30} py={10} className={classes.checkoutBox}>
+      <Box my={15} px={40} py={10} className={classes.checkoutBox}>
         <Box className={classes.headerBox}>
           <h1>Checkout</h1>
         </Box>

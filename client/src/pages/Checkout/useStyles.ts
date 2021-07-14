@@ -9,7 +9,7 @@ const useStyles = makeStyles(() => ({
   checkoutBox: {
     overflow: 'hidden',
     height: '60vh',
-    width: '80vw',
+    width: '60vw',
     boxShadow: '0 6px 20px 0 rgba(0, 0, 0, 0.19)',
   },
   headerBox: {
