@@ -4,35 +4,37 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { Box } from '@material-ui/core';
 import useStyles from './useStyles';
 import { Typography } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import moment from 'moment-timezone';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import FormControl from '@material-ui/core/FormControl';
 import BuildTimeZones from './BuildTimeZones';
 import TimePopulator from './TimePopulator';
-
-interface disableDateProp {
-  activeStartDate: Date;
-  date: Date;
-  view: string;
-}
+import { disableDateProp, schedUrlProp } from '../../interface/SchedulerProps';
+import Confirmation from './Confirmation/Confirmation';
 
 export default function Scheduler(): JSX.Element {
   const history = useHistory();
   const classes = useStyles();
 
-  const username = 'TEMP USER';
-  const duration = 60;
+  // This is the username of the person who is hosting the appointment, not the current user.
+  // When integrating, search the user by this username to get specific information.
+  const { username, duration } = useParams<schedUrlProp>();
   const availableDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const userTimeZone = 'America/Toronto';
   const startTime = '08:10';
   const endTime = '22:00';
 
   const today = new Date();
+  // Timezone selected on the scheduler.
   const [timeZone, setTimeZone] = useState(userTimeZone);
+  // Date selected on the calendar. Does not take account of timeZone (uses user's PC timezone).
   const [dateSelected, setDateSelected] = useState(today);
+  // Date selected to the ISO string.
   const [dateSelISO, setDateSelISO] = useState(today.toISOString());
+  // Used to open or close the confirmation dialog when time slot is clicked.
+  const [confirmTrigger, setConfirmTrigger] = useState(false);
 
   const changeTimeZone = (event: React.ChangeEvent<{ value: unknown }>) => {
     setTimeZone(event.target.value as string);
@@ -51,6 +53,7 @@ export default function Scheduler(): JSX.Element {
   };
 
   const calenDateToUserTZ = (timeValue: string) => {
+    // Converts "current" time in the selected timezone to the user's base timezone.
     const dateInfo = moment(dateSelected).format('YYYY-MM-DD');
     const momentTZ = moment.tz(`${dateInfo} ${timeValue}`, timeZone);
     const userMoment = moment.tz(momentTZ, userTimeZone);
@@ -63,13 +66,16 @@ export default function Scheduler(): JSX.Element {
     return userMoment.isBefore(moment(today)) || !availableDays.includes(userMoment.format('dddd'));
   };
 
-  const getDateInfo = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const checkConfirmation = (event: React.MouseEvent<HTMLButtonElement>) => {
     const timeValue = event.currentTarget.value;
     const userMoment = calenDateToUserTZ(timeValue);
-
     // Set the DateSelISO here so we can easily send request along with time.
     setDateSelISO(userMoment.toISOString());
-    alert(`Time selected on user's base time zone is ${userMoment}`);
+    setConfirmTrigger(true);
+  };
+
+  const cancelConfirmation = () => {
+    setConfirmTrigger(false);
   };
 
   return (
@@ -99,12 +105,21 @@ export default function Scheduler(): JSX.Element {
             userTimeZone={userTimeZone}
             timeZone={timeZone}
             today={today}
-            duration={duration}
-            getDateInfo={getDateInfo}
+            duration={Number(duration)}
+            checkConfirmation={checkConfirmation}
             checkDisableTime={checkDisableTime}
           />
         </Box>
       </Box>
+      {confirmTrigger && (
+        <Confirmation
+          username={username}
+          duration={Number(duration)}
+          timeZone={timeZone}
+          time={moment.tz(dateSelISO, timeZone)}
+          cancelConfirmation={cancelConfirmation}
+        />
+      )}
     </Grid>
   );
 }
