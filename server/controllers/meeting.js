@@ -13,16 +13,6 @@ exports.createMeeting = asyncHandler(async (req, res, next) => {
     throw new Error("Invalid meeting data");
   }
 
-  const meetings = await Meeting.find({ userId: userId });
-
-  // Checking is user already has this event
-  for (let i = 0; i < meetings.length; i++) {
-    if (meetings[i].duration === duration) {
-      res.status(406);
-      throw new Error("You already have this type of event");
-    }
-  }
-
   const meeting = await Meeting.create({ userId, duration });
 
   res.status(201).json({
