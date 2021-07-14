@@ -12,12 +12,8 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { useAuth } from '../../context/useAuthContext';
+import { fetchMeetings } from '../../helpers/APICalls/meetings';
 import EventModal from './EventModal/EventModal';
-
-interface Meeting {
-  userId: string;
-  duration: number;
-}
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
@@ -30,35 +26,13 @@ export default function Dashboard(): JSX.Element {
   const loggedInUser: any = useAuth().loggedInUser;
   const [meetingOptions, setMeetingOptions] = useState<number[]>([]);
 
-  const fetchMeetings = useCallback(async () => {
-    if (loggedInUser) {
-      const copyOfMeetingOptions: number[] = [];
-
-      const res = await fetch(`/meeting?userId=${loggedInUser._id}`, {
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-      });
-
-      const meetings = await res.json();
-
-      if (meetings.success) {
-        meetings.success.data.map((meeting: Meeting) => copyOfMeetingOptions.push(meeting.duration));
-
-        if (copyOfMeetingOptions.length > 2) {
-          copyOfMeetingOptions.sort((a, b) => a - b);
-        }
-
-        setMeetingOptions(copyOfMeetingOptions);
-      }
-    }
+  const fetchMeetingsCallback = useCallback(() => {
+    fetchMeetings(loggedInUser, setMeetingOptions);
   }, [loggedInUser]);
 
   useEffect(() => {
-    fetchMeetings();
-  }, [fetchMeetings, meetingOptions, loggedInUser]);
+    fetchMeetingsCallback();
+  }, [fetchMeetingsCallback, meetingOptions, loggedInUser]);
 
   if (loggedInUser === undefined || loggedInUser === null) {
     return <CircularProgress />;
