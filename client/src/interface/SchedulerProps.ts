@@ -22,6 +22,7 @@ export interface completionUrlProp {
 
 export interface confirmProp {
   username: string;
+  meetingId: string;
   duration: number;
   timeZone: string;
   time: Moment;
@@ -50,8 +51,17 @@ export interface TPProps {
 
 export interface hostInfoProp {
   loadedOnce: boolean;
+  hostEmail: string;
   availableDays: string[];
   timeZone: string;
   startTime: string;
   endTime: string;
+}
+
+export interface appointmentProp {
+  meetingId: string;
+  hostUserName: string;
+  appointeeEmail: string;
+  timeZone: string;
+  time: Moment;
 }

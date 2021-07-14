@@ -21,20 +21,24 @@ export default function Scheduler(): JSX.Element {
   const history = useHistory();
   const classes = useStyles();
 
-  // This is the username of the person who is hosting the appointment, not the current user.
-  // When integrating, search the user by this username to get specific information.
+  // This is the username of the person who is hosting the appointment.
   const { username, meetingId } = useParams<schedUrlProp>();
   const duration = '30';
 
-  const [hostInfo, sethostInfo] = useState<hostInfoProp>({
+  const [hostInfo, setHostInfo] = useState<hostInfoProp>({
     loadedOnce: false,
+    hostEmail: '',
     availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
     timeZone: 'America/Toronto',
     startTime: '08:00',
     endTime: '09:00',
   });
+
+  // Upon the user data is loaded for time information, the DOM will refresh,
+  // causing getHostInfo to run again. This leads to infinite recursion.
+  // loadedOnce param exists to prevent getHostInfo from running after being called once.
   if (!hostInfo.loadedOnce) {
-    getHostInfo(username, sethostInfo);
+    getHostInfo(username, setHostInfo);
   }
 
   const today = new Date();
@@ -125,6 +129,7 @@ export default function Scheduler(): JSX.Element {
       {confirmTrigger && (
         <Confirmation
           username={username}
+          meetingId={meetingId}
           duration={Number(duration)}
           timeZone={timeZone}
           time={moment.tz(dateSelISO, timeZone)}
