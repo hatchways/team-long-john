@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { CircularProgress, Box } from '@material-ui/core';
 
 import Navigation from '../Navigation/Navigation';
@@ -19,8 +18,26 @@ const Upgrade = (): JSX.Element => {
         <h1>Upgrade your account</h1>
         <h3 style={{ color: 'grey' }}>You are on the free basic plan</h3>
         <Box mt={4} className={classes.paymentBox}>
-          <UpgradeCard headerColor="#7900ff" headerText="Standard" headerSubtitle="Free" />
-          <UpgradeCard headerColor="#7900ff" headerText="Premium" headerSubtitle="$5/month" />
+          <UpgradeCard
+            headerColor="#1DA1F2"
+            headerText="Standard"
+            headerSubtitle="Free"
+            disableButton={true}
+            buttonText="Free"
+          >
+            <p>Limited Meetings</p>
+            <p>Create Custom Events</p>
+          </UpgradeCard>
+          <UpgradeCard
+            headerColor="#8ab804"
+            headerText="Premium"
+            headerSubtitle="$5/month"
+            disableButton={false}
+            buttonText="Upgrade"
+          >
+            <p>Unlimited Meetings</p>
+            <p>Group Meetings (Coming soon)</p>
+          </UpgradeCard>
         </Box>
       </Box>
     </Box>

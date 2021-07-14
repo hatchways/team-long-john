@@ -25,7 +25,8 @@ const useStyles = makeStyles(() => ({
   },
   textBox: {
     marginTop: '20px',
-    marginLeft: '50px',
+    marginLeft: '30px',
+    marginRight: '15px',
     width: '100%',
     fontSize: '15px',
   },
