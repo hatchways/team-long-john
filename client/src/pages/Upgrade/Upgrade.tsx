@@ -23,7 +23,7 @@ const Upgrade = (): JSX.Element => {
             headerText="Standard"
             headerSubtitle="Free"
             disableButton={true}
-            buttonText="Free"
+            buttonText="Current"
             redirectUrl="/upgrade"
           >
             <p>Limited Meetings</p>
