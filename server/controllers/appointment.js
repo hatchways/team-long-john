@@ -42,3 +42,33 @@ exports.createAppointment = asyncHandler(async (req, res, next) => {
 
   res.status(201).json({ success: { appointment: appointment } });
 });
+
+// @route GET /appointment/:id
+// @desc Fetches an appointment by id.
+// @access Public
+exports.fetchAppointmentById = asyncHandler(async (req, res, next) => {
+  const id = req.params.id;
+  const appointment = await Appointment.findById(id);
+
+  if (!appointment) {
+    res.status(404);
+    throw new Error("No appointment found with given id");
+  }
+
+  res.status(200).json({ success: { appointment: appointment } });
+});
+
+// @route DELETE /appointment/:id
+// @desc Deletes an appointment by id.
+// @access Public
+exports.deleteAppointmentById = asyncHandler(async (req, res, next) => {
+  const id = req.params.id;
+  const deleted = await Appointment.findByIdAndDelete(id);
+
+  if (!deleted) {
+    res.status(404);
+    throw new Error("No appointment found with given id");
+  }
+
+  res.status(200).json({ success: { message: "Appointment deleted" } });
+});
