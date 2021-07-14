@@ -23,22 +23,24 @@ const getHostInfo = (username: string, setter: React.Dispatch<React.SetStateActi
       }
     })
     .then((data) => {
-      const user = data.success.user;
-      setter({
-        loadedOnce: true,
-        hostEmail: user.email,
-        availableDays: user.availableDays,
-        timeZone: user.timezone,
-        startTime: user.availableHours.start,
-        endTime: user.availableHours.end,
-      });
+      if (data) {
+        const user = data.success.user;
+        setter({
+          loadedOnce: true,
+          hostEmail: user.email,
+          availableDays: user.availableDays,
+          timeZone: user.timezone,
+          startTime: user.availableHours.start,
+          endTime: user.availableHours.end,
+        });
+      }
     })
     .catch((error) => {
       alert(error);
     });
 };
 
-const createAppointment = (props: appointmentProp, history: RouteComponentProps['history']): void => {
+const CreateAppointment = (props: appointmentProp, history: RouteComponentProps['history']): void => {
   const url = '/appointment';
   const request = new Request(url, {
     method: 'POST',
@@ -46,7 +48,7 @@ const createAppointment = (props: appointmentProp, history: RouteComponentProps[
       meetingId: props.meetingId,
       username: props.hostUserName,
       email: props.appointeeEmail,
-      time: props.time,
+      time: props.time.toISOString(),
       timezone: props.timeZone,
     }),
     credentials: 'include',
@@ -62,11 +64,13 @@ const createAppointment = (props: appointmentProp, history: RouteComponentProps[
       }
     })
     .then((data) => {
-      history.push(`/completion/${data.success.appointment._id}`);
+      if (data) {
+        history.push(`/completion/${data.success.appointment._id}`);
+      }
     })
     .catch((error) => {
       alert(error);
     });
 };
 
-export { getHostInfo, createAppointment };
+export { getHostInfo, CreateAppointment };
