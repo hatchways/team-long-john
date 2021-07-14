@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment-timezone';
+import { useAuth } from '../../../context/useAuthContext';
+import CalendAppLogo from '../../../components/CalendAppLogo/CalendAppLogo';
+import OnboardingHeader from '../OnboardingHeader/OnboardingHeader';
+import useStyles from './useStyles';
+import { CheckURL } from '../../../helpers/APICalls/onboarding';
 
 import {
   Box,
@@ -12,10 +17,6 @@ import {
   FormControl,
   Button,
 } from '@material-ui/core/';
-
-import CalendAppLogo from '../../../components/CalendAppLogo/CalendAppLogo';
-import OnboardingHeader from '../OnboardingHeader/OnboardingHeader';
-import useStyles from './useStyles';
 
 interface TimeZone {
   [key: string]: { timeZone: string; abbr: string };
@@ -29,6 +30,7 @@ interface ProfileSettings {
 const ProfileSettings = (): JSX.Element => {
   const classes = useStyles();
   const filteredTimeZones: TimeZone = {};
+  const { loggedInUser } = useAuth();
   const history = useHistory();
 
   const [profileSettings, setProfileSettings] = useState<ProfileSettings>({
@@ -39,14 +41,11 @@ const ProfileSettings = (): JSX.Element => {
   const handleClickContinue = async () => {
     // Error handling
     if (profileSettings.username.trim() === '' || profileSettings.timezone.trim() === '') return;
-
-    // Sends a GET request to check if URL is taken
-
-    // If the request above is successful, then we send a PUT request
-    // to update username URL and time zone
-
-    // Use history to push to the confirm page
-    history.push('confirm');
+    if (loggedInUser) {
+      CheckURL(profileSettings.username, profileSettings.timezone, loggedInUser.email, history);
+    } else {
+      alert('Please login to your account.');
+    }
   };
 
   const handleChangeUsername = (e: { target: HTMLInputElement | HTMLTextAreaElement }) => {
@@ -58,12 +57,6 @@ const ProfileSettings = (): JSX.Element => {
   const handleChangeSelect = async (e: React.ChangeEvent<{ value: unknown }>) => {
     // Have to write it this way since Material-UI is not a real select element
     setProfileSettings({ ...profileSettings, timezone: e.target.value as string });
-  };
-
-  // Set up later redirects to dashboard
-  const handleClickSetUpLater = () => {
-    // Use history to push to the dashboard page
-    alert("I haven't been implemented yet!");
   };
 
   // Filtering out list of unnecessary time zones (lots of duplicates)
@@ -123,9 +116,6 @@ const ProfileSettings = (): JSX.Element => {
         <Box mb={3} className={classes.buttonsContainer}>
           <Button onClick={handleClickContinue} variant="contained" className={classes.finish}>
             Continue
-          </Button>
-          <Button onClick={handleClickSetUpLater} className={classes.setUpLater}>
-            Set up later
           </Button>
         </Box>
       </Box>

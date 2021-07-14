@@ -18,8 +18,6 @@ const appointmentRouter = require("./routes/appointment");
 const meetingRouter = require("./routes/meeting");
 const availabilityRouter = require("./routes/availability");
 
-const cloudinary = require("cloudinary");
-
 const { json, urlencoded } = express;
 
 connectDB();
@@ -42,7 +40,6 @@ if (process.env.NODE_ENV === "development") {
   app.use(logger("dev"));
 }
 
-app.use(cors());
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
