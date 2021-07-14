@@ -25,7 +25,7 @@ function App(): JSX.Element {
         <SnackBarProvider>
           <Switch>
             <Route exact path="/scheduler/:username/:meetingId" component={Scheduler} />
-            <Route exact path="/completion/:appointmentId" component={Completion} />
+            <Route exact path="/completion/:appointID" component={Completion} />
             <AuthProvider>
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />

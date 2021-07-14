@@ -65,3 +65,12 @@ export interface appointmentProp {
   timeZone: string;
   time: Moment;
 }
+
+export interface appointmentInfoProp {
+  loadedOnce: boolean;
+  meetingId: string;
+  hostUserName: string;
+  appointeeEmail: string;
+  timeZone: string;
+  time: string;
+}

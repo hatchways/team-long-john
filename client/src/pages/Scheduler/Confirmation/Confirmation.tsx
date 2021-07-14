@@ -4,7 +4,7 @@ import { Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { confirmProp } from '../../../interface/SchedulerProps';
 import Button from '@material-ui/core/Button';
-import { createAppointment } from '../../../helpers/APICalls/scheduler';
+import { CreateAppointment } from '../../../helpers/APICalls/scheduler';
 import { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 
@@ -25,7 +25,7 @@ export default function Confirmation(props: confirmProp): JSX.Element {
       timeZone: props.timeZone,
       time: props.time,
     };
-    createAppointment(propCA, history);
+    CreateAppointment(propCA, history);
   };
 
   const handleTextChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
