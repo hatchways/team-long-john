@@ -111,7 +111,7 @@ export default function Scheduler(): JSX.Element {
           />
         </Box>
       </Box>
-      {confirmTrigger ? (
+      {confirmTrigger && (
         <Confirmation
           username={username}
           duration={Number(duration)}
@@ -119,8 +119,6 @@ export default function Scheduler(): JSX.Element {
           time={moment.tz(dateSelISO, timeZone)}
           cancelConfirmation={cancelConfirmation}
         />
-      ) : (
-        <Box />
       )}
     </Grid>
   );
