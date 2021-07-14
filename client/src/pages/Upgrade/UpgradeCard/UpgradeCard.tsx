@@ -26,10 +26,12 @@ const UpgradeCard = ({
 
   const renderText = children.map((element, idx) => {
     return (
-      <p key={idx}>
-        <span className={classes.checkmark}>✓</span>
-        {element.props.children}
-      </p>
+      <div key={idx}>
+        <p>
+          <span className={classes.checkmark}>✓</span>
+          {element.props.children}
+        </p>
+      </div>
     );
   });
 
