@@ -67,13 +67,7 @@ export default function Navigation(): JSX.Element {
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList>
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
-<<<<<<< HEAD:client/src/pages/Dashboard/Navigation/Navigation.tsx
-                    <MenuItem component={Link} onClick={logOut}>
-                      Logout
-                    </MenuItem>
-=======
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
->>>>>>> feature-upgrade-page-22:client/src/pages/Navigation/Navigation.tsx
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
