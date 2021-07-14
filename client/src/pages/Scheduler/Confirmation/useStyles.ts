@@ -36,6 +36,14 @@ const useStyles = makeStyles({
     backgroundColor: 'lightgray',
     color: 'white',
   },
+  textField: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  textFieldContent: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
 });
 
 export default useStyles;
