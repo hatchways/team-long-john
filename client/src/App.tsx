@@ -23,22 +23,22 @@ function App(): JSX.Element {
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
         <SnackBarProvider>
-          <AuthProvider>
-            <Switch>
+          <Switch>
+            <Route exact path="/scheduler/:username/:meetingId" component={Scheduler} />
+            <Route exact path="/completion/:appointmentId" component={Completion} />
+            <AuthProvider>
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/AuthSetup" component={AuthSetUp} />
               <Route exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/scheduler/:username/:duration" component={Scheduler} />
-              <Route exact path="/completion" component={Completion} />
               <Route exact path="/profile_settings" component={ProfileSettings} />
               <Route exact path="/confirm" component={Confirm} />
               <Route exact path="/availability" component={Availability} />
               <Route path="*">
                 <Redirect to="/login" />
               </Route>
-            </Switch>
-          </AuthProvider>
+            </AuthProvider>
+          </Switch>
         </SnackBarProvider>
       </BrowserRouter>
     </MuiThemeProvider>

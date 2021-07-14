@@ -12,7 +12,7 @@ const Availability = (): JSX.Element => {
   const { loggedInUser, logout } = useAuth();
   const history = useHistory();
   const classes = useStyles();
-  const days = ['Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays'];
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   // Keeps track of available hours and days
   const [openTimes, setOpenTimes] = useState({ start: '08:00', end: '17:00' });
