@@ -25,7 +25,6 @@ export interface confirmProp {
   duration: number;
   timeZone: string;
   time: Moment;
-  // checkConfirmation: clickEventHandler;
   cancelConfirmation: simpleFunc;
 }
 
