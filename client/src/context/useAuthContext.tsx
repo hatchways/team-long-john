@@ -22,18 +22,14 @@ export const AuthProvider: FunctionComponent = ({ children }): JSX.Element => {
   const [loggedInUser, setLoggedInUser] = useState<User | null | undefined>();
   const history = useHistory();
 
-  const updateLoginContext = useCallback(
-    (data: AuthApiDataSuccess) => {
-      if (!data.user.username) {
-        setLoggedInUser(data.user);
-        history.push('profile_settings');
-      } else {
-        setLoggedInUser(data.user);
-        history.push('/dashboard');
-      }
-    },
-    [history],
-  );
+  const updateLoginContext = useCallback((data: AuthApiDataSuccess) => {
+    setLoggedInUser(data.user);
+    // if (!data.user.username) {
+    //   setLoggedInUser(data.user);
+    //   history.push('profile_settings');
+    // }
+    // else setLoggedInUser(data.user);
+  }, []);
 
   const logout = useCallback(async () => {
     // needed to remove token cookie

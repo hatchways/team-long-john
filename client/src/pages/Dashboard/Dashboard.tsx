@@ -1,11 +1,12 @@
 import React from 'react';
+
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Box } from '@material-ui/core';
 import useStyles from './useStyles';
 import { Typography } from '@material-ui/core';
 import { Button } from '@material-ui/core';
-import Navigation from './Navigation/Navigation';
+import Navigation from '../Navigation/Navigation';
 import UserDashInfo from './UserDashInfo/UserDashInfo';
 import ScheduleOption from './ScheduleOption/ScheduleOption';
 import ButtonBase from '@material-ui/core/ButtonBase';
