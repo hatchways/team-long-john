@@ -44,7 +44,7 @@ const ProfileSettings = (): JSX.Element => {
     if (loggedInUser) {
       CheckURL(profileSettings.username, profileSettings.timezone, loggedInUser.email, history);
     } else {
-      alert('No loggedInUser is set!');
+      alert('Please login to your account.');
     }
   };
 

@@ -12,7 +12,7 @@ const Confirm = (): JSX.Element => {
   const { loggedInUser } = useAuth();
 
   if (!loggedInUser) {
-    alert('No loggedInUser is set!');
+    alert('Please login to your account.');
     history.push('/login');
     return <Box />;
   }

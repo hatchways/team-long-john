@@ -38,7 +38,7 @@ const Availability = (): JSX.Element => {
     if (loggedInUser) {
       UpdateAvail(loggedInUser.email, openTimes, openDays, logout);
     } else {
-      alert('No loggedInUser is set!');
+      alert('Please login to your account.');
     }
   };
 
