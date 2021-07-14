@@ -59,7 +59,7 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 });
 
 // @route POST /users/username/
-// @desc Update user
+// @desc Checks if user exists and return.
 // @access Private
 exports.userNameExist = asyncHandler(async (req, res, next) => {
   const { username } = req.body;
@@ -73,7 +73,12 @@ exports.userNameExist = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: {
-      message: "Account with this username exists",
+      user: {
+        email: user.email,
+        timezone: user.timezone,
+        availableHours: user.availableHours,
+        availableDays: user.availableDays,
+      },
     },
   });
 });

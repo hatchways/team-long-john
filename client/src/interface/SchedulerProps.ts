@@ -13,7 +13,7 @@ export interface disableDateProp {
 
 export interface schedUrlProp {
   username: string;
-  duration: string;
+  meetingId: string;
 }
 
 export interface completionUrlProp {
@@ -46,4 +46,12 @@ export interface TPProps {
   duration: number;
   checkConfirmation: clickEventHandler;
   checkDisableTime: strBoolFunc;
+}
+
+export interface hostInfoProp {
+  loadedOnce: boolean;
+  availableDays: string[];
+  timeZone: string;
+  startTime: string;
+  endTime: string;
 }

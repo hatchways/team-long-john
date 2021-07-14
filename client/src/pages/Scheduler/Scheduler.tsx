@@ -11,24 +11,35 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import FormControl from '@material-ui/core/FormControl';
 import BuildTimeZones from './BuildTimeZones';
 import TimePopulator from './TimePopulator';
-import { disableDateProp, schedUrlProp } from '../../interface/SchedulerProps';
+import { disableDateProp, hostInfoProp, schedUrlProp } from '../../interface/SchedulerProps';
 import Confirmation from './Confirmation/Confirmation';
+import { useAuth } from '../../context/useAuthContext';
+import { getHostInfo } from '../../helpers/APICalls/scheduler';
 
 export default function Scheduler(): JSX.Element {
+  const { loggedInUser } = useAuth();
   const history = useHistory();
   const classes = useStyles();
 
   // This is the username of the person who is hosting the appointment, not the current user.
   // When integrating, search the user by this username to get specific information.
-  const { username, duration } = useParams<schedUrlProp>();
-  const availableDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-  const userTimeZone = 'America/Toronto';
-  const startTime = '08:10';
-  const endTime = '22:00';
+  const { username, meetingId } = useParams<schedUrlProp>();
+  const duration = '30';
+
+  const [hostInfo, sethostInfo] = useState<hostInfoProp>({
+    loadedOnce: false,
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    timeZone: 'America/Toronto',
+    startTime: '08:00',
+    endTime: '09:00',
+  });
+  if (!hostInfo.loadedOnce) {
+    getHostInfo(username, sethostInfo);
+  }
 
   const today = new Date();
   // Timezone selected on the scheduler.
-  const [timeZone, setTimeZone] = useState(userTimeZone);
+  const [timeZone, setTimeZone] = useState(hostInfo.timeZone);
   // Date selected on the calendar. Does not take account of timeZone (uses user's PC timezone).
   const [dateSelected, setDateSelected] = useState(today);
   // Date selected to the ISO string.
@@ -56,14 +67,14 @@ export default function Scheduler(): JSX.Element {
     // Converts "current" time in the selected timezone to the user's base timezone.
     const dateInfo = moment(dateSelected).format('YYYY-MM-DD');
     const momentTZ = moment.tz(`${dateInfo} ${timeValue}`, timeZone);
-    const userMoment = moment.tz(momentTZ, userTimeZone);
+    const userMoment = moment.tz(momentTZ, hostInfo.timeZone);
     return userMoment;
   };
 
   const checkDisableTime = (timeValue: string) => {
     // Put further disabling based on user's google calendar info here.
     const userMoment = calenDateToUserTZ(timeValue);
-    return userMoment.isBefore(moment(today)) || !availableDays.includes(userMoment.format('dddd'));
+    return userMoment.isBefore(moment(today)) || !hostInfo.availableDays.includes(userMoment.format('dddd'));
   };
 
   const checkConfirmation = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -92,17 +103,17 @@ export default function Scheduler(): JSX.Element {
           <Typography className={classes.calendarHeader}> Select a Date &amp; Time </Typography>
           <Calendar minDetail={'year'} showNeighboringMonth={false} onChange={updateDate} tileDisabled={disableDates} />
           <FormControl style={{ minWidth: '35%' }}>
-            <BuildTimeZones userTimeZone={userTimeZone} changeTimeZone={changeTimeZone} />
+            <BuildTimeZones userTimeZone={hostInfo.timeZone} changeTimeZone={changeTimeZone} />
           </FormControl>
         </Box>
         <Box className={classes.timeContainer}>
           <Typography className={classes.timeHeader}>
-            {moment.tz(dateSelected, userTimeZone).format('dddd, MMMM DD')}
+            {moment.tz(dateSelected, hostInfo.timeZone).format('dddd, MMMM DD')}
           </Typography>
           <TimePopulator
-            startTime={startTime}
-            endTime={endTime}
-            userTimeZone={userTimeZone}
+            startTime={hostInfo.startTime}
+            endTime={hostInfo.endTime}
+            userTimeZone={hostInfo.timeZone}
             timeZone={timeZone}
             today={today}
             duration={Number(duration)}
