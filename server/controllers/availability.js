@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const moment = require("moment-timezone");
 
 const {
+  getTokenWithRefresh,
   retrieveCalendar,
   getAvailability,
 } = require("../utils/googleCalendar");
@@ -40,11 +41,18 @@ exports.getAvailability = asyncHandler(async (req, res, next) => {
   // startISO = convertToTimeZone(startISO, timezone);
   // endISO = convertToTimeZone(endISO, timezone);
 
+  // Getting a new access token
+  const accessToken = await getTokenWithRefresh(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    user.google.refreshToken
+  );
+
   // Accessing the user's calendar
   const calendar = retrieveCalendar(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    user.googleRefreshToken
+    accessToken
   );
 
   // Returns the times when the user is busy based off of their availability
