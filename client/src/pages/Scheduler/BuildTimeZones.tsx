@@ -2,17 +2,7 @@ import moment from 'moment-timezone';
 import MenuItem from '@material-ui/core/MenuItem';
 import useStyles from './useStyles';
 import Select from '@material-ui/core/Select';
-
-type eventHandler = (args: React.ChangeEvent<{ value: unknown }>) => void;
-
-interface TimeZone {
-  [key: string]: { tZone: string; abbr: string };
-}
-
-interface BTZProps {
-  userTimeZone: string;
-  changeTimeZone: eventHandler;
-}
+import { BTZProps, TimeZone } from '../../interface/SchedulerProps';
 
 export default function BuildTimeZones(props: BTZProps): JSX.Element {
   const classes = useStyles();

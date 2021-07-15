@@ -4,18 +4,20 @@ import { Box, Button } from '@material-ui/core/';
 import CalendAppLogo from '../../../components/CalendAppLogo/CalendAppLogo';
 import OnboardingHeader from '../OnboardingHeader/OnboardingHeader';
 import useStyles from './useStyles';
+import { useAuth } from '../../../context/useAuthContext';
 
 const Confirm = (): JSX.Element => {
   const classes = useStyles();
   const history = useHistory();
+  const { loggedInUser } = useAuth();
+
+  if (!loggedInUser) {
+    alert('Please login to your account.');
+    history.push('/login');
+    return <Box />;
+  }
 
   const handleClickContinue = async () => {
-    // Sends a GET request to check if URL is taken
-
-    // If the request above is successful, then we send a PUT request
-    // to update username URL and time zone
-
-    // Use history to push to the confirm page
     history.push('availability');
   };
 
@@ -26,19 +28,17 @@ const Confirm = (): JSX.Element => {
         <OnboardingHeader headerText="Your Google calendar is connected!" progressValue={50} />
         <Box className={classes.formItemsContainer}>
           <Box mx={6} my={1} className={classes.formItem}>
-            <h4 style={{ marginLeft: '-20px' }}>Here is how CalendApp will work with john-doe@gmail.com:</h4>
+            <h4 style={{ marginLeft: '-20px' }}>Here is how CalendApp will work with {loggedInUser.email}:</h4>
           </Box>
           <Box mx={6} mb={1} className={classes.formItem}>
             <p>
-              1. We will check <b>{'"john-doe@gmail.com"'}</b> for conflicts
+              1. We will check <b>{loggedInUser.email}</b> for conflicts
             </p>
-            <h4 style={{ color: 'lightgrey', cursor: 'pointer' }}>EDIT</h4>
           </Box>
           <Box mx={6} mb={1} className={classes.formItem}>
             <p>
-              2. We will add event to <b>{'"john-doe@gmail.com"'}</b>
+              2. We will add event to <b>{loggedInUser.email}</b>
             </p>
-            <h4 style={{ color: 'lightgrey', cursor: 'pointer' }}>EDIT</h4>
           </Box>
         </Box>
         <Box mb={3} className={classes.buttonsContainer}>
