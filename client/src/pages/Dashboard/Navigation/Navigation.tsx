@@ -34,6 +34,10 @@ export default function Navigation(): JSX.Element {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const logOut = () => {
+    setAnchorEl(null);
     logout();
   };
 
@@ -71,7 +75,7 @@ export default function Navigation(): JSX.Element {
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList>
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem component={Link} onClick={handleClose}>
+                    <MenuItem component={Link} onClick={logOut}>
                       Logout
                     </MenuItem>
                   </MenuList>

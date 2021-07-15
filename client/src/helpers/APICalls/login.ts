@@ -1,4 +1,4 @@
-const initiateLogIn = (userEmail: string, setValidated: React.Dispatch<React.SetStateAction<boolean>>) => {
+const initiateLogIn = (userEmail: string, setValidated: React.Dispatch<React.SetStateAction<boolean>>): void => {
   // We need to check if there is an account with the associated userEmail.
   const url = '/users';
   const request = new Request(url, {
