@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[24],
     padding: theme.spacing(2, 0, 3),
-    height: '30vh',
+    height: '45vh',
     width: '70vh',
   },
   formHeader: {
