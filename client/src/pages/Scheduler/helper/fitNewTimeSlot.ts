@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { Moment } from 'moment-timezone';
 import { appointCompProp } from '../../../interface/SchedulerProps';
 
 const fitNewTimeSlot = (timeSlotLB: Date, duration: number, appointments: appointCompProp[]): boolean => {

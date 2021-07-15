@@ -4,9 +4,9 @@ import { Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { confirmProp } from '../../../interface/SchedulerProps';
 import Button from '@material-ui/core/Button';
-import { CreateAppointment } from '../../../helpers/APICalls/scheduler';
 import { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
+import { CreateAppointment } from '../../../helpers/APICalls/appointment';
 
 export default function Confirmation(props: confirmProp): JSX.Element {
   const history = useHistory();

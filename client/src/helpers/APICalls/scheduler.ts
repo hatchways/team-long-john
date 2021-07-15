@@ -1,5 +1,4 @@
-import { RouteComponentProps } from 'react-router-dom';
-import { appointmentProp, hostInfoProp } from '../../interface/SchedulerProps';
+import { hostInfoProp } from '../../interface/SchedulerProps';
 import processAppointments from '../../pages/Scheduler/helper/processAppointments';
 
 const getHostInfo = (username: string, setter: React.Dispatch<React.SetStateAction<hostInfoProp>>): void => {
@@ -63,19 +62,10 @@ const loadAppointments = (
     });
 };
 
-const CreateAppointment = (props: appointmentProp, history: RouteComponentProps['history']): void => {
-  const url = '/appointment';
+const loadGoogleAppointments = (email: string, startOfDay: any): void => {
+  const url = `/googleAvailability?startISO=${startOfDay}&email=${email}`;
   const request = new Request(url, {
-    method: 'POST',
-    body: JSON.stringify({
-      meetingId: props.meetingId,
-      username: props.hostUserName,
-      email: props.appointeeEmail,
-      time: props.time.toISOString(),
-      duration: props.duration,
-      timezone: props.timeZone,
-    }),
-    credentials: 'include',
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -83,18 +73,16 @@ const CreateAppointment = (props: appointmentProp, history: RouteComponentProps[
   });
   fetch(request)
     .then((res) => {
-      if (res && res.status === 201) {
+      if (res && res.status === 200) {
         return res.json();
       }
     })
     .then((data) => {
-      if (data) {
-        history.push(`/completion/${data.success.appointment._id}`);
-      }
+      console.log(data);
     })
     .catch((error) => {
       alert(error);
     });
 };
 
-export { getHostInfo, CreateAppointment, loadAppointments };
+export { getHostInfo, loadAppointments, loadGoogleAppointments };
