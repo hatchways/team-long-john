@@ -8,10 +8,17 @@ import { TableContainer } from '@material-ui/core';
 import { Button } from '@material-ui/core';
 import { Box } from '@material-ui/core';
 import tempImg from '../../../Images/b1f0e680702e811aa8ba333cb19c0e0ea95e8e31.png';
+import { useAuth } from '../../../context/useAuthContext';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export default function UserDashInfo(): JSX.Element {
   const classes = useStyles();
-  const userName = 'TEMP USER';
+
+  const { loggedInUser } = useAuth();
+
+  if (loggedInUser === undefined || loggedInUser === null) {
+    return <CircularProgress />;
+  }
 
   return (
     <TableContainer>
@@ -23,10 +30,10 @@ export default function UserDashInfo(): JSX.Element {
             </TableCell>
             <TableCell>
               <Box>
-                <Typography className={classes.userName}> {userName} </Typography>
+                <Typography className={classes.userName}> {loggedInUser.name} </Typography>
               </Box>
               <Box>
-                <Typography> calendapp.com/{userName} </Typography>
+                <Typography> calendapp.com/{loggedInUser.username} </Typography>
               </Box>
             </TableCell>
             <TableCell>

@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { validateUpdateUser } = require("../utils/validate");
-
 const { doesUserExist, getUser, updateUser } = require("../controllers/user");
+const { validateUpdateUser } = require("../utils/validate");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 router.post("/", doesUserExist);

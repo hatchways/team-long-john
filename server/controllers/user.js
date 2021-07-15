@@ -25,7 +25,12 @@ exports.doesUserExist = asyncHandler(async (req, res, next) => {
 // @desc Sends the logged in user's information back
 // @access Public
 exports.getUser = asyncHandler(async (req, res, next) => {
-  res.send(req.user);
+  res.status(200).json({
+    success: {
+      message: `Account information for ${req.user.username}`,
+      user: req.user,
+    }
+  });
 });
 
 // @route PATCH /users/:id

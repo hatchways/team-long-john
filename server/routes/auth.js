@@ -9,7 +9,7 @@ router.get(
   passport.authenticate("google", {
     scope: ["email", "profile", "https://www.googleapis.com/auth/calendar"],
     accessType: "offline",
-    prompt: "consent"
+    prompt: "consent",
   })
 );
 
@@ -17,7 +17,7 @@ router.get(
   "/google/callback",
   passport.authenticate("google", {
     successRedirect: `${process.env.CALEND_APP_DEV_URL}/AuthSetup`,
-    failureRedirect: `${process.env.CALEND_APP_DEV_URL}/login`  
+    failureRedirect: `${process.env.CALEND_APP_DEV_URL}/login`,
   })
 );
 

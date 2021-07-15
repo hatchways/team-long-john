@@ -1,5 +1,5 @@
-const protect = (req, res, next) => {
+const isLoggedIn = (req, res, next) => {
   req.user ? next() : res.sendStatus(401);
 };
 
-module.exports = protect;
+module.exports = isLoggedIn;
