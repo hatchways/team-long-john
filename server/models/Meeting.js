@@ -6,6 +6,10 @@ const meetingSchema = new mongoose.Schema({
     ref: "user",
     required: true,
   },
+  name: {
+    type: String,
+    required: String,
+  },
   duration: {
     type: Number,
     required: true,

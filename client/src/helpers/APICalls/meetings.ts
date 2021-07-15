@@ -1,31 +1,16 @@
 import { Dispatch, SetStateAction } from 'react';
 import { FetchOptions } from '../../interface/FetchOptions';
+import { MeetingsApiData } from '../../interface/Meeting';
 
-interface Meeting {
-  userId: string;
-  duration: number;
-}
-
-export const fetchMeetings = async (
-  loggedInUser: any,
-  setMeetingOptions: Dispatch<SetStateAction<number[]>>,
-): Promise<void> => {
+export const fetchMeetings = async (id: string): Promise<MeetingsApiData> => {
   const fetchOptions: FetchOptions = {
     method: 'GET',
     credentials: 'include',
   };
 
-  if (loggedInUser) {
-    const copyOfMeetingOptions: number[] = [];
-
-    const res = await fetch(`/meeting?userId=${loggedInUser._id}`, fetchOptions);
-
-    const meetings = await res.json();
-
-    if (meetings.success) {
-      meetings.success.data.map((meeting: Meeting) => copyOfMeetingOptions.push(meeting.duration));
-
-      setMeetingOptions(copyOfMeetingOptions);
-    }
-  }
+  return await fetch(`/meeting?userId=${id}`, fetchOptions)
+    .then((res) => res.json())
+    .catch(() => ({
+      error: { message: 'Unable to connect to server. Please try again' },
+    }));
 };

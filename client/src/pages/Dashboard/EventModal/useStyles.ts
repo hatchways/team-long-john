@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     backgroundColor: '#F76900',
     height: '55px',
-    width: '200px',
+    width: '150px',
   },
 }));
 

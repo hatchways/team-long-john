@@ -5,20 +5,26 @@ const asyncHandler = require("express-async-handler");
 // @desc Create a meeting
 // @access Private
 exports.createMeeting = asyncHandler(async (req, res, next) => {
-  const { userId, duration } = req.body;
+  const { userId, name, duration } = req.body;
   const validDuration = [15, 30, 45, 60];
 
-  if (!userId || !duration || !validDuration.includes(duration)) {
+  if (
+    !userId ||
+    !duration ||
+    !name.trim() ||
+    !validDuration.includes(duration)
+  ) {
     res.status(400);
     throw new Error("Invalid meeting data");
   }
 
-  const meeting = await Meeting.create({ userId, duration });
+  const meeting = await Meeting.create({ userId, name, duration });
 
   res.status(201).json({
     success: {
       meeting: {
         username: meeting.userId,
+        name: meeting.name,
         duration: meeting.duration,
       },
     },

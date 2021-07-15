@@ -14,6 +14,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useAuth } from '../../context/useAuthContext';
 import { fetchMeetings } from '../../helpers/APICalls/meetings';
 import EventModal from './EventModal/EventModal';
+import { Meetings } from '../../interface/Meeting';
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
@@ -24,19 +25,18 @@ export default function Dashboard(): JSX.Element {
   const schedOptions = ['UPCOMING', 'PENDING', 'PAST'];
   const [schedSelect, setSchedSelect] = React.useState(schedOptions[0]);
   const loggedInUser: any = useAuth().loggedInUser;
-  const [meetingOptions, setMeetingOptions] = useState<number[]>([]);
+  const [meetingOptions, setMeetingOptions] = useState<Meetings>([]);
 
-  const fetchMeetingsCallback = useCallback(() => {
-    fetchMeetings(loggedInUser, setMeetingOptions);
-  }, [loggedInUser]);
+  const fetchMeetingsCallback = useCallback(async (id) => {
+    const meetings = await fetchMeetings(id);
+    if (meetings.success) setMeetingOptions(meetings.success.data);
+  }, []);
 
   useEffect(() => {
-    fetchMeetingsCallback();
-  }, [fetchMeetingsCallback, meetingOptions, loggedInUser]);
+    if (loggedInUser) fetchMeetingsCallback(loggedInUser._id);
+  }, [fetchMeetingsCallback, loggedInUser]);
 
-  if (loggedInUser === undefined || loggedInUser === null) {
-    return <CircularProgress />;
-  }
+  if (loggedInUser === undefined || loggedInUser === null) return <CircularProgress />;
 
   const handleOpen = () => setOpen(true);
 
@@ -62,12 +62,18 @@ export default function Dashboard(): JSX.Element {
     return output;
   };
 
-  const displayMeetOptions = (options: number[]) => {
+  const displayMeetOptions = (options: Meetings) => {
     const colors = ['purple', 'green', 'orange'];
     const output = [];
-    for (let i = 0; i < options.length; i++) {
+
+    for (let i = 0; i < Object.keys(options).length; i++) {
       output.push(
-        <ScheduleOption key={`meeting option ${i}`} schedTime={options[i]} colour={colors[i % colors.length]} />,
+        <ScheduleOption
+          key={`meeting option ${i}`}
+          name={options[i].name}
+          schedTime={options[i].duration}
+          colour={colors[i % colors.length]}
+        />,
       );
     }
     return output;
@@ -113,7 +119,7 @@ export default function Dashboard(): JSX.Element {
     <Box className={`${classes.root} ${classes.dashboard}`}>
       <CssBaseline />
       <Navigation />
-      <EventModal open={open} setOpen={setOpen} />
+      <EventModal fetchMeetingsCallback={fetchMeetingsCallback} open={open} setOpen={setOpen} />
       <Box className={classes.dashWrapper}>
         <Box className={classes.headerWrapper}>
           <Box className={classes.header}>
