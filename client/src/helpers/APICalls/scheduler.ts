@@ -1,5 +1,8 @@
+import moment from 'moment-timezone';
 import { RouteComponentProps } from 'react-router-dom';
-import { appointmentProp, hostInfoProp } from '../../interface/SchedulerProps';
+import { appointCollectProp, appointmentProp, hostInfoProp } from '../../interface/SchedulerProps';
+
+type setAppointType = (prop: appointCollectProp) => void;
 
 const getHostInfo = (username: string, setter: React.Dispatch<React.SetStateAction<hostInfoProp>>): void => {
   const url = '/users/username';
@@ -49,6 +52,7 @@ const CreateAppointment = (props: appointmentProp, history: RouteComponentProps[
       username: props.hostUserName,
       email: props.appointeeEmail,
       time: props.time.toISOString(),
+      duration: props.duration,
       timezone: props.timeZone,
     }),
     credentials: 'include',
@@ -73,4 +77,53 @@ const CreateAppointment = (props: appointmentProp, history: RouteComponentProps[
     });
 };
 
-export { getHostInfo, CreateAppointment };
+const loadAppointments = (
+  username: string,
+  userTZ: string,
+  setter: React.Dispatch<React.SetStateAction<appointCollectProp>>,
+): void => {
+  const url = `/appointment?username=${username}`;
+  const request = new Request(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+  fetch(request)
+    .then((res) => {
+      if (res && res.status === 200) {
+        return res.json();
+      }
+    })
+    .then((data) => {
+      if (data && data.success) {
+        const appointments = data.success.appointments;
+        const output = [];
+        for (let i = 0; i < appointments.length; i++) {
+          output.push({
+            duration: appointments[i].duration,
+            appointment: new Date(appointments[i].time),
+          });
+        }
+        // Sort the array in non-decreasing order of moments.
+        output.sort((a, b): number => {
+          if (a.appointment < b.appointment) {
+            return -1;
+          } else if (a.appointment > b.appointment) {
+            return 1;
+          }
+          return 0;
+        });
+        setter({
+          loadedOnce: true,
+          appointments: output,
+        });
+      }
+    })
+    .catch((error) => {
+      alert(error);
+    });
+};
+
+export { getHostInfo, CreateAppointment, loadAppointments };

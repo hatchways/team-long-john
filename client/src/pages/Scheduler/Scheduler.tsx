@@ -6,15 +6,16 @@ import useStyles from './useStyles';
 import { Typography } from '@material-ui/core';
 import { useHistory, useParams } from 'react-router-dom';
 import Calendar from 'react-calendar';
-import moment from 'moment-timezone';
+import moment, { Moment } from 'moment-timezone';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import FormControl from '@material-ui/core/FormControl';
 import BuildTimeZones from './BuildTimeZones';
 import TimePopulator from './TimePopulator';
-import { disableDateProp, hostInfoProp, schedUrlProp } from '../../interface/SchedulerProps';
+import { appointCollectProp, disableDateProp, hostInfoProp, schedUrlProp } from '../../interface/SchedulerProps';
 import Confirmation from './Confirmation/Confirmation';
 import { useAuth } from '../../context/useAuthContext';
-import { getHostInfo } from '../../helpers/APICalls/scheduler';
+import { getHostInfo, loadAppointments } from '../../helpers/APICalls/scheduler';
+import fitNewTimeSlot from './helper/fitNewTimeSlot';
 
 export default function Scheduler(): JSX.Element {
   const { loggedInUser } = useAuth();
@@ -23,7 +24,7 @@ export default function Scheduler(): JSX.Element {
 
   // This is the username of the person who is hosting the appointment.
   const { username, meetingId } = useParams<schedUrlProp>();
-  const duration = '30';
+  const duration = 30;
 
   const [hostInfo, setHostInfo] = useState<hostInfoProp>({
     loadedOnce: false,
@@ -33,12 +34,17 @@ export default function Scheduler(): JSX.Element {
     startTime: '08:00',
     endTime: '09:00',
   });
+  const [appointments, setAppointments] = useState<appointCollectProp>({
+    loadedOnce: false,
+    appointments: [],
+  });
 
   // Upon the user data is loaded for time information, the DOM will refresh,
   // causing getHostInfo to run again. This leads to infinite recursion.
   // loadedOnce param exists to prevent getHostInfo from running after being called once.
   if (!hostInfo.loadedOnce) {
     getHostInfo(username, setHostInfo);
+    loadAppointments(username, hostInfo.timeZone, setAppointments);
   }
 
   const today = new Date();
@@ -76,14 +82,16 @@ export default function Scheduler(): JSX.Element {
   };
 
   const checkDisableTime = (timeValue: string) => {
-    // Put further disabling based on user's google calendar info here.
     const userMoment = calenDateToUserTZ(timeValue);
-    return userMoment.isBefore(moment(today)) || !hostInfo.availableDays.includes(userMoment.format('dddd'));
+    const canFit = fitNewTimeSlot(userMoment, duration, appointments.appointments);
+    // Put further disabling based on user's google calendar info here.
+    return !canFit || userMoment.isBefore(moment(today)) || !hostInfo.availableDays.includes(userMoment.format('dddd'));
   };
 
   const checkConfirmation = (event: React.MouseEvent<HTMLButtonElement>) => {
     const timeValue = event.currentTarget.value;
     const userMoment = calenDateToUserTZ(timeValue);
+    // alert(userMoment.format('YYYY MM DD HH:mm'));
     // Set the DateSelISO here so we can easily send request along with time.
     setDateSelISO(userMoment.toISOString());
     setConfirmTrigger(true);
@@ -130,9 +138,9 @@ export default function Scheduler(): JSX.Element {
         <Confirmation
           username={username}
           meetingId={meetingId}
-          duration={Number(duration)}
+          duration={duration}
           timeZone={timeZone}
-          time={moment.tz(dateSelISO, timeZone)}
+          time={moment(dateSelISO)}
           cancelConfirmation={cancelConfirmation}
         />
       )}
