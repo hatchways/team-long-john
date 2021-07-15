@@ -5,10 +5,10 @@ const asyncHandler = require("express-async-handler");
 // @desc Fetches all appointments associated with user
 // @access Public
 exports.fetchAppointments = asyncHandler(async (req, res, next) => {
-  const { email } = req.query;
+  const { username } = req.query;
 
   // Finds all appointments associated with the email
-  const appointments = await Appointment.find({ email: email });
+  const appointments = await Appointment.find({ username: username });
 
   // If we do not find any appointments then send 404
   if (appointments.length === 0) {
@@ -25,7 +25,8 @@ exports.fetchAppointments = asyncHandler(async (req, res, next) => {
 exports.createAppointment = asyncHandler(async (req, res, next) => {
   // Checking for empty input
   for (let key in req.body) {
-    if (req.body[key].trim() === "") {
+    const value = req.body[key];
+    if (typeof value === "string" && value.trim() === "") {
       res.status(406);
       throw new Error("Invalid input, please do not send empty input(s)");
     }

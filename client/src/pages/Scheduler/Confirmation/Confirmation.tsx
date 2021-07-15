@@ -24,6 +24,7 @@ export default function Confirmation(props: confirmProp): JSX.Element {
       appointeeEmail: appointeeEmail,
       timeZone: props.timeZone,
       time: props.time,
+      duration: props.duration,
     };
     CreateAppointment(propCA, history);
   };

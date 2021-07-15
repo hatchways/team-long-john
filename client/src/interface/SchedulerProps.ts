@@ -64,6 +64,7 @@ export interface appointmentProp {
   appointeeEmail: string;
   timeZone: string;
   time: Moment;
+  duration: number;
 }
 
 export interface appointmentInfoProp {
@@ -73,4 +74,14 @@ export interface appointmentInfoProp {
   appointeeEmail: string;
   timeZone: string;
   time: string;
+}
+
+export interface appointCompProp {
+  duration: number;
+  appointment: Date;
+}
+
+export interface appointCollectProp {
+  loadedOnce: boolean;
+  appointments: appointCompProp[];
 }
