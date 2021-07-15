@@ -73,7 +73,8 @@ export default function Scheduler(): JSX.Element {
 
   const checkDisableTime = (timeValue: string) => {
     const userMoment = calenDateToUserTZ(timeValue);
-    const canFit = fitNewTimeSlot(userMoment, duration, hostInfo.appointments);
+    const userDate = new Date(userMoment.toISOString());
+    const canFit = fitNewTimeSlot(userDate, duration, hostInfo.appointments);
     // Put further disabling based on user's google calendar info here.
     return !canFit || userMoment.isBefore(moment(today)) || !hostInfo.availableDays.includes(userMoment.format('dddd'));
   };
