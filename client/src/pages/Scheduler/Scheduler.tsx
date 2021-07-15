@@ -13,7 +13,7 @@ import BuildTimeZones from './BuildTimeZones';
 import TimePopulator from './TimePopulator';
 import { disableDateProp, hostInfoProp, schedUrlProp } from '../../interface/SchedulerProps';
 import Confirmation from './Confirmation/Confirmation';
-import { getHostInfo } from '../../helpers/APICalls/scheduler';
+import { getHostInfo, loadGoogleAppointments } from '../../helpers/APICalls/scheduler';
 import fitNewTimeSlot from './helper/fitNewTimeSlot';
 
 export default function Scheduler(): JSX.Element {
@@ -74,6 +74,7 @@ export default function Scheduler(): JSX.Element {
   const checkDisableTime = (timeValue: string) => {
     const userMoment = calenDateToUserTZ(timeValue);
     const userDate = new Date(userMoment.toISOString());
+    loadGoogleAppointments(hostInfo.hostEmail, userMoment.toISOString());
     const canFit = fitNewTimeSlot(userDate, duration, hostInfo.appointments);
     // Put further disabling based on user's google calendar info here.
     return !canFit || userMoment.isBefore(moment(today)) || !hostInfo.availableDays.includes(userMoment.format('dddd'));
