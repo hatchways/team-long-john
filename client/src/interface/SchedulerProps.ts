@@ -56,6 +56,7 @@ export interface hostInfoProp {
   timeZone: string;
   startTime: string;
   endTime: string;
+  appointments: appointCompProp[];
 }
 
 export interface appointmentProp {
@@ -79,9 +80,4 @@ export interface appointmentInfoProp {
 export interface appointCompProp {
   duration: number;
   appointment: Date;
-}
-
-export interface appointCollectProp {
-  loadedOnce: boolean;
-  appointments: appointCompProp[];
 }
