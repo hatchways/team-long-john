@@ -1,7 +1,7 @@
 import { AuthApiData } from '../../interface/AuthApiData';
 import { FetchOptions } from '../../interface/FetchOptions';
 
-const loginWithCookies = async (): Promise<AuthApiData> => {
+const fetchMe = async (): Promise<AuthApiData> => {
   const fetchOptions: FetchOptions = {
     method: 'GET',
     credentials: 'include',
@@ -13,4 +13,4 @@ const loginWithCookies = async (): Promise<AuthApiData> => {
     }));
 };
 
-export default loginWithCookies;
+export default fetchMe;
