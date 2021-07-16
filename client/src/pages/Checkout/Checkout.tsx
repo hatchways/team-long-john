@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, FormControl, OutlinedInput, Button, MenuItem, Select } from '@material-ui/core';
+import { Box, FormControl, OutlinedInput, Button, MenuItem, Grid, Select, InputLabel } from '@material-ui/core';
 
 import Navigation from '../Navigation/Navigation';
 import { useSnackBar } from '../../context/useSnackbarContext';
@@ -31,15 +31,6 @@ const Checkout = (): JSX.Element => {
     setCardInfo({ ...cardInfo, [name]: value });
   };
 
-  // Had to duplicate these because TypeScript and Material-UI conflicts
-  const handleChangeMonth = async (e: React.ChangeEvent<{ value: unknown }>) => {
-    setCardInfo({ ...cardInfo, expirationMonth: e.target.value as string });
-  };
-
-  const handleChangeYear = async (e: React.ChangeEvent<{ value: unknown }>) => {
-    setCardInfo({ ...cardInfo, expirationYear: e.target.value as string });
-  };
-
   const handleClick = (): void => {
     const { cardNumber, expirationMonth, expirationYear, cvc } = cardInfo;
 
@@ -53,68 +44,79 @@ const Checkout = (): JSX.Element => {
     }
   };
 
-  const renderMonths = months.map((month) => (
-    <MenuItem key={month} value={month}>
-      {month}
-    </MenuItem>
-  ));
-
-  const renderYears = years.map((year) => (
-    <MenuItem key={year} value={year}>
-      {year}
-    </MenuItem>
-  ));
-
   return (
     <Box className={classes.page}>
       <Navigation />
-      <Box my={15} px={40} py={10} className={classes.checkoutBox}>
-        <Box className={classes.headerBox}>
+      <Box my={15} px={15} py={10} className={classes.checkoutBox}>
+        <Grid container justify="center">
           <h1>Checkout</h1>
-        </Box>
-        <Box mb={2.5} className={classes.cardNumberBox}>
-          <h3>Card number</h3>
-          <FormControl>
-            <OutlinedInput
-              placeholder="7364 8257 2746 6153"
-              name="cardNumber"
-              value={cardInfo.cardNumber}
-              onChange={(e) => handleChange(e)}
-            />
-          </FormControl>
-        </Box>
-        <Box className={classes.cardInfoBox}>
+        </Grid>
+        <Grid container justify="center">
           <Box>
-            <h3>Expiration date</h3>
-            <Box style={{ border: '1px solid #bcbcbc', borderRadius: '5px', display: 'flex' }}>
+            <h3>Card number</h3>
+            <FormControl>
+              <OutlinedInput
+                placeholder="7364 8257 2746 6153"
+                name="cardNumber"
+                value={cardInfo.cardNumber}
+                onChange={(e) => handleChange(e)}
+                style={{ minWidth: '400px' }}
+              />
+            </FormControl>
+          </Box>
+        </Grid>
+        <Box style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box>
+            <h3>Expiration Date</h3>
+            <Box style={{ display: 'flex', justifyContent: 'flex-start' }}>
               <Box>
-                <FormControl
-                  variant="outlined"
-                  className={`${classes.selectButton} ${classes.root}`}
-                  style={{ borderRight: '1px solid #bcbcbc' }}
-                >
-                  <Select value={cardInfo.expirationMonth} onChange={(e) => handleChangeMonth(e)}>
-                    {renderMonths}
-                  </Select>
+                <FormControl>
+                  <OutlinedInput
+                    placeholder="08"
+                    name="expirationMonth"
+                    value={cardInfo.expirationMonth}
+                    onChange={(e) => handleChange(e)}
+                    onInput={(e: any) => {
+                      e.target.value
+                        ? (e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 2))
+                        : null;
+                    }}
+                    style={{ maxWidth: '100px' }}
+                  />
                 </FormControl>
               </Box>
               <Box>
-                <FormControl variant="outlined" className={`${classes.selectButton} ${classes.root}`}>
-                  <Select value={cardInfo.expirationYear} onChange={(e) => handleChangeYear(e)}>
-                    {renderYears}
-                  </Select>
+                <FormControl>
+                  <OutlinedInput
+                    placeholder="24"
+                    name="expirationYear"
+                    value={cardInfo.expirationYear}
+                    onChange={(e) => handleChange(e)}
+                    onInput={(e: any) => {
+                      e.target.value
+                        ? (e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 2))
+                        : null;
+                    }}
+                    style={{ maxWidth: '100px' }}
+                  />
                 </FormControl>
               </Box>
             </Box>
           </Box>
-          <Box>
+          <Box ml={5}>
             <h3>CVC</h3>
-            <FormControl style={{ minWidth: '100px' }}>
-              <OutlinedInput placeholder="•••" name="cvc" value={cardInfo.cvc} onChange={(e) => handleChange(e)} />
+            <FormControl>
+              <OutlinedInput
+                placeholder="•••"
+                name="cvc"
+                value={cardInfo.cvc}
+                onChange={(e) => handleChange(e)}
+                style={{ maxWidth: '100px' }}
+              />
             </FormControl>
           </Box>
         </Box>
-        <Box mt={5} className={classes.buttonBox}>
+        <Box mt={2.5} className={classes.buttonBox}>
           <Button onClick={handleClick} className={classes.upgradeButton}>
             Pay $5
           </Button>

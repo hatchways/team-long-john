@@ -7,14 +7,10 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
   },
   checkoutBox: {
-    overflow: 'hidden',
-    height: '60vh',
-    width: '60vw',
+    // overflow: 'hidden',
+    // height: '60vh',
+    // width: '60vw',
     boxShadow: '0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-  },
-  headerBox: {
-    display: 'flex',
-    justifyContent: 'center',
   },
   cardNumberBox: {
     minWidth: '200px',
@@ -23,16 +19,12 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
   },
   cardInfoBox: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    // display: 'flex',
+    // justifyContent: 'space-between',
   },
   buttonBox: {
     display: 'flex',
     justifyContent: 'center',
-  },
-  selectButton: {
-    minWidth: '100px',
-    border: 'none',
   },
   upgradeButton: {
     color: 'white',
