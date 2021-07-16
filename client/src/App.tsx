@@ -17,6 +17,7 @@ import { AuthProvider } from './context/useAuthContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
 
 import './App.css';
+import SchedulerWrapper from './pages/Scheduler/SchedulerWrapper';
 
 function App(): JSX.Element {
   return (
@@ -24,7 +25,8 @@ function App(): JSX.Element {
       <BrowserRouter>
         <SnackBarProvider>
           <Switch>
-            <Route exact path="/scheduler/:username/:meetingId" component={Scheduler} />
+            <Route exact path="/shared/:username/:meetingId" component={SchedulerWrapper} />
+            <Route exact path="/scheduler" component={Scheduler} />
             <Route exact path="/completion/:appointID" component={Completion} />
             <AuthProvider>
               <Route exact path="/login" component={Login} />

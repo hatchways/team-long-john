@@ -11,6 +11,18 @@ export interface disableDateProp {
   view: string;
 }
 
+export interface appointCompProp {
+  duration: number;
+  appointment: Date;
+}
+
+export interface schedLocationProp {
+  username: string;
+  meetingId: string;
+  duration: number;
+  hostInfo: hostInfoProp;
+}
+
 export interface schedUrlProp {
   username: string;
   meetingId: string;
@@ -75,9 +87,4 @@ export interface appointmentInfoProp {
   appointeeEmail: string;
   timeZone: string;
   time: string;
-}
-
-export interface appointCompProp {
-  duration: number;
-  appointment: Date;
 }

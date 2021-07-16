@@ -1,7 +1,12 @@
+import { RouteComponentProps } from 'react-router-dom';
 import { appointCompProp, hostInfoProp } from '../../interface/SchedulerProps';
 import { processAppointments, processGoogleAppointments } from '../../pages/Scheduler/helper/processAppointments';
 
-const getHostInfo = (username: string, setter: React.Dispatch<React.SetStateAction<hostInfoProp>>): void => {
+const getHostInfo = (
+  username: string,
+  setter: React.Dispatch<React.SetStateAction<hostInfoProp>>,
+  history: RouteComponentProps['history'],
+): void => {
   const url = '/users/username';
   const request = new Request(url, {
     method: 'POST',
@@ -20,6 +25,7 @@ const getHostInfo = (username: string, setter: React.Dispatch<React.SetStateActi
         return res.json();
       } else if (res && res.status === 404) {
         alert('There is no user with the specified username.');
+        history.push('/login');
       }
     })
     .then((data) => {
