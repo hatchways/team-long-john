@@ -15,25 +15,13 @@ import { appointCompProp, disableDateProp, schedLocationProp } from '../../inter
 import Confirmation from './Confirmation/Confirmation';
 import { loadGoogleAppointments } from '../../helpers/APICalls/scheduler';
 import fitNewTimeSlot from './helper/fitNewTimeSlot';
+import loadFromLocation from './helper/loadFromLocation';
 
 export default function Scheduler(): JSX.Element {
   const history = useHistory();
   const location = useLocation<schedLocationProp>();
-  const username = location.state === undefined ? '' : location.state.username;
-  const meetingId = location.state === undefined ? '' : location.state.meetingId;
-  const duration = location.state === undefined ? 30 : location.state.duration;
-  const hostInfo =
-    location.state === undefined
-      ? {
-          loadedOnce: false,
-          hostEmail: '',
-          availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-          timeZone: 'America/Toronto',
-          startTime: '08:00',
-          endTime: '09:00',
-          appointments: [],
-        }
-      : location.state.hostInfo;
+  const { username, meetingId, duration, hostInfo } = loadFromLocation(location);
+  // Accessing this page without going through /shared is prevented.
   if (location.state === undefined) {
     history.push('/login');
   }

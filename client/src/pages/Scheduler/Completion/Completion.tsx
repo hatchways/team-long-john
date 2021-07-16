@@ -45,7 +45,7 @@ export default function Completion(): JSX.Element {
 
   const rescheduleAppointment = () => {
     deleteAppointment(appointID);
-    history.push(`/scheduler/${appointInfo.hostUserName}/${appointInfo.meetingId}`);
+    history.push(`/shared/${appointInfo.hostUserName}/${appointInfo.meetingId}`);
   };
 
   return (
