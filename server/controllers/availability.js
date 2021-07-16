@@ -20,10 +20,9 @@ const {
 // @access Public
 exports.getAvailability = asyncHandler(async (req, res, next) => {
   let { startISO, email } = req.query;
-
+  const user = await User.findOne({ email: email });
   const endISO = moment(startISO).add(1, "day").toISOString();
 
-  const user = await User.findOne({ email: email });
   // const { username, availableDays, timezone, availableHours } = user;
 
   // // If user is not available on this day, then throw error
