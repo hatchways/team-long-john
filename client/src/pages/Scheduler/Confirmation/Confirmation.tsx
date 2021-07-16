@@ -6,7 +6,7 @@ import { confirmProp } from '../../../interface/SchedulerProps';
 import Button from '@material-ui/core/Button';
 import { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
-import { CreateAppointment } from '../../../helpers/APICalls/appointment';
+import { CreateAppointment, CreateGoogleEvent } from '../../../helpers/APICalls/appointment';
 
 export default function Confirmation(props: confirmProp): JSX.Element {
   const history = useHistory();
@@ -14,6 +14,21 @@ export default function Confirmation(props: confirmProp): JSX.Element {
 
   const timeString = props.time.format('HH:mm on MMMM DD, YYYY');
   const [appointeeEmail, setAppointeeEmail] = useState('');
+
+  const googleCalen = () => {
+    // Communicate with Google to add this appointment to Google Calendar.
+    const propGoogleCreate = {
+      email: props.hostEmail,
+      summary: props.meetingTitle,
+      location: 'N/A',
+      description: props.meetingTitle,
+      startISO: props.time.toISOString(),
+      duration: props.duration,
+      timeZone: props.timeZone,
+      colorId: 1,
+    };
+    CreateGoogleEvent(propGoogleCreate);
+  };
 
   const completeAppointment = () => {
     // Communicate with the BE to create an appointment with given information.
@@ -27,6 +42,7 @@ export default function Confirmation(props: confirmProp): JSX.Element {
       duration: props.duration,
     };
     CreateAppointment(propCA, history);
+    googleCalen();
   };
 
   const handleTextChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {

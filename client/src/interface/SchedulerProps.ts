@@ -18,6 +18,7 @@ export interface schedLocationProp {
   username: string;
   meetingId: string;
   duration: number;
+  meetingTitle: string;
   hostInfo: hostInfoProp;
 }
 
@@ -34,6 +35,8 @@ export interface completionUrlProp {
 
 // Interface used to pass required information to Confirmation.
 export interface confirmProp {
+  hostEmail: string;
+  meetingTitle: string;
   username: string;
   meetingId: string;
   duration: number;

@@ -34,10 +34,6 @@ export default function Completion(): JSX.Element {
   const username = 'John';
   const duration = 60;
 
-  const googleCalen = () => {
-    // Communicate with Google to add this appointment to Google Calendar.
-  };
-
   const cancelAppointment = () => {
     // Using appointID, delete this specific appointment from DB.
     deleteAppointment(appointID);

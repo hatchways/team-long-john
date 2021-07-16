@@ -1,5 +1,5 @@
 import { RouteComponentProps } from 'react-router-dom';
-import { appointmentInfoProp, appointmentProp } from '../../interface/AppointmentProps';
+import { appointmentInfoProp, appointmentProp, googleCreateEventProp } from '../../interface/AppointmentProps';
 
 const getAppointInfo = (appointId: string, setter: React.Dispatch<React.SetStateAction<appointmentInfoProp>>): void => {
   const url = `/appointment/${appointId}`;
@@ -84,4 +84,35 @@ const CreateAppointment = (props: appointmentProp, history: RouteComponentProps[
     });
 };
 
-export { getAppointInfo, deleteAppointment, CreateAppointment };
+const CreateGoogleEvent = (props: googleCreateEventProp): void => {
+  const url = '/googleCreate';
+  const request = new Request(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      email: props.email,
+      summary: props.summary,
+      location: props.location,
+      description: props.description,
+      startISO: props.startISO,
+      duration: props.duration,
+      timeZone: props.timeZone,
+      colorId: props.colorId,
+    }),
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+  fetch(request)
+    .then((res) => {
+      if (res && res.status !== 201) {
+        alert("Event could not be added to host's calendar.");
+      }
+    })
+    .catch((error) => {
+      alert(error);
+    });
+};
+
+export { getAppointInfo, deleteAppointment, CreateAppointment, CreateGoogleEvent };
