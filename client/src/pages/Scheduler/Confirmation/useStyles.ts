@@ -7,7 +7,7 @@ const useStyles = makeStyles({
     height: '500px',
     marginTop: '30vh',
     margin: 'auto',
-    padding: '100px 50px',
+    padding: '70px 50px',
     border: 'solid 2px #F76900',
     backgroundColor: 'white',
     boxShadow: '0 6px 20px 0 rgba(0, 0, 0, 0.19)',
@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   },
   buttonWrapper: {
     textAlign: 'center',
-    margin: '100px 20px',
+    margin: '40px 20px',
   },
   button: {
     display: 'inline-block',
@@ -39,6 +39,7 @@ const useStyles = makeStyles({
   textField: {
     marginLeft: 'auto',
     marginRight: 'auto',
+    paddingTop: '15px',
   },
   textFieldContent: {
     textAlign: 'center',

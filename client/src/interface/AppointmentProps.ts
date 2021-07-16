@@ -34,7 +34,8 @@ export interface appointmentProp {
 export interface appointmentInfoProp {
   loadedOnce: boolean;
   meetingId: string;
-  googleEventId: string;
+  hostGoogleEid: string;
+  appointeeGoogleEid: string;
   appointeeName: string;
   appointeeEmail: string;
   timeZone: string;
@@ -51,4 +52,9 @@ export interface googleCreateEventProp {
   duration: number;
   timeZone: string;
   colorId: number;
+}
+
+// Used to pass required information to create an event in appointee's google calendar.
+export interface appointeeGEventProp {
+  appointmentId: string;
 }

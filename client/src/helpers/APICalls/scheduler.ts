@@ -1,5 +1,4 @@
 import { RouteComponentProps } from 'react-router-dom';
-import { appointDataType } from '../../interface/AppointmentProps';
 import { appointCompProp, hostInfoProp, userDataType } from '../../interface/SchedulerProps';
 import { processAppointments, processGoogleAppointments } from '../../pages/Scheduler/helper/processAppointments';
 
