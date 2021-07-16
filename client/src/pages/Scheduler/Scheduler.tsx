@@ -4,38 +4,41 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { Box } from '@material-ui/core';
 import useStyles from './useStyles';
 import { Typography } from '@material-ui/core';
-import { useParams } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import moment from 'moment-timezone';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import FormControl from '@material-ui/core/FormControl';
 import BuildTimeZones from './BuildTimeZones';
 import TimePopulator from './TimePopulator';
-import { appointCompProp, disableDateProp, hostInfoProp, schedUrlProp } from '../../interface/SchedulerProps';
+import { appointCompProp, disableDateProp, schedLocationProp } from '../../interface/SchedulerProps';
 import Confirmation from './Confirmation/Confirmation';
-import { getHostInfo, loadGoogleAppointments } from '../../helpers/APICalls/scheduler';
+import { loadGoogleAppointments } from '../../helpers/APICalls/scheduler';
 import fitNewTimeSlot from './helper/fitNewTimeSlot';
 
 export default function Scheduler(): JSX.Element {
+  const history = useHistory();
+  const location = useLocation<schedLocationProp>();
+  const username = location.state === undefined ? '' : location.state.username;
+  const meetingId = location.state === undefined ? '' : location.state.meetingId;
+  const duration = location.state === undefined ? 30 : location.state.duration;
+  const hostInfo =
+    location.state === undefined
+      ? {
+          loadedOnce: false,
+          hostEmail: '',
+          availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+          timeZone: 'America/Toronto',
+          startTime: '08:00',
+          endTime: '09:00',
+          appointments: [],
+        }
+      : location.state.hostInfo;
+  if (location.state === undefined) {
+    history.push('/login');
+  }
   const classes = useStyles();
 
-  // This is the username of the person who is hosting the appointment.
-  const { username, meetingId } = useParams<schedUrlProp>();
-  const duration = 30;
-
-  const [hostInfo, setHostInfo] = useState<hostInfoProp>({
-    loadedOnce: false,
-    hostEmail: '',
-    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-    timeZone: 'America/Toronto',
-    startTime: '08:00',
-    endTime: '09:00',
-    appointments: [],
-  });
-  // loadedOnce param exists to avoid infinite recursion caused by updating hostInfo.
-  if (!hostInfo.loadedOnce) {
-    getHostInfo(username, setHostInfo);
-  }
   // Google calendar events from the specified host.
   const [googleAppoitments, setGoogleAppoitments] = useState<appointCompProp[]>([]);
 
