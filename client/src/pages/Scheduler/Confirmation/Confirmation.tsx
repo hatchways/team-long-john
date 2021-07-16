@@ -49,7 +49,7 @@ export default function Confirmation(props: confirmProp): JSX.Element {
       timeZone: props.timeZone,
       colorId: 1,
     };
-    CreateGoogleEvent(propGoogleCreate, propCA, history);
+    CreateGoogleEvent(true, propGoogleCreate, propCA, history);
   };
 
   const handleEmailChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -81,7 +81,7 @@ export default function Confirmation(props: confirmProp): JSX.Element {
       <TextField
         className={classes.textField}
         onChange={handleNameChange}
-        placeholder="Your name"
+        placeholder="Your (preferred) name"
         variant="outlined"
         fullWidth
         InputProps={{

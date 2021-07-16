@@ -5,15 +5,18 @@ const appointmentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "meeting",
   },
-  googleEventId: {
+  hostGoogleEid: {
     type: String,
     required: true,
   },
-  username: {
+  appointeeGoogleEid: {
+    type: String,
+  },
+  appointeeName: {
     type: String,
     required: true,
   },
-  email: {
+  appointeeEmail: {
     type: String,
     required: true,
   },

@@ -1,5 +1,10 @@
 import { RouteComponentProps } from 'react-router-dom';
-import { appointmentInfoProp, appointmentProp, googleCreateEventProp } from '../../interface/AppointmentProps';
+import {
+  appointeeGEventProp,
+  appointmentInfoProp,
+  appointmentProp,
+  googleCreateEventProp,
+} from '../../interface/AppointmentProps';
 
 const getAppointInfo = (
   appointId: string,
@@ -25,9 +30,10 @@ const getAppointInfo = (
         setter({
           loadedOnce: true,
           meetingId: appointment.meetingId,
-          googleEventId: appointment.googleEventId,
-          appointeeName: appointment.username,
-          appointeeEmail: appointment.email,
+          hostGoogleEid: appointment.hostGoogleEid,
+          appointeeGoogleEid: appointment.appointeeGoogleEid,
+          appointeeName: appointment.appointeeName,
+          appointeeEmail: appointment.appointeeEmail,
           timeZone: appointment.timezone,
           time: appointment.time,
         });
@@ -48,9 +54,10 @@ const CreateAppointment = (
     method: 'POST',
     body: JSON.stringify({
       meetingId: props.meetingId,
-      googleEventId: googleEventId,
-      username: props.appointeeName,
-      email: props.appointeeEmail,
+      hostGoogleEid: googleEventId,
+      appointeeGoogleEid: 'N/A',
+      appointeeName: props.appointeeName,
+      appointeeEmail: props.appointeeEmail,
       time: props.time.toISOString(),
       duration: props.duration,
       timezone: props.timeZone,
@@ -95,10 +102,58 @@ const deleteAppointment = (appointId: string): void => {
     });
 };
 
+const addGoogleAppointee = (
+  props: appointeeGEventProp,
+  googleEventId: string,
+  setter: React.Dispatch<React.SetStateAction<appointmentInfoProp>>,
+): void => {
+  const url = `/appointment/${props.appointmentId}`;
+  const request = new Request(url, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      appointeeGoogleEid: googleEventId,
+    }),
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+  fetch(request)
+    .then((res) => {
+      if (res && res.status === 200) {
+        return res.json();
+      } else {
+        alert('Google event could not be created for the appointee.');
+      }
+    })
+    .then((data) => {
+      if (data) {
+        const appointment = data.success.appointments;
+        setter({
+          loadedOnce: true,
+          meetingId: appointment.meetingId,
+          hostGoogleEid: appointment.hostGoogleEid,
+          appointeeGoogleEid: appointment.appointeeGoogleEid,
+          appointeeName: appointment.appointeeName,
+          appointeeEmail: appointment.appointeeEmail,
+          timeZone: appointment.timezone,
+          time: appointment.time,
+        });
+      }
+      alert('Appointment has been added to your google calendar!');
+    })
+    .catch((error) => {
+      alert(error);
+    });
+};
+
 const CreateGoogleEvent = (
+  forHost: boolean,
   googleProps: googleCreateEventProp,
-  props: appointmentProp,
-  history: RouteComponentProps['history'],
+  props: appointmentProp | appointeeGEventProp,
+  history?: RouteComponentProps['history'],
+  setter?: React.Dispatch<React.SetStateAction<appointmentInfoProp>>,
 ): void => {
   const url = '/googleCreate';
   const request = new Request(url, {
@@ -128,7 +183,23 @@ const CreateGoogleEvent = (
       }
     })
     .then((data) => {
-      CreateAppointment(props, data.success.googleEventId, history);
+      if (forHost) {
+        if ('appointmentId' in props) {
+          alert('You are passing in appointee information when forHost is true.');
+        } else if (history === undefined) {
+          alert('You must provide history if forHost is true.');
+        } else {
+          CreateAppointment(props, data.success.googleEventId, history);
+        }
+      } else {
+        if (!('appointmentId' in props)) {
+          alert('You are passing in host user information when forHost is false.');
+        } else if (setter === undefined) {
+          alert('You must provide setter if forHost is false.');
+        } else {
+          addGoogleAppointee(props, data.success.googleEventId, setter);
+        }
+      }
     })
     .catch((error) => {
       alert(error);
@@ -151,10 +222,8 @@ const deleteGoogleEvent = (email: string, eventId: string): void => {
   });
   fetch(request)
     .then((res) => {
-      if (res && res.status === 200) {
-        alert('The appointment has been deleted.');
-      } else if (res && res.status === 404) {
-        alert('This meeting no longer exists!');
+      if (!(res && res.status === 200)) {
+        alert(`The appointment could not be deleted for ${email}.`);
       }
     })
     .catch((error) => {

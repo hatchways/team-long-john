@@ -66,9 +66,7 @@ module.exports.createEvent = async (calendar, event) => {
       resource: event,
     });
   } else {
-    throw new Error(
-      "This time slot is already occupied in host user's calendar"
-    );
+    console.log("This time slot is already occupied in host user's calendar");
   }
 };
 
@@ -79,6 +77,6 @@ module.exports.deleteEvent = async (calendar, parameters) => {
       console.log("Failed to delete an event: " + err);
       return false;
     }
-    return true;
   });
+  return true;
 };

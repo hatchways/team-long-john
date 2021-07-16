@@ -73,3 +73,21 @@ exports.deleteAppointmentById = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ success: { message: "Appointment deleted" } });
 });
+
+// @route PATCH /appointment/:id
+// @desc Edits (patches) an appointment by id.
+// @access Public
+exports.editAppointmentById = asyncHandler(async (req, res, next) => {
+  const id = req.params.id;
+  const updates = req.body;
+  const options = { new: true };
+
+  const editted = await Appointment.findByIdAndUpdate(id, updates, options);
+
+  if (!editted) {
+    res.status(400);
+    throw new Error("Appointment with the given id could not be updated.");
+  }
+
+  res.status(200).json({ success: { appointments: editted } });
+});

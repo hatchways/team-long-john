@@ -61,14 +61,14 @@ exports.createGoogleEvent = asyncHandler(async (req, res, next) => {
 
   // Returns the times when the user is busy based off of their availability
   const resGoogleEvent = await createEvent(calendar, event);
-  if (!resGoogleEvent) {
+  if (resGoogleEvent) {
+    res.status(201).json({
+      success: {
+        googleEventId: resGoogleEvent.data.id,
+      },
+    });
+  } else {
     res.status(409);
     throw new Error("Event could not be added to host user's Google Calendar");
   }
-
-  res.status(201).json({
-    success: {
-      googleEventId: resGoogleEvent.data.id,
-    },
-  });
 });
