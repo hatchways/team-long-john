@@ -1,9 +1,17 @@
+import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box, FormControl, OutlinedInput, Button, Grid } from '@material-ui/core';
 
 import Navigation from '../Navigation/Navigation';
 import { useSnackBar } from '../../context/useSnackbarContext';
 import useStyles from './useStyles';
+
+const cardSchema = yup.object().shape({
+  number: yup.number().required().positive().integer(),
+  month: yup.number().required().positive().integer(),
+  year: yup.number().required().positive().integer(),
+  cvc: yup.number().required().positive().integer(),
+});
 
 const Checkout = (): JSX.Element => {
   const classes = useStyles();
@@ -16,10 +24,9 @@ const Checkout = (): JSX.Element => {
       cvc: '',
     },
     onSubmit: async ({ number, month, year, cvc }, { resetForm }) => {
-      if (number.trim() === '' || month.trim() === '' || year.trim() === '' || cvc.trim() === '') {
-        return updateSnackBarMessage('Please enter valid card credentials');
-      }
-      // resetForm();
+      const isValidCard = await cardSchema.isValid({ number, month, year, cvc });
+      if (!isValidCard) return updateSnackBarMessage('Please enter valid card credentials');
+      resetForm();
     },
   });
 
