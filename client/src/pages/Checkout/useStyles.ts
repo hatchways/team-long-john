@@ -7,9 +7,6 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
   },
   checkoutBox: {
-    // overflow: 'hidden',
-    // height: '60vh',
-    // width: '60vw',
     boxShadow: '0 6px 20px 0 rgba(0, 0, 0, 0.19)',
   },
   cardNumberBox: {
@@ -19,8 +16,16 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
   },
   cardInfoBox: {
-    // display: 'flex',
-    // justifyContent: 'space-between',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  expirationDateBox: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+  },
+  cardInfoInput: {
+    maxWidth: '100px',
   },
   buttonBox: {
     display: 'flex',

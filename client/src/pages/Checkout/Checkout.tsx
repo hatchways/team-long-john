@@ -53,10 +53,10 @@ const Checkout = (): JSX.Element => {
               </FormControl>
             </Box>
           </Grid>
-          <Box style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box className={classes.cardInfoBox}>
             <Box>
               <h3>Expiration Date</h3>
-              <Box style={{ display: 'flex', justifyContent: 'flex-start' }}>
+              <Box className={classes.expirationDateBox}>
                 <Box>
                   <FormControl>
                     <OutlinedInput
@@ -65,7 +65,7 @@ const Checkout = (): JSX.Element => {
                       value={formik.values.month}
                       onChange={formik.handleChange}
                       inputProps={{ maxLength: 2 }}
-                      style={{ maxWidth: '100px' }}
+                      className={classes.cardInfoInput}
                     />
                   </FormControl>
                 </Box>
@@ -77,7 +77,7 @@ const Checkout = (): JSX.Element => {
                       value={formik.values.year}
                       onChange={formik.handleChange}
                       inputProps={{ maxLength: 2 }}
-                      style={{ maxWidth: '100px' }}
+                      className={classes.cardInfoInput}
                     />
                   </FormControl>
                 </Box>
@@ -93,7 +93,7 @@ const Checkout = (): JSX.Element => {
                   value={formik.values.cvc}
                   onChange={formik.handleChange}
                   inputProps={{ maxLength: 3 }}
-                  style={{ maxWidth: '100px' }}
+                  className={classes.cardInfoInput}
                 />
               </FormControl>
             </Box>
