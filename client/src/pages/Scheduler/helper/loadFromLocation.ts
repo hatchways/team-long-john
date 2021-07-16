@@ -8,6 +8,7 @@ const loadFromLocation = (
   const username = location.state === undefined ? '' : location.state.username;
   const meetingId = location.state === undefined ? '' : location.state.meetingId;
   const duration = location.state === undefined ? 30 : location.state.duration;
+  const meetingTitle = location.state === undefined ? 'TEMP DESC' : location.state.meetingTitle;
   const hostInfo =
     location.state === undefined
       ? {
@@ -20,6 +21,12 @@ const loadFromLocation = (
           appointments: [],
         }
       : location.state.hostInfo;
-  return { username: username, meetingId: meetingId, duration: duration, hostInfo: hostInfo };
+  return {
+    username: username,
+    meetingId: meetingId,
+    duration: duration,
+    meetingTitle: meetingTitle,
+    hostInfo: hostInfo,
+  };
 };
 export default loadFromLocation;

@@ -20,7 +20,7 @@ import loadFromLocation from './helper/loadFromLocation';
 export default function Scheduler(): JSX.Element {
   const history = useHistory();
   const location = useLocation<schedLocationProp>();
-  const { username, meetingId, duration, hostInfo } = loadFromLocation(location);
+  const { username, meetingId, duration, hostInfo, meetingTitle } = loadFromLocation(location);
   // Accessing this page without going through /shared is prevented.
   if (location.state === undefined) {
     history.push('/login');
@@ -129,6 +129,8 @@ export default function Scheduler(): JSX.Element {
       </Box>
       {confirmTrigger && (
         <Confirmation
+          hostEmail={hostInfo.hostEmail}
+          meetingTitle={meetingTitle}
           username={username}
           meetingId={meetingId}
           duration={duration}

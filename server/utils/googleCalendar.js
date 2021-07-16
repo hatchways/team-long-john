@@ -32,8 +32,8 @@ module.exports.getAvailability = async (calendar, timeMin, timeMax, zone) => {
       timeMin: timeMin,
       timeMax: timeMax,
       timeZone: zone,
-      items: [{ id: "primary" }] // Focusing on a user's primary calendar
-    }
+      items: [{ id: "primary" }], // Focusing on a user's primary calendar
+    },
   });
 
   if (res.status !== 200) {
@@ -42,4 +42,32 @@ module.exports.getAvailability = async (calendar, timeMin, timeMax, zone) => {
 
   // Returning the times a user is not available
   return res.data.calendars.primary.busy;
+};
+
+// Make a new google event for host user using given ISO strings.
+module.exports.createEvent = async (calendar, event) => {
+  const res = await calendar.freebusy.query({
+    resource: {
+      timeMin: event.start.dateTime,
+      timeMax: event.end.dateTime,
+      timeZone: event.start.timeZone,
+      items: [{ id: "primary" }], // Focusing on a user's primary calendar
+    },
+  });
+
+  if (res.status !== 200) {
+    throw new Error("Unable to get availability");
+  }
+
+  const events = res.data.calendars.primary.busy;
+  if (events.length === 0) {
+    calendar.events.insert({
+      calendarId: "primary",
+      resource: event,
+    });
+  } else {
+    throw new Error(
+      "This time slot is already occupied in host user's calendar"
+    );
+  }
 };

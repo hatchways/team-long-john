@@ -39,3 +39,15 @@ export interface appointmentInfoProp {
   timeZone: string;
   time: string;
 }
+
+// Used to pass required information to create an event in host user's google calendar.
+export interface googleCreateEventProp {
+  email: string;
+  summary: string;
+  location: string;
+  description: string;
+  startISO: string;
+  duration: number;
+  timeZone: string;
+  colorId: number;
+}

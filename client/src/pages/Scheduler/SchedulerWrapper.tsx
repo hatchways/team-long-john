@@ -13,6 +13,7 @@ export default function SchedulerWrapper(): JSX.Element {
   // This is the username of the person who is hosting the appointment.
   const { username, meetingId } = useParams<schedUrlProp>();
   const duration = 30;
+  const meetingTitle = 'TEMP DESC';
 
   const [hostInfo, setHostInfo] = useState<hostInfoProp>({
     loadedOnce: false,
@@ -34,6 +35,7 @@ export default function SchedulerWrapper(): JSX.Element {
         state: {
           username: username,
           meetingId: meetingId,
+          meetingTitle: meetingTitle,
           duration: duration,
           hostInfo: hostInfo,
         },
