@@ -15,26 +15,25 @@ export default function Completion(): JSX.Element {
 
   // Using the appointID, search an appointment by ID to fill in all the information.
   const { appointID } = useParams<completionUrlProp>();
-  const hostEmail = 'TEMP@gmail.com';
+  const hostEmail = 'lkdh97@gmail.com';
+  const hostUserName = 'lkdh97';
+  const duration = 60;
 
   const [appointInfo, setAppointInfo] = useState<appointmentInfoProp>({
     loadedOnce: false,
     meetingId: '',
     googleEventId: '',
-    hostUserName: '',
+    appointeeName: '',
     appointeeEmail: '',
     timeZone: '',
     time: '',
   });
   if (!appointInfo.loadedOnce) {
-    getAppointInfo(appointID, setAppointInfo);
+    getAppointInfo(appointID, setAppointInfo, history);
   }
 
   const timeMoment = appointInfo.time === '' ? moment() : moment.tz(appointInfo.time, appointInfo.timeZone);
   const timeStr = timeMoment.format('HH:mm on MMMM DD, YYYY');
-
-  const username = 'John';
-  const duration = 60;
 
   const cancelAppointment = () => {
     // Using appointID, delete this specific appointment from DB.
@@ -46,15 +45,15 @@ export default function Completion(): JSX.Element {
   const rescheduleAppointment = () => {
     deleteAppointment(appointID);
     deleteGoogleEvent(hostEmail, appointInfo.googleEventId);
-    history.push(`/shared/${appointInfo.hostUserName}/${appointInfo.meetingId}`);
+    history.push(`/shared/${hostUserName}/${appointInfo.meetingId}`);
   };
 
   return (
     <Box className={classes.wrapper}>
       <Typography className={classes.header}>
-        Hi {username}, <br />
+        Hi {appointInfo.appointeeName}, <br />
         <br />
-        {duration} minute meeting with {appointInfo.hostUserName} at {timeStr} ({appointInfo.timeZone}) is scheduled.
+        {duration} minute meeting with {hostUserName} at {timeStr} ({appointInfo.timeZone}) is scheduled.
       </Typography>
       <Box className={classes.buttonWrapper}>
         <Button className={`${classes.button} ${classes.googleCalen}`}> Add to Google Calendar </Button>
