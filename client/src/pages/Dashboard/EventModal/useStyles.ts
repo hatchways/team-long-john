@@ -22,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     borderBottom: '1px solid lightgrey',
   },
+  formBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    height: '100%',
+  },
   formItem: {
     padding: '0 50px',
     display: 'flex',
