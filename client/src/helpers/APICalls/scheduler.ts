@@ -1,4 +1,5 @@
 import { RouteComponentProps } from 'react-router-dom';
+import { appointDataType } from '../../interface/AppointmentProps';
 import { appointCompProp, hostInfoProp, userDataType } from '../../interface/SchedulerProps';
 import { processAppointments, processGoogleAppointments } from '../../pages/Scheduler/helper/processAppointments';
 
@@ -56,6 +57,8 @@ const loadAppointments = (
     .then((res) => {
       if (res && res.status === 200) {
         return res.json();
+      } else if (res && res.status === 404) {
+        processAppointments(userdata, { appointments: [] }, setter);
       }
     })
     .then((data) => {

@@ -61,7 +61,7 @@ module.exports.createEvent = async (calendar, event) => {
 
   const events = res.data.calendars.primary.busy;
   if (events.length === 0) {
-    calendar.events.insert({
+    return calendar.events.insert({
       calendarId: "primary",
       resource: event,
     });
@@ -70,4 +70,15 @@ module.exports.createEvent = async (calendar, event) => {
       "This time slot is already occupied in host user's calendar"
     );
   }
+};
+
+// Make a new google event for host user using given ISO strings.
+module.exports.deleteEvent = async (calendar, parameters) => {
+  calendar.events.delete(parameters, function (err) {
+    if (err) {
+      console.log("Failed to delete an event: " + err);
+      return false;
+    }
+    return true;
+  });
 };

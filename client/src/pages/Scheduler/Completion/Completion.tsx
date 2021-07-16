@@ -6,7 +6,7 @@ import { completionUrlProp } from '../../../interface/SchedulerProps';
 import Button from '@material-ui/core/Button';
 import { useState } from 'react';
 import moment from 'moment-timezone';
-import { deleteAppointment, getAppointInfo } from '../../../helpers/APICalls/appointment';
+import { deleteAppointment, deleteGoogleEvent, getAppointInfo } from '../../../helpers/APICalls/appointment';
 import { appointmentInfoProp } from '../../../interface/AppointmentProps';
 
 export default function Completion(): JSX.Element {
@@ -15,10 +15,12 @@ export default function Completion(): JSX.Element {
 
   // Using the appointID, search an appointment by ID to fill in all the information.
   const { appointID } = useParams<completionUrlProp>();
+  const hostEmail = 'TEMP@gmail.com';
 
   const [appointInfo, setAppointInfo] = useState<appointmentInfoProp>({
     loadedOnce: false,
     meetingId: '',
+    googleEventId: '',
     hostUserName: '',
     appointeeEmail: '',
     timeZone: '',
@@ -37,11 +39,13 @@ export default function Completion(): JSX.Element {
   const cancelAppointment = () => {
     // Using appointID, delete this specific appointment from DB.
     deleteAppointment(appointID);
+    deleteGoogleEvent(hostEmail, appointInfo.googleEventId);
     history.push('/login');
   };
 
   const rescheduleAppointment = () => {
     deleteAppointment(appointID);
+    deleteGoogleEvent(hostEmail, appointInfo.googleEventId);
     history.push(`/shared/${appointInfo.hostUserName}/${appointInfo.meetingId}`);
   };
 

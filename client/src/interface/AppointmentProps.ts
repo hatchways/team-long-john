@@ -34,6 +34,7 @@ export interface appointmentProp {
 export interface appointmentInfoProp {
   loadedOnce: boolean;
   meetingId: string;
+  googleEventId: string;
   hostUserName: string;
   appointeeEmail: string;
   timeZone: string;

@@ -4,30 +4,20 @@ const moment = require("moment-timezone");
 const {
   getTokenWithRefresh,
   retrieveCalendar,
-  createEvent,
+  deleteEvent,
 } = require("../utils/googleCalendar");
 
-// @route POST /googleCreate
-// @desc Creates a google event to the host user's google calendar.
+// @route DELETE /googleDelete
+// @desc Deletes a google event to the host user's google calendar.
 // @access Public
-exports.createGoogleEvent = asyncHandler(async (req, res, next) => {
-  const {
-    email,
-    summary,
-    location,
-    description,
-    startISO,
-    duration,
-    timeZone,
-    colorId,
-  } = req.body;
+exports.deleteGoogleEvent = asyncHandler(async (req, res, next) => {
+  const { email, eventId } = req.body;
 
   const user = await User.findOne({ email: email });
   if (!user) {
     res.status(404);
     throw new Error(`No account exists with the email: ${email}`);
   }
-  const endISO = moment(startISO).add(duration, "m").toISOString();
 
   // Getting a new access token
   const accessToken = await getTokenWithRefresh(
@@ -44,30 +34,23 @@ exports.createGoogleEvent = asyncHandler(async (req, res, next) => {
   );
 
   // Create google calendar event object.
-  const event = {
-    summary: summary,
-    location: location,
-    description: description,
-    start: {
-      dateTime: startISO,
-      timeZone: timeZone,
-    },
-    end: {
-      dateTime: endISO,
-      timeZone: timeZone,
-    },
-    colorId: colorId,
+  const parameters = {
+    calendarId: "primary",
+    eventId: eventId,
   };
 
   // Returns the times when the user is busy based off of their availability
-  const resGoogleEvent = await createEvent(calendar, event);
-  if (!resGoogleEvent) {
+  const result = await deleteEvent(calendar, parameters);
+  if (!result) {
     res.status(409);
-    throw new Error("Event could not be added to host user's Google Calendar");
+    throw new Error(
+      "Event could not be deleted from host user's Google Calendar"
+    );
   }
-  res.status(201).json({
+
+  res.status(200).json({
     success: {
-      googleEventId: resGoogleEvent.data.id,
+      message: "Event deleted from host user's google calendar.",
     },
   });
 });

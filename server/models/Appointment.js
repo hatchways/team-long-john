@@ -5,6 +5,10 @@ const appointmentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "meeting",
   },
+  googleEventId: {
+    type: String,
+    required: true,
+  },
   username: {
     type: String,
     required: true,
