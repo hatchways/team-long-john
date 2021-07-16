@@ -6,7 +6,7 @@ import { confirmProp } from '../../../interface/SchedulerProps';
 import Button from '@material-ui/core/Button';
 import { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
-import { CreateGoogleEvent } from '../../../helpers/APICalls/appointment';
+import { CreateGoogleEvent } from '../../../helpers/APICalls/googleCalendarEvent';
 
 export default function Confirmation(props: confirmProp): JSX.Element {
   const history = useHistory();

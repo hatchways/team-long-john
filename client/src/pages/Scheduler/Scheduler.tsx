@@ -16,7 +16,6 @@ import Confirmation from './Confirmation/Confirmation';
 import { loadGoogleAppointments } from '../../helpers/APICalls/scheduler';
 import fitNewTimeSlot from './helper/fitNewTimeSlot';
 import loadFromLocation from './helper/loadFromLocation';
-import { useEffect } from 'react';
 
 export default function Scheduler(): JSX.Element {
   const history = useHistory();

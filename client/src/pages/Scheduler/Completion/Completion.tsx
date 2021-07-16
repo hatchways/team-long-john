@@ -4,15 +4,11 @@ import { Typography } from '@material-ui/core';
 import { useHistory, useParams } from 'react-router-dom';
 import { completionUrlProp } from '../../../interface/SchedulerProps';
 import Button from '@material-ui/core/Button';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import moment from 'moment-timezone';
-import {
-  CreateGoogleEvent,
-  deleteAppointment,
-  deleteGoogleEvent,
-  getAppointInfo,
-} from '../../../helpers/APICalls/appointment';
+import { deleteAppointment, getAppointInfo } from '../../../helpers/APICalls/appointment';
 import { appointmentInfoProp } from '../../../interface/AppointmentProps';
+import { CreateGoogleEvent, deleteGoogleEvent } from '../../../helpers/APICalls/googleCalendarEvent';
 
 export default function Completion(): JSX.Element {
   const history = useHistory();
@@ -70,7 +66,7 @@ export default function Completion(): JSX.Element {
       timeZone: appointInfo.timeZone,
       colorId: 1,
     };
-    CreateGoogleEvent(false, propGoogleCreate, propAppointeeGE, history, setAppointInfo);
+    CreateGoogleEvent(false, propGoogleCreate, propAppointeeGE, undefined, setAppointInfo);
   };
 
   return (
