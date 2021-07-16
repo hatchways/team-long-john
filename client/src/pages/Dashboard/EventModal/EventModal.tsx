@@ -23,7 +23,7 @@ export default function EventModal({ fetchMeetingsCallback, open, setOpen }: Pro
       name: '',
       duration: '',
     },
-    onSubmit: async ({ name, duration }) => {
+    onSubmit: async ({ name, duration }, { resetForm }) => {
       if (duration === '' || name === '') updateSnackBarMessage('Please enter a valid event duration');
 
       const res = await fetch('/meeting', {
@@ -54,6 +54,8 @@ export default function EventModal({ fetchMeetingsCallback, open, setOpen }: Pro
 
       fetchMeetingsCallback(loggedInUser._id);
       setOpen(false);
+      resetForm();
+      console.log(formik.values);
     },
   });
 
