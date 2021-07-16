@@ -23,7 +23,7 @@ export interface appointDataType {
 // Interface of the data required to create a new appointment.
 export interface appointmentProp {
   meetingId: string;
-  hostUserName: string;
+  appointeeName: string;
   appointeeEmail: string;
   timeZone: string;
   time: Moment;
@@ -35,7 +35,7 @@ export interface appointmentInfoProp {
   loadedOnce: boolean;
   meetingId: string;
   googleEventId: string;
-  hostUserName: string;
+  appointeeName: string;
   appointeeEmail: string;
   timeZone: string;
   time: string;

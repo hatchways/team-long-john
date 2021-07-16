@@ -65,6 +65,7 @@ exports.createGoogleEvent = asyncHandler(async (req, res, next) => {
     res.status(409);
     throw new Error("Event could not be added to host user's Google Calendar");
   }
+
   res.status(201).json({
     success: {
       googleEventId: resGoogleEvent.data.id,

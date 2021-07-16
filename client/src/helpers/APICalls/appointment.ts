@@ -1,7 +1,11 @@
 import { RouteComponentProps } from 'react-router-dom';
 import { appointmentInfoProp, appointmentProp, googleCreateEventProp } from '../../interface/AppointmentProps';
 
-const getAppointInfo = (appointId: string, setter: React.Dispatch<React.SetStateAction<appointmentInfoProp>>): void => {
+const getAppointInfo = (
+  appointId: string,
+  setter: React.Dispatch<React.SetStateAction<appointmentInfoProp>>,
+  history: RouteComponentProps['history'],
+): void => {
   const url = `/appointment/${appointId}`;
   const request = new Request(url, {
     method: 'GET',
@@ -12,6 +16,7 @@ const getAppointInfo = (appointId: string, setter: React.Dispatch<React.SetState
         return res.json();
       } else if (res && res.status === 404) {
         alert('This meeting no longer exists!');
+        history.push('/login');
       }
     })
     .then((data) => {
@@ -21,7 +26,7 @@ const getAppointInfo = (appointId: string, setter: React.Dispatch<React.SetState
           loadedOnce: true,
           meetingId: appointment.meetingId,
           googleEventId: appointment.googleEventId,
-          hostUserName: appointment.username,
+          appointeeName: appointment.username,
           appointeeEmail: appointment.email,
           timeZone: appointment.timezone,
           time: appointment.time,
@@ -44,7 +49,7 @@ const CreateAppointment = (
     body: JSON.stringify({
       meetingId: props.meetingId,
       googleEventId: googleEventId,
-      username: props.hostUserName,
+      username: props.appointeeName,
       email: props.appointeeEmail,
       time: props.time.toISOString(),
       duration: props.duration,
