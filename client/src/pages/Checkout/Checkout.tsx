@@ -7,10 +7,10 @@ import { useSnackBar } from '../../context/useSnackbarContext';
 import useStyles from './useStyles';
 
 const cardSchema = yup.object().shape({
-  number: yup.number().required().positive().integer(),
-  month: yup.number().required().positive().integer(),
-  year: yup.number().required().positive().integer(),
-  cvc: yup.number().required().positive().integer(),
+  number: yup.number().required().positive().integer().min(16),
+  month: yup.number().required().positive().integer().min(2),
+  year: yup.number().required().positive().integer().min(2),
+  cvc: yup.number().required().positive().integer().min(3),
 });
 
 const Checkout = (): JSX.Element => {
