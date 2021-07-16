@@ -11,7 +11,7 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import FormControl from '@material-ui/core/FormControl';
 import BuildTimeZones from './BuildTimeZones';
 import TimePopulator from './TimePopulator';
-import { disableDateProp, hostInfoProp, schedUrlProp } from '../../interface/SchedulerProps';
+import { appointCompProp, disableDateProp, hostInfoProp, schedUrlProp } from '../../interface/SchedulerProps';
 import Confirmation from './Confirmation/Confirmation';
 import { getHostInfo, loadGoogleAppointments } from '../../helpers/APICalls/scheduler';
 import fitNewTimeSlot from './helper/fitNewTimeSlot';
@@ -36,6 +36,8 @@ export default function Scheduler(): JSX.Element {
   if (!hostInfo.loadedOnce) {
     getHostInfo(username, setHostInfo);
   }
+  // Google calendar events from the specified host.
+  const [googleAppoitments, setGoogleAppoitments] = useState<appointCompProp[]>([]);
 
   const today = new Date();
   // Timezone selected on the scheduler.
@@ -52,6 +54,10 @@ export default function Scheduler(): JSX.Element {
   };
 
   const updateDate = (event: Date) => {
+    // Load user's google calendar events using selected date as start ISO.
+    const dateInfo = moment(event).format('YYYY-MM-DD');
+    const startOfDay = moment.tz(`${dateInfo} 00:00`, timeZone);
+    loadGoogleAppointments(hostInfo.hostEmail, startOfDay.toISOString(), setGoogleAppoitments);
     setDateSelected(event);
   };
 
@@ -74,10 +80,15 @@ export default function Scheduler(): JSX.Element {
   const checkDisableTime = (timeValue: string) => {
     const userMoment = calenDateToUserTZ(timeValue);
     const userDate = new Date(userMoment.toISOString());
-    loadGoogleAppointments(hostInfo.hostEmail, userMoment.toISOString());
-    const canFit = fitNewTimeSlot(userDate, duration, hostInfo.appointments);
+    const canFitDB = fitNewTimeSlot(userDate, duration, hostInfo.appointments);
+    const canFitGoogle = fitNewTimeSlot(userDate, duration, googleAppoitments);
     // Put further disabling based on user's google calendar info here.
-    return !canFit || userMoment.isBefore(moment(today)) || !hostInfo.availableDays.includes(userMoment.format('dddd'));
+    return (
+      !canFitDB ||
+      !canFitGoogle ||
+      userMoment.isBefore(moment(today)) ||
+      !hostInfo.availableDays.includes(userMoment.format('dddd'))
+    );
   };
 
   const checkConfirmation = (event: React.MouseEvent<HTMLButtonElement>) => {

@@ -1,5 +1,5 @@
-import { hostInfoProp } from '../../interface/SchedulerProps';
-import processAppointments from '../../pages/Scheduler/helper/processAppointments';
+import { appointCompProp, hostInfoProp } from '../../interface/SchedulerProps';
+import { processAppointments, processGoogleAppointments } from '../../pages/Scheduler/helper/processAppointments';
 
 const getHostInfo = (username: string, setter: React.Dispatch<React.SetStateAction<hostInfoProp>>): void => {
   const url = '/users/username';
@@ -62,7 +62,11 @@ const loadAppointments = (
     });
 };
 
-const loadGoogleAppointments = (email: string, startOfDay: any): void => {
+const loadGoogleAppointments = (
+  email: string,
+  startOfDay: any,
+  setter: React.Dispatch<React.SetStateAction<appointCompProp[]>>,
+): void => {
   const url = `/googleAvailability?startISO=${startOfDay}&email=${email}`;
   const request = new Request(url, {
     method: 'GET',
@@ -78,7 +82,7 @@ const loadGoogleAppointments = (email: string, startOfDay: any): void => {
       }
     })
     .then((data) => {
-      console.log(data);
+      processGoogleAppointments(data, setter);
     })
     .catch((error) => {
       alert(error);
