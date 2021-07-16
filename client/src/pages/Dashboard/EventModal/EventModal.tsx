@@ -55,7 +55,6 @@ export default function EventModal({ fetchMeetingsCallback, open, setOpen }: Pro
       fetchMeetingsCallback(loggedInUser._id);
       setOpen(false);
       resetForm();
-      console.log(formik.values);
     },
   });
 
