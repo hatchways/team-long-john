@@ -88,6 +88,7 @@ const Checkout = (): JSX.Element => {
               <FormControl>
                 <OutlinedInput
                   placeholder="•••"
+                  type="password"
                   name="cvc"
                   value={formik.values.cvc}
                   onChange={formik.handleChange}
