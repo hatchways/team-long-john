@@ -18,6 +18,7 @@ const appointmentRouter = require("./routes/appointment");
 const meetingRouter = require("./routes/meeting");
 const availabilityRouter = require("./routes/availability");
 const googleCreateRouter = require("./routes/googleCreate");
+const googleDeleteRouter = require("./routes/googleDelete");
 
 const { json, urlencoded } = express;
 
@@ -56,6 +57,7 @@ app.use("/appointment", appointmentRouter);
 app.use("/meeting", meetingRouter);
 app.use("/googleAvailability", availabilityRouter);
 app.use("/googleCreate", googleCreateRouter);
+app.use("/googleDelete", googleDeleteRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
