@@ -1,5 +1,5 @@
 import { RouteComponentProps } from 'react-router-dom';
-import { appointCompProp, hostInfoProp } from '../../interface/SchedulerProps';
+import { appointCompProp, hostInfoProp, userDataType } from '../../interface/SchedulerProps';
 import { processAppointments, processGoogleAppointments } from '../../pages/Scheduler/helper/processAppointments';
 
 const getHostInfo = (
@@ -41,7 +41,7 @@ const getHostInfo = (
 
 const loadAppointments = (
   username: string,
-  userdata: any,
+  userdata: userDataType,
   setter: React.Dispatch<React.SetStateAction<hostInfoProp>>,
 ): void => {
   const url = `/appointment?username=${username}`;
@@ -60,7 +60,7 @@ const loadAppointments = (
     })
     .then((data) => {
       if (data && data.success) {
-        processAppointments(userdata, data, setter);
+        processAppointments(userdata, data.success, setter);
       }
     })
     .catch((error) => {
@@ -70,7 +70,7 @@ const loadAppointments = (
 
 const loadGoogleAppointments = (
   email: string,
-  startOfDay: any,
+  startOfDay: string,
   setter: React.Dispatch<React.SetStateAction<appointCompProp[]>>,
 ): void => {
   const url = `/googleAvailability?startISO=${startOfDay}&email=${email}`;
