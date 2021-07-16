@@ -1,5 +1,5 @@
 import { RouteComponentProps } from 'react-router-dom';
-import { appointmentInfoProp, appointmentProp } from '../../interface/SchedulerProps';
+import { appointmentInfoProp, appointmentProp } from '../../interface/AppointmentProps';
 
 const getAppointInfo = (appointId: string, setter: React.Dispatch<React.SetStateAction<appointmentInfoProp>>): void => {
   const url = `/appointment/${appointId}`;

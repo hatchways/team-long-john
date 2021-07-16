@@ -2,11 +2,12 @@ import { Box } from '@material-ui/core';
 import useStyles from './useStyles';
 import { Typography } from '@material-ui/core';
 import { useHistory, useParams } from 'react-router-dom';
-import { appointmentInfoProp, completionUrlProp } from '../../../interface/SchedulerProps';
+import { completionUrlProp } from '../../../interface/SchedulerProps';
 import Button from '@material-ui/core/Button';
 import { useState } from 'react';
 import moment from 'moment-timezone';
 import { deleteAppointment, getAppointInfo } from '../../../helpers/APICalls/appointment';
+import { appointmentInfoProp } from '../../../interface/AppointmentProps';
 
 export default function Completion(): JSX.Element {
   const history = useHistory();

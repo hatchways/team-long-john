@@ -1,8 +1,9 @@
 import { RouteComponentProps } from 'react-router-dom';
+import { StaticContext } from 'react-router';
 import { schedLocationProp } from '../../../interface/SchedulerProps';
 
 const loadFromLocation = (
-  location: RouteComponentProps<Record<string, never>, any, schedLocationProp>['location'],
+  location: RouteComponentProps<Record<string, never>, StaticContext, schedLocationProp>['location'],
 ): schedLocationProp => {
   const username = location.state === undefined ? '' : location.state.username;
   const meetingId = location.state === undefined ? '' : location.state.meetingId;

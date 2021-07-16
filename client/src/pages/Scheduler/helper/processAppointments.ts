@@ -1,11 +1,12 @@
-import { appointCompProp, hostInfoProp } from '../../../interface/SchedulerProps';
+import { appointDataType, googleAppointmentType } from '../../../interface/AppointmentProps';
+import { appointCompProp, hostInfoProp, userDataType } from '../../../interface/SchedulerProps';
 
 const processAppointments = (
-  userdata: any,
-  data: any,
+  userdata: userDataType,
+  data: appointDataType,
   setter: React.Dispatch<React.SetStateAction<hostInfoProp>>,
 ): void => {
-  const appointments = data.success.appointments;
+  const appointments = data.appointments;
   const output = [];
   for (let i = 0; i < appointments.length; i++) {
     output.push({
@@ -34,7 +35,7 @@ const processAppointments = (
 };
 
 const processGoogleAppointments = (
-  appointments: any[],
+  appointments: googleAppointmentType[],
   setter: React.Dispatch<React.SetStateAction<appointCompProp[]>>,
 ): void => {
   const output = [];
