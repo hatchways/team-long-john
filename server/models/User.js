@@ -3,13 +3,16 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    lowercase: true
+    lowercase: true,
   },
   email: {
     type: String,
     required: true,
     unique: true,
-    lowercase: true
+    lowercase: true,
+  },
+  name: {
+    type: String,
   },
   google: {
     id: {
@@ -21,44 +24,44 @@ const userSchema = new mongoose.Schema({
   },
   register_date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   timezone: {
-    type: String
+    type: String,
   },
   availableHours: {
     type: {
       times: {
         start: String,
-        end: String
-      }
+        end: String,
+      },
     },
     default: {
       start: "08:00",
-      end: "17:00"
-    }
+      end: "17:00",
+    },
   },
   availableDays: {
     type: [String],
-    default: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+    default: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
   },
   google: {
     id: {
-      type: String
+      type: String,
     },
     refreshToken: {
-      type: String
-    }
+      type: String,
+    },
   },
   timezone: {
-    type: String
+    type: String,
   },
   appointments: [
     {
       type: mongoose.Types.ObjectId,
-      ref: "appointment"
-    }
-  ]
+      ref: "appointment",
+    },
+  ],
 });
 
 module.exports = User = mongoose.model("user", userSchema);

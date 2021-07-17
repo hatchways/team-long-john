@@ -11,7 +11,11 @@ import tempImg from '../../../Images/b1f0e680702e811aa8ba333cb19c0e0ea95e8e31.pn
 import { useAuth } from '../../../context/useAuthContext';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-export default function UserDashInfo(): JSX.Element {
+interface Props {
+  handleOpen: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export default function UserDashInfo({ handleOpen }: Props): JSX.Element {
   const classes = useStyles();
 
   const { loggedInUser } = useAuth();
@@ -37,7 +41,7 @@ export default function UserDashInfo(): JSX.Element {
               </Box>
             </TableCell>
             <TableCell>
-              <Button variant="outlined" className={classes.outlinedButton}>
+              <Button onClick={handleOpen} variant="outlined" className={classes.outlinedButton}>
                 + New Event Type
               </Button>
             </TableCell>
