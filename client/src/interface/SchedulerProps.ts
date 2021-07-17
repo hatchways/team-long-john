@@ -90,7 +90,6 @@ export interface appointCompProp {
 
 // Interface containing full information of the host user used for scheduler.
 export interface hostInfoProp {
-  loadedOnce: boolean;
   hostId: string;
   hostEmail: string;
   hostName: string;

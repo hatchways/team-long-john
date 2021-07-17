@@ -23,7 +23,6 @@ const getAppointInfo = (
       if (data) {
         const appointment = data.success.appointment;
         setter({
-          loadedOnce: true,
           meetingId: appointment.meetingId,
           hostGoogleEid: appointment.hostGoogleEid,
           hostUserName: appointment.hostUserName,

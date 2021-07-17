@@ -25,7 +25,6 @@ export default function Completion(): JSX.Element {
     duration: 10,
   });
   const [appointInfo, setAppointInfo] = useState<appointmentInfoProp>({
-    loadedOnce: false,
     meetingId: '',
     hostGoogleEid: '',
     hostUserName: '',

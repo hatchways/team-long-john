@@ -12,7 +12,6 @@ const loadFromLocation = (
   const hostInfo =
     location.state === undefined
       ? {
-          loadedOnce: false,
           hostId: '',
           hostEmail: '',
           hostName: '',

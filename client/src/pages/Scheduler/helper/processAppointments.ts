@@ -24,7 +24,6 @@ const processAppointments = (
     return 0;
   });
   setter({
-    loadedOnce: true,
     hostId: userdata.id,
     hostEmail: userdata.email,
     hostName: userdata.name,

@@ -35,7 +35,6 @@ export interface appointmentProp {
 
 // Interface of the data required to load the appointment completion page.
 export interface appointmentInfoProp {
-  loadedOnce: boolean;
   meetingId: string;
   hostGoogleEid: string;
   hostUserName: string;

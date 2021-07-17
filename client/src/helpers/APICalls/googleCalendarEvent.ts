@@ -36,7 +36,6 @@ const addGoogleAppointee = (
       if (data) {
         const appointment = data.success.appointments;
         setter({
-          loadedOnce: true,
           meetingId: appointment.meetingId,
           hostGoogleEid: appointment.hostGoogleEid,
           hostUserName: appointment.hostUserName,

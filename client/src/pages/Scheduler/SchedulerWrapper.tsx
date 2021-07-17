@@ -21,9 +21,7 @@ export default function SchedulerWrapper(): JSX.Element {
   useEffect(() => {
     getMeetingInfo(meetingId, setMeetingInfo);
   }, [meetingId]);
-
   const [hostInfo, setHostInfo] = useState<hostInfoProp>({
-    loadedOnce: false,
     hostId: '',
     hostEmail: '',
     hostName: '',
