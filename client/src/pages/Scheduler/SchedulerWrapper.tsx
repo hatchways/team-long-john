@@ -13,12 +13,15 @@ export default function SchedulerWrapper(): JSX.Element {
   const history = useHistory();
   // This is the username of the person who is hosting the appointment.
   const { username, meetingId } = useParams<schedUrlProp>();
-
   const [meetingInfo, setMeetingInfo] = useState<meetingInfoProp>({
     userId: '',
     meetingTitle: '',
     duration: 10,
   });
+  useEffect(() => {
+    getMeetingInfo(meetingId, setMeetingInfo);
+  }, [meetingId]);
+
   const [hostInfo, setHostInfo] = useState<hostInfoProp>({
     loadedOnce: false,
     hostId: '',
@@ -31,10 +34,11 @@ export default function SchedulerWrapper(): JSX.Element {
     appointments: [],
   });
   useEffect(() => {
-    if (!hostInfo.loadedOnce) {
-      getMeetingInfo(meetingId, setMeetingInfo);
-      getHostInfo(username, setHostInfo, history);
-    } else {
+    getHostInfo(username, setHostInfo, history);
+  }, [username, history]);
+
+  useEffect(() => {
+    if (meetingInfo.userId && hostInfo.hostId) {
       if (meetingInfo.userId === hostInfo.hostId) {
         history.push({
           pathname: `/scheduler`,
@@ -51,6 +55,6 @@ export default function SchedulerWrapper(): JSX.Element {
         history.push('/login');
       }
     }
-  }, [hostInfo, meetingInfo, username, history, meetingId]);
+  });
   return <Box />;
 }

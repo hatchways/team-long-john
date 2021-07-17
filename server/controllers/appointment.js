@@ -8,7 +8,7 @@ exports.fetchAppointments = asyncHandler(async (req, res, next) => {
   const { username } = req.query;
 
   // Finds all appointments associated with the email
-  const appointments = await Appointment.find({ username: username });
+  const appointments = await Appointment.find({ hostUserName: username });
 
   // If we do not find any appointments then send 404
   if (appointments.length === 0) {

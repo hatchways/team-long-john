@@ -10,6 +10,7 @@ import { deleteAppointment, getAppointInfo } from '../../../helpers/APICalls/app
 import { appointmentInfoProp } from '../../../interface/AppointmentProps';
 import { CreateGoogleEvent, deleteGoogleEvent } from '../../../helpers/APICalls/googleCalendarEvent';
 import { getMeetingInfo } from '../../../helpers/APICalls/meetings';
+import { useEffect } from 'react';
 
 export default function Completion(): JSX.Element {
   const history = useHistory();
@@ -36,11 +37,14 @@ export default function Completion(): JSX.Element {
     timeZone: '',
     time: '',
   });
-  if (!appointInfo.loadedOnce) {
+  useEffect(() => {
     getAppointInfo(appointID, setAppointInfo, history);
-  } else if (!meetingInfo.userId) {
-    getMeetingInfo(appointInfo.meetingId, setMeetingInfo);
-  }
+  }, [appointID, history]);
+  useEffect(() => {
+    if (appointInfo.meetingId) {
+      getMeetingInfo(appointInfo.meetingId, setMeetingInfo);
+    }
+  }, [appointInfo.meetingId]);
 
   const timeMoment = appointInfo.time === '' ? moment() : moment.tz(appointInfo.time, appointInfo.timeZone);
   const timeStr = timeMoment.format('HH:mm on MMMM DD, YYYY');
