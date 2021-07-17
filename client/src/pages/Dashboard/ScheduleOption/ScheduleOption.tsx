@@ -9,13 +9,14 @@ import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 import SettingsIcon from '@material-ui/icons/Settings';
 
 interface SchedProp {
+  name: string;
   schedTime: number;
   colour: string;
 }
 
 export default function ScheduleOption(prop: SchedProp): JSX.Element {
   const classes = useStyles();
-  const title = `${prop.schedTime} minutes meeeting`;
+  const title = `${prop.name}`;
   const className =
     prop.colour === 'purple'
       ? classes.paperStyleP

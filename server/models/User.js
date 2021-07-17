@@ -11,13 +11,16 @@ const userSchema = new mongoose.Schema({
     unique: true,
     lowercase: true
   },
+  name: {
+    type: String
+  },
   google: {
     id: {
-      type: String,
+      type: String
     },
     refreshToken: {
-      type: String,
-    },
+      type: String
+    }
   },
   register_date: {
     type: Date,
