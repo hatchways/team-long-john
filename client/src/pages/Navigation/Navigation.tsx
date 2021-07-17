@@ -1,7 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -12,12 +12,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import useStyles from './useStyles';
-import tempImg from '../../../Images/b1f0e680702e811aa8ba333cb19c0e0ea95e8e31.png';
-import logo from '../../../Images/logo.png';
+import tempImg from '../../Images/b1f0e680702e811aa8ba333cb19c0e0ea95e8e31.png';
+import logo from '../../Images/logo.png';
 import { Box } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { useAuth } from '../../../context/useAuthContext';
+import { useAuth } from '../../context/useAuthContext';
 
 export default function Navigation(): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -32,14 +32,8 @@ export default function Navigation(): JSX.Element {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const logOut = () => {
-    setAnchorEl(null);
-    logout();
-  };
+  const handleClose = () => setAnchorEl(null);
+  const handleLogout = () => logout();
 
   return (
     <AppBar position="static" className={classes.root}>
@@ -47,13 +41,13 @@ export default function Navigation(): JSX.Element {
       <Toolbar className={classes.navbar}>
         <img src={logo} className={classes.logoImage} />
         <Box className={classes.navButtons}>
-          <Link component="button" className={`${classes.option} ${classes.premium}`}>
+          <Link to="/upgrade" className={`${classes.option} ${classes.premium}`} style={{ textDecoration: 'none' }}>
             Upgrade Account
           </Link>
-          <Link component="button" className={classes.option}>
+          <Link to="/integration" className={classes.option} style={{ textDecoration: 'none' }}>
             Integration
           </Link>
-          <Link component="button" className={classes.option}>
+          <Link to="/dashboard" className={classes.option} style={{ textDecoration: 'none' }}>
             Home
           </Link>
         </Box>
@@ -73,9 +67,7 @@ export default function Navigation(): JSX.Element {
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList>
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem component={Link} onClick={logOut}>
-                      Logout
-                    </MenuItem>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

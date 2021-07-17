@@ -2,7 +2,7 @@ import { useState, useContext, createContext, FunctionComponent, useEffect, useC
 import { useHistory } from 'react-router-dom';
 import { AuthApiData, AuthApiDataSuccess } from '../interface/AuthApiData';
 import { User } from '../interface/User';
-import loginWithCookies from '../helpers/APICalls/loginWithCookies';
+import fetchMe from '../helpers/APICalls/loginWithCookies';
 import logoutAPI from '../helpers/APICalls/logout';
 
 interface IAuthContext {
@@ -22,18 +22,9 @@ export const AuthProvider: FunctionComponent = ({ children }): JSX.Element => {
   const [loggedInUser, setLoggedInUser] = useState<User | null | undefined>();
   const history = useHistory();
 
-  const updateLoginContext = useCallback(
-    (data: AuthApiDataSuccess) => {
-      if (!data.user.username) {
-        setLoggedInUser(data.user);
-        history.push('profile_settings');
-      } else {
-        setLoggedInUser(data.user);
-        history.push('/dashboard');
-      }
-    },
-    [history],
-  );
+  const updateLoginContext = useCallback((data: AuthApiDataSuccess) => {
+    setLoggedInUser(data.user);
+  }, []);
 
   const logout = useCallback(async () => {
     // needed to remove token cookie
@@ -47,8 +38,8 @@ export const AuthProvider: FunctionComponent = ({ children }): JSX.Element => {
 
   // use our cookies to check if we can login straight away
   useEffect(() => {
-    const checkLoginWithCookies = async () => {
-      await loginWithCookies().then((data: AuthApiData) => {
+    const checkFetchMe = async () => {
+      await fetchMe().then((data: AuthApiData) => {
         if (data.success) {
           updateLoginContext(data.success);
         } else {
@@ -58,7 +49,7 @@ export const AuthProvider: FunctionComponent = ({ children }): JSX.Element => {
         }
       });
     };
-    checkLoginWithCookies();
+    checkFetchMe();
   }, [updateLoginContext, history]);
 
   return <AuthContext.Provider value={{ loggedInUser, updateLoginContext, logout }}>{children}</AuthContext.Provider>;
