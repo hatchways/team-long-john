@@ -35,9 +35,11 @@ export interface completionUrlProp {
 
 // Interface used to pass required information to Confirmation.
 export interface confirmProp {
+  hostUserName: string;
+  hostName: string;
   hostEmail: string;
-  meetingTitle: string;
   username: string;
+  meetingTitle: string;
   meetingId: string;
   duration: number;
   timeZone: string;
@@ -70,13 +72,13 @@ export interface TPProps {
 
 // Interface required to pass partial host user info to build hostInfoProp object.
 export interface userDataType {
-  availableDays: string[];
-  availableHours: {
-    start: string;
-    end: string;
-  };
+  id: string;
   email: string;
-  timezone: string;
+  name: string;
+  availableDays: string[];
+  timeZone: string;
+  startTime: string;
+  endTime: string;
 }
 
 // Interface containing concise info of all host user's appointments.
@@ -89,10 +91,19 @@ export interface appointCompProp {
 // Interface containing full information of the host user used for scheduler.
 export interface hostInfoProp {
   loadedOnce: boolean;
+  hostId: string;
   hostEmail: string;
+  hostName: string;
   availableDays: string[];
   timeZone: string;
   startTime: string;
   endTime: string;
   appointments: appointCompProp[];
+}
+
+// Interface containing required meeting information.
+export interface meetingInfoProp {
+  userId: string;
+  meetingTitle: string;
+  duration: number;
 }

@@ -33,6 +33,9 @@ export default function Confirmation(props: confirmProp): JSX.Element {
     const propCA = {
       meetingId: props.meetingId,
       appointeeName: appointeeName,
+      hostUserName: props.hostUserName,
+      hostName: props.hostName,
+      hostEmail: props.hostEmail,
       appointeeEmail: appointeeEmail,
       timeZone: props.timeZone,
       time: props.time,
@@ -63,7 +66,7 @@ export default function Confirmation(props: confirmProp): JSX.Element {
   return (
     <Box className={classes.wrapper}>
       <Typography className={classes.header}>
-        You are about to make an appointment with {props.username}
+        You are about to make an appointment with {props.hostName}
         &nbsp;at {timeString} ({props.timeZone}) for {props.duration} minutes.
       </Typography>
       <TextField

@@ -129,7 +129,9 @@ export default function Scheduler(): JSX.Element {
       </Box>
       {confirmTrigger && (
         <Confirmation
+          hostUserName={username}
           hostEmail={hostInfo.hostEmail}
+          hostName={hostInfo.hostName}
           meetingTitle={meetingTitle}
           username={username}
           meetingId={meetingId}

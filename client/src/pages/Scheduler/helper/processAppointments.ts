@@ -25,11 +25,13 @@ const processAppointments = (
   });
   setter({
     loadedOnce: true,
+    hostId: userdata.id,
     hostEmail: userdata.email,
+    hostName: userdata.name,
     availableDays: userdata.availableDays,
-    timeZone: userdata.timezone,
-    startTime: userdata.availableHours.start,
-    endTime: userdata.availableHours.end,
+    timeZone: userdata.timeZone,
+    startTime: userdata.startTime,
+    endTime: userdata.endTime,
     appointments: output,
   });
 };

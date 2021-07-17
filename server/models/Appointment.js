@@ -9,6 +9,18 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  hostUserName: {
+    type: String,
+    required: true,
+  },
+  hostName: {
+    type: String,
+    required: true,
+  },
+  hostEmail: {
+    type: String,
+    required: true,
+  },
   appointeeGoogleEid: {
     type: String,
   },

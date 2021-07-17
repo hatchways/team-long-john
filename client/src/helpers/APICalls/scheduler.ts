@@ -31,7 +31,16 @@ const getHostInfo = (
     .then((data) => {
       if (data) {
         const userdata = data.success.user;
-        loadAppointments(username, userdata, setter);
+        const selectiveUserData = {
+          id: userdata.id,
+          email: userdata.email,
+          name: userdata.name,
+          availableDays: userdata.availableDays,
+          timeZone: userdata.timezone,
+          startTime: userdata.availableHours.start,
+          endTime: userdata.availableHours.end,
+        };
+        loadAppointments(username, selectiveUserData, setter);
       }
     })
     .catch((error) => {

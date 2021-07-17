@@ -13,7 +13,9 @@ const loadFromLocation = (
     location.state === undefined
       ? {
           loadedOnce: false,
+          hostId: '',
           hostEmail: '',
+          hostName: '',
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
           timeZone: 'America/Toronto',
           startTime: '08:00',
