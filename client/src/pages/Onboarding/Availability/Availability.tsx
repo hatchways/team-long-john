@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Box, Button, TextField, Checkbox } from '@material-ui/core/';
 
 import CalendAppLogo from '../../../components/CalendAppLogo/CalendAppLogo';
@@ -10,7 +9,6 @@ import { useAuth } from '../../../context/useAuthContext';
 
 const Availability = (): JSX.Element => {
   const { loggedInUser, logout } = useAuth();
-  const history = useHistory();
   const classes = useStyles();
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 

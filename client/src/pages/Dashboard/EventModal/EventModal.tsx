@@ -6,6 +6,7 @@ import { useSnackBar } from '../../../context/useSnackbarContext';
 import { useAuth } from '../../../context/useAuthContext';
 
 import useStyles from './useStyles';
+import { User } from '../../../interface/User';
 
 interface Props {
   fetchMeetingsCallback: (id: string) => void;
@@ -16,7 +17,7 @@ interface Props {
 export default function EventModal({ fetchMeetingsCallback, open, setOpen }: Props): JSX.Element {
   const classes = useStyles();
   const { updateSnackBarMessage } = useSnackBar();
-  const loggedInUser: any = useAuth().loggedInUser;
+  const loggedInUser: User | null | undefined = useAuth().loggedInUser;
 
   const formik = useFormik({
     initialValues: {
@@ -26,35 +27,36 @@ export default function EventModal({ fetchMeetingsCallback, open, setOpen }: Pro
     onSubmit: async ({ name, duration }, { resetForm }) => {
       if (duration === '' || name === '') updateSnackBarMessage('Please enter a valid event duration');
 
-      const res = await fetch('/meeting', {
-        method: 'POST',
-        credentials: 'include',
-        body: JSON.stringify({
-          userId: loggedInUser._id,
-          name: name,
-          duration: duration,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-      });
-
-      if (res.status === 400) {
-        const message = await res.json();
-        updateSnackBarMessage(message.error);
-        return;
+      if (loggedInUser) {
+        const res = await fetch('/meeting', {
+          method: 'POST',
+          credentials: 'include',
+          body: JSON.stringify({
+            userId: loggedInUser._id,
+            name: name,
+            duration: duration,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+        });
+        if (res.status === 400) {
+          const message = await res.json();
+          updateSnackBarMessage(message.error);
+          return;
+        }
+        if (res.status === 406) {
+          const message = await res.json();
+          updateSnackBarMessage(message.error);
+          return;
+        }
+        fetchMeetingsCallback(loggedInUser._id);
+        setOpen(false);
+        resetForm();
+      } else {
+        updateSnackBarMessage('Please log in.');
       }
-
-      if (res.status === 406) {
-        const message = await res.json();
-        updateSnackBarMessage(message.error);
-        return;
-      }
-
-      fetchMeetingsCallback(loggedInUser._id);
-      setOpen(false);
-      resetForm();
     },
   });
 
