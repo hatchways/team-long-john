@@ -1,5 +1,6 @@
 const Appointment = require("../models/Appointment");
 const asyncHandler = require("express-async-handler");
+const { appointCreateEmail } = require("./emailHelper/emailSender");
 
 // @route GET /appointment
 // @desc Fetches all appointments associated with user
@@ -41,6 +42,9 @@ exports.createAppointment = asyncHandler(async (req, res, next) => {
     );
   }
 
+  // Send Emails
+  appointCreateEmail(true, appointment);
+  appointCreateEmail(false, appointment);
   res.status(201).json({ success: { appointment: appointment } });
 });
 
