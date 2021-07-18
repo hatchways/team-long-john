@@ -2,7 +2,7 @@
 
 # dependencies
 node_modules/
-
+package-lock.json
 
 # production
 /build/
@@ -25,3 +25,5 @@ __snapshots__
 
 # debug & other vs code settings
 .vscode
+
+.vercel
