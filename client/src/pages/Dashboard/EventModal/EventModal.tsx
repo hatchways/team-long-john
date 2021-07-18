@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import { Modal, Box, FormControl, Select, InputLabel, MenuItem, Button, OutlinedInput } from '@material-ui/core';
 import { useSnackBar } from '../../../context/useSnackbarContext';
 import { useAuth } from '../../../context/useAuthContext';
+import { User } from '../../../interface/User';
 
 import useStyles from './useStyles';
 
@@ -16,7 +17,7 @@ interface Props {
 export default function EventModal({ fetchMeetingsCallback, open, setOpen }: Props): JSX.Element {
   const classes = useStyles();
   const { updateSnackBarMessage } = useSnackBar();
-  const loggedInUser: any = useAuth().loggedInUser;
+  const loggedInUser: User = useAuth().loggedInUser;
 
   const formik = useFormik({
     initialValues: {

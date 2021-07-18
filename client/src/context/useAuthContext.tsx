@@ -6,20 +6,28 @@ import fetchMe from '../helpers/APICalls/loginWithCookies';
 import logoutAPI from '../helpers/APICalls/logout';
 
 interface IAuthContext {
-  loggedInUser: User | null | undefined;
+  loggedInUser: User;
   updateLoginContext: (data: AuthApiDataSuccess) => void;
   logout: () => void;
 }
 
 export const AuthContext = createContext<IAuthContext>({
-  loggedInUser: undefined,
+  loggedInUser: {} as User,
   updateLoginContext: () => null,
   logout: () => null,
 });
 
 export const AuthProvider: FunctionComponent = ({ children }): JSX.Element => {
   // default undefined before loading, once loaded provide user or null if logged out
-  const [loggedInUser, setLoggedInUser] = useState<User | null | undefined>();
+  const [loggedInUser, setLoggedInUser] = useState<User>({
+    _id: '',
+    email: '',
+    username: '',
+    name: '',
+    timezone: '',
+    availableHours: [],
+    availableDays: [],
+  });
   const history = useHistory();
 
   const updateLoginContext = useCallback((data: AuthApiDataSuccess) => {
@@ -31,7 +39,7 @@ export const AuthProvider: FunctionComponent = ({ children }): JSX.Element => {
     await logoutAPI()
       .then(() => {
         history.push('/login');
-        setLoggedInUser(null);
+        setLoggedInUser({} as User);
       })
       .catch((error) => console.error(error));
   }, [history]);
@@ -44,7 +52,7 @@ export const AuthProvider: FunctionComponent = ({ children }): JSX.Element => {
           updateLoginContext(data.success);
         } else {
           // don't need to provide error feedback as this just means user doesn't have saved cookies or the cookies have not been authenticated on the backend
-          setLoggedInUser(null);
+          setLoggedInUser({} as User);
           history.push('/login');
         }
       });

@@ -15,6 +15,7 @@ import { useAuth } from '../../context/useAuthContext';
 import { fetchMeetings } from '../../helpers/APICalls/meetings';
 import EventModal from './EventModal/EventModal';
 import { Meetings } from '../../interface/Meeting';
+import { User } from '../../interface/User';
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
@@ -24,7 +25,7 @@ export default function Dashboard(): JSX.Element {
   const [dashOptionSelected, setDashOption] = React.useState(dashOptions[0]);
   const schedOptions = ['UPCOMING', 'PENDING', 'PAST'];
   const [schedSelect, setSchedSelect] = React.useState(schedOptions[0]);
-  const loggedInUser: any = useAuth().loggedInUser;
+  const loggedInUser: User = useAuth().loggedInUser;
   const [meetingOptions, setMeetingOptions] = useState<Meetings>([]);
 
   const fetchMeetingsCallback = useCallback(async (id) => {
