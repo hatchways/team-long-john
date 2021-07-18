@@ -2,12 +2,13 @@ import Grid from '@material-ui/core/Grid';
 import { useHistory } from 'react-router-dom';
 
 import { useAuth } from '../../context/useAuthContext';
+import isDev from '../../helpers/isDev';
 
 export default function AuthSetUp(): JSX.Element {
   const { updateLoginContext } = useAuth();
   const history = useHistory();
 
-  const url = '/users/me';
+  const url = isDev() ? '/users/me' : `${process.env.PROD_URL}/users/me`;
   const request = new Request(url, {
     method: 'GET',
     credentials: 'include',
@@ -19,8 +20,8 @@ export default function AuthSetUp(): JSX.Element {
     })
     .then((data) => {
       updateLoginContext(data.success);
-      if (!data.success.user.username) history.push('profile_settings');
-      else history.push('dashboard');
+      if (!data.success.user.username) history.push('/profile_settings');
+      else history.push('/dashboard');
     })
     .catch((error) => alert(error));
 
