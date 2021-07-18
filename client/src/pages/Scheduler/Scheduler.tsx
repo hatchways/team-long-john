@@ -4,7 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { Box } from '@material-ui/core';
 import useStyles from './useStyles';
 import { Typography } from '@material-ui/core';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import moment from 'moment-timezone';
 import ScheduleIcon from '@material-ui/icons/Schedule';
@@ -15,7 +15,6 @@ import { disableDateProp, schedUrlProp } from '../../interface/SchedulerProps';
 import Confirmation from './Confirmation/Confirmation';
 
 export default function Scheduler(): JSX.Element {
-  const history = useHistory();
   const classes = useStyles();
 
   // This is the username of the person who is hosting the appointment, not the current user.
