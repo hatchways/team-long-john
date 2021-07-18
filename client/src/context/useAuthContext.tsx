@@ -5,6 +5,8 @@ import { User } from '../interface/User';
 import fetchMe from '../helpers/APICalls/loginWithCookies';
 import logoutAPI from '../helpers/APICalls/logout';
 
+import isDev from '../helpers/isDev';
+
 interface IAuthContext {
   loggedInUser: User;
   updateLoginContext: (data: AuthApiDataSuccess) => void;
@@ -38,7 +40,7 @@ export const AuthProvider: FunctionComponent = ({ children }): JSX.Element => {
     // needed to remove token cookie
     await logoutAPI()
       .then(() => {
-        history.push('/login');
+        history.push(isDev() ? '/login' : `${process.env.PROD_URL}/login`);
         setLoggedInUser({} as User);
       })
       .catch((error) => console.error(error));
@@ -53,7 +55,7 @@ export const AuthProvider: FunctionComponent = ({ children }): JSX.Element => {
         } else {
           // don't need to provide error feedback as this just means user doesn't have saved cookies or the cookies have not been authenticated on the backend
           setLoggedInUser({} as User);
-          history.push('/login');
+          history.push(isDev() ? '/login' : `${process.env.PROD_URL}/login`);
         }
       });
     };
