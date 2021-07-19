@@ -1,4 +1,4 @@
-const Appointment = require('../models/Appointment');
+const Appointment = require("../models/Appointment");
 const asyncHandler = require("express-async-handler");
 
 // @route GET /appointment
@@ -12,27 +12,27 @@ exports.fetchAppointments = asyncHandler(async (req, res, next) => {
 
   // If we do not find any appointments then send 404
   if (appointments.length === 0) {
-    res.status(404)
+    res.status(404);
     throw new Error("You do not have any appointments");
   }
 
-  res.status(200).json({ success: { appointments: appointments }});
-})
+  res.status(200).json({ success: { appointments: appointments } });
+});
 
 // @route POST /appointment
 // @desc Creates an appointment
 // @access Public
-exports.createAppointment = asyncHandler(async (req, res, next) => {    
+exports.createAppointment = asyncHandler(async (req, res, next) => {
   // Checking for empty input
   for (let key in req.body) {
     if (req.body[key].trim() === "") {
       res.status(406);
-      throw new Error("Invalid input, please do not send empty input(s)")
+      throw new Error("Invalid input, please do not send empty input(s)");
     }
   }
 
   // Creates an appointment
   const appointment = await Appointment.create(req.body);
 
-  res.status(201).json({ success: { appointment: appointment }});
-})
+  res.status(201).json({ success: { appointment: appointment } });
+});
