@@ -19,8 +19,8 @@ module.exports.getAvailability = async (calendar, timeMin, timeMax, zone) => {
       timeMin: timeMin,
       timeMax: timeMax,
       timeZone: zone,
-      items: [{ id: "primary" }] // Focusing on a user's primary calendar
-    }
+      items: [{ id: "primary" }], // Focusing on a user's primary calendar
+    },
   });
 
   if (res.status !== 200) {

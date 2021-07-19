@@ -13,5 +13,5 @@ exports.validateUpdateUser = [
     }
 
     next();
-  }
+  },
 ];

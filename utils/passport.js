@@ -10,11 +10,11 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "/auth/google/callback",
-      proxy: true
+      proxy: true,
     },
     async (accessToken, refreshToken, profile, done) => {
       const existingUser = await User.findOne({
-        email: profile.emails[0].value
+        email: profile.emails[0].value,
       });
 
       if (existingUser) {
@@ -31,8 +31,8 @@ passport.use(
         email: profile.emails[0].value,
         google: {
           id: profile.id,
-          refreshToken: refreshToken
-        }
+          refreshToken: refreshToken,
+        },
       }).save();
 
       return done(null, profile);

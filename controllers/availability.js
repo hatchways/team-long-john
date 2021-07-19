@@ -2,12 +2,12 @@ const asyncHandler = require("express-async-handler");
 
 const {
   retrieveCalendar,
-  getAvailability
+  getAvailability,
 } = require("../utils/googleCalendar");
 const {
   getDayName,
   convertToDate,
-  convertToTimeZone
+  convertToTimeZone,
 } = require("../utils/dateTime");
 
 // @route GET /availability?day=2021-07-09T05:05:09.172Z&email=acgarzeah@gmail.com
