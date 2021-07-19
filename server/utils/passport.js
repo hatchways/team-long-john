@@ -10,11 +10,11 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "/auth/google/callback",
-      proxy: true
+      proxy: true,
     },
     async (accessToken, refreshToken, profile, done) => {
       const existingUser = await User.findOne({
-        email: profile.emails[0].value
+        email: profile.emails[0].value,
       });
 
       if (existingUser) {
@@ -26,13 +26,20 @@ passport.use(
         return done(null, existingUser);
       }
 
-      await new User({
+      const newUser = await new User({
         name: profile.displayName,
         email: profile.emails[0].value,
         google: {
           id: profile.id,
-          refreshToken: refreshToken
-        }
+          refreshToken: refreshToken,
+        },
+      });
+      newUser.save();
+
+      await new Meeting({
+        userId: newUser._id,
+        name: "DEFAULT 60 MIN MEETING",
+        duration: 60,
       }).save();
 
       return done(null, profile);
