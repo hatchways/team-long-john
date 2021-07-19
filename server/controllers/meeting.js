@@ -55,3 +55,18 @@ exports.getMeeting = asyncHandler(async (req, res, next) => {
     throw new Error("No meetings found for this logged in user");
   }
 });
+
+// @route GET /meeting/:id
+// @desc Get all of the meeting information associated with id.
+// @access Public
+exports.getMeetingInfo = asyncHandler(async (req, res, next) => {
+  const id = req.params.id;
+  const meeting = await Meeting.findById(id);
+
+  if (!meeting) {
+    res.status(404);
+    throw new Error("No meeting found with given id");
+  }
+
+  res.status(200).json({ success: { meeting: meeting } });
+});

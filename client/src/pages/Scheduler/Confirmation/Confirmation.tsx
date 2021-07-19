@@ -4,26 +4,95 @@ import { Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { confirmProp } from '../../../interface/SchedulerProps';
 import Button from '@material-ui/core/Button';
+import { useState } from 'react';
+import TextField from '@material-ui/core/TextField';
+import { CreateGoogleEvent } from '../../../helpers/APICalls/googleCalendarEvent';
 
 export default function Confirmation(props: confirmProp): JSX.Element {
   const history = useHistory();
   const classes = useStyles();
 
+  // This regex is used to check if the email is valid or not.
+  const emailREGEX = /\S+@\S+\.\S+/;
   const timeString = props.time.format('HH:mm on MMMM DD, YYYY');
+  const [appointeeEmail, setAppointeeEmail] = useState('');
+  const [appointeeName, setAppointeeName] = useState('');
 
   const completeAppointment = () => {
-    // Communicate with the BE to create an appointment with given information.
-    // Redirect the user to the appointment completion page: /completion/:appointmentID
-    // For testing purpose, the current url for completeion page is /completion.
-    history.push('/completion');
+    if (!emailREGEX.test(appointeeEmail)) {
+      alert('Please enter a valid email address!');
+      return;
+    }
+    if (appointeeName.length === 0) {
+      alert('Please enter a valid (preferred) name!');
+      return;
+    }
+    // Create an appointment in DB and in host user's google calendar
+    // and redirect the appointee to appointment completion page upon success.
+    // Object used to create an appointment in DB.
+    const propCA = {
+      meetingId: props.meetingId,
+      appointeeName: appointeeName,
+      hostUserName: props.hostUserName,
+      hostName: props.hostName,
+      hostEmail: props.hostEmail,
+      appointeeEmail: appointeeEmail,
+      timeZone: props.timeZone,
+      time: props.time,
+      duration: props.duration,
+    };
+    // Object used to create an appointment in host user's google calendar.
+    const propGoogleCreate = {
+      email: props.hostEmail,
+      summary: props.meetingTitle,
+      location: 'N/A',
+      description: props.meetingTitle,
+      startISO: props.time.toISOString(),
+      duration: props.duration,
+      timeZone: props.timeZone,
+      colorId: 1,
+    };
+    CreateGoogleEvent(true, propGoogleCreate, propCA, history);
+  };
+
+  const handleEmailChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setAppointeeEmail(event.currentTarget.value.toLowerCase());
+  };
+
+  const handleNameChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setAppointeeName(event.currentTarget.value.toLowerCase());
   };
 
   return (
     <Box className={classes.wrapper}>
       <Typography className={classes.header}>
-        You are about to make an appointment with {props.username}
+        You are about to make an appointment with {props.hostName}
         &nbsp;at {timeString} ({props.timeZone}) for {props.duration} minutes.
       </Typography>
+      <TextField
+        className={classes.textField}
+        onChange={handleEmailChange}
+        placeholder="E-mail Address"
+        variant="outlined"
+        fullWidth
+        InputProps={{
+          classes: {
+            input: classes.textFieldContent,
+          },
+        }}
+      />
+      <TextField
+        className={classes.textField}
+        onChange={handleNameChange}
+        placeholder="Your (preferred) name"
+        variant="outlined"
+        fullWidth
+        InputProps={{
+          classes: {
+            input: classes.textFieldContent,
+          },
+        }}
+      />
       <Box className={classes.buttonWrapper}>
         <Button className={`${classes.button} ${classes.confirm}`} onClick={completeAppointment}>
           Continue

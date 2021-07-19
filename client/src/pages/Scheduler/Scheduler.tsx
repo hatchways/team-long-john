@@ -4,31 +4,35 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { Box } from '@material-ui/core';
 import useStyles from './useStyles';
 import { Typography } from '@material-ui/core';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import moment from 'moment-timezone';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import FormControl from '@material-ui/core/FormControl';
 import BuildTimeZones from './BuildTimeZones';
 import TimePopulator from './TimePopulator';
-import { disableDateProp, schedUrlProp } from '../../interface/SchedulerProps';
+import { appointCompProp, disableDateProp, schedLocationProp } from '../../interface/SchedulerProps';
 import Confirmation from './Confirmation/Confirmation';
+import { loadGoogleAppointments } from '../../helpers/APICalls/scheduler';
+import fitNewTimeSlot from './helper/fitNewTimeSlot';
+import loadFromLocation from './helper/loadFromLocation';
 
 export default function Scheduler(): JSX.Element {
   const history = useHistory();
+  const location = useLocation<schedLocationProp>();
+  const { username, meetingId, duration, hostInfo, meetingTitle } = loadFromLocation(location);
+  // Accessing this page without going through /shared is prevented.
+  if (location.state === undefined) {
+    history.push('/login');
+  }
   const classes = useStyles();
 
-  // This is the username of the person who is hosting the appointment, not the current user.
-  // When integrating, search the user by this username to get specific information.
-  const { username, duration } = useParams<schedUrlProp>();
-  const availableDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-  const userTimeZone = 'America/Toronto';
-  const startTime = '08:10';
-  const endTime = '22:00';
+  // Google calendar events from the specified host.
+  const [googleAppoitments, setGoogleAppoitments] = useState<appointCompProp[]>([]);
 
   const today = new Date();
   // Timezone selected on the scheduler.
-  const [timeZone, setTimeZone] = useState(userTimeZone);
+  const [timeZone, setTimeZone] = useState(hostInfo.timeZone);
   // Date selected on the calendar. Does not take account of timeZone (uses user's PC timezone).
   const [dateSelected, setDateSelected] = useState(today);
   // Date selected to the ISO string.
@@ -41,6 +45,10 @@ export default function Scheduler(): JSX.Element {
   };
 
   const updateDate = (event: Date) => {
+    // Load user's google calendar events using selected date as start ISO.
+    const dateInfo = moment(event).format('YYYY-MM-DD');
+    const startOfDay = moment.tz(`${dateInfo} 00:00`, timeZone);
+    loadGoogleAppointments(hostInfo.hostEmail, startOfDay.toISOString(), setGoogleAppoitments);
     setDateSelected(event);
   };
 
@@ -56,14 +64,22 @@ export default function Scheduler(): JSX.Element {
     // Converts "current" time in the selected timezone to the user's base timezone.
     const dateInfo = moment(dateSelected).format('YYYY-MM-DD');
     const momentTZ = moment.tz(`${dateInfo} ${timeValue}`, timeZone);
-    const userMoment = moment.tz(momentTZ, userTimeZone);
+    const userMoment = moment.tz(momentTZ, hostInfo.timeZone);
     return userMoment;
   };
 
   const checkDisableTime = (timeValue: string) => {
-    // Put further disabling based on user's google calendar info here.
     const userMoment = calenDateToUserTZ(timeValue);
-    return userMoment.isBefore(moment(today)) || !availableDays.includes(userMoment.format('dddd'));
+    const userDate = new Date(userMoment.toISOString());
+    const canFitDB = fitNewTimeSlot(userDate, duration, hostInfo.appointments);
+    const canFitGoogle = fitNewTimeSlot(userDate, duration, googleAppoitments);
+    // Put further disabling based on user's google calendar info here.
+    return (
+      !canFitDB ||
+      !canFitGoogle ||
+      userMoment.isBefore(moment(today)) ||
+      !hostInfo.availableDays.includes(userMoment.format('dddd'))
+    );
   };
 
   const checkConfirmation = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -92,17 +108,17 @@ export default function Scheduler(): JSX.Element {
           <Typography className={classes.calendarHeader}> Select a Date &amp; Time </Typography>
           <Calendar minDetail={'year'} showNeighboringMonth={false} onChange={updateDate} tileDisabled={disableDates} />
           <FormControl style={{ minWidth: '35%' }}>
-            <BuildTimeZones userTimeZone={userTimeZone} changeTimeZone={changeTimeZone} />
+            <BuildTimeZones userTimeZone={hostInfo.timeZone} changeTimeZone={changeTimeZone} />
           </FormControl>
         </Box>
         <Box className={classes.timeContainer}>
           <Typography className={classes.timeHeader}>
-            {moment.tz(dateSelected, userTimeZone).format('dddd, MMMM DD')}
+            {moment.tz(dateSelected, hostInfo.timeZone).format('dddd, MMMM DD')}
           </Typography>
           <TimePopulator
-            startTime={startTime}
-            endTime={endTime}
-            userTimeZone={userTimeZone}
+            startTime={hostInfo.startTime}
+            endTime={hostInfo.endTime}
+            userTimeZone={hostInfo.timeZone}
             timeZone={timeZone}
             today={today}
             duration={Number(duration)}
@@ -113,10 +129,15 @@ export default function Scheduler(): JSX.Element {
       </Box>
       {confirmTrigger && (
         <Confirmation
+          hostUserName={username}
+          hostEmail={hostInfo.hostEmail}
+          hostName={hostInfo.hostName}
+          meetingTitle={meetingTitle}
           username={username}
-          duration={Number(duration)}
+          meetingId={meetingId}
+          duration={duration}
           timeZone={timeZone}
-          time={moment.tz(dateSelISO, timeZone)}
+          time={moment(dateSelISO)}
           cancelConfirmation={cancelConfirmation}
         />
       )}
