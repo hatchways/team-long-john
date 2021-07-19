@@ -21,7 +21,7 @@ import { SnackBarProvider } from './context/useSnackbarContext';
 import './App.css';
 
 function App(): JSX.Element {
-  console.log(process.env.PROD_URL);
+  console.log(process.env);
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
