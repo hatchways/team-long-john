@@ -17,11 +17,13 @@ import Checkout from './pages/Checkout/Checkout';
 
 import { AuthProvider } from './context/useAuthContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
+import isDev from './helpers/isDev';
 
 import './App.css';
 
 function App(): JSX.Element {
   console.log(process.env);
+  console.log(isDev());
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
