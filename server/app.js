@@ -10,7 +10,6 @@ const logger = require("morgan");
 const session = require("express-session");
 const cloudinary = require("cloudinary");
 const passport = require("passport");
-const cors = require("cors");
 require("./utils/passport");
 
 const userRouter = require("./routes/user");
@@ -42,7 +41,6 @@ if (process.env.NODE_ENV === "development") {
   app.use(logger("dev"));
 }
 
-app.use(cors({ credentials: true, origin: true }));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
