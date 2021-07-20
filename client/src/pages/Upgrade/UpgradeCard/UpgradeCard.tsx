@@ -36,7 +36,7 @@ const UpgradeCard = ({
       },
     });
 
-    if (res.status !== 303) return updateSnackBarMessage('Error connecting to the Stripe API');
+    if (res.status !== 303) return updateSnackBarMessage('Error connecting to Stripe');
 
     const checkOutURL = await res.json();
     window.location.replace(checkOutURL);

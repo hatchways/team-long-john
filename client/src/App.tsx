@@ -13,6 +13,7 @@ import Confirm from './pages/Onboarding/Confirm/Confirm';
 import Availability from './pages/Onboarding/Availability/Availability';
 import AuthSetUp from './pages/helper/AuthSetUp';
 import Upgrade from './pages/Upgrade/Upgrade';
+import Success from './pages/Success/Success';
 
 import { AuthProvider } from './context/useAuthContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
@@ -36,6 +37,7 @@ function App(): JSX.Element {
               <Route exact path="/confirm" component={Confirm} />
               <Route exact path="/availability" component={Availability} />
               <Route exact path="/upgrade" component={Upgrade} />
+              <Route exact path="/success" component={Success} />
               <Route path="*">
                 <Redirect to="/login" />
               </Route>

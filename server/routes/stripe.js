@@ -4,6 +4,6 @@ const router = express.Router();
 const { handlePayment } = require("../controllers/stripe");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
-router.post("/pay", handlePayment);
+router.post("/pay", isLoggedIn, handlePayment);
 
 module.exports = router;
