@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const {} = require("../controllers/stripe");
+const { handlePayment } = require("../controllers/stripe");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
-router.get("/pay", isLoggedIn);
+router.post("/pay", handlePayment);
 
 module.exports = router;

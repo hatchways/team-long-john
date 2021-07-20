@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import { Button, Box } from '@material-ui/core';
+import { useSnackBar } from '../../../context/useSnackbarContext';
 
 import useStyles from './useStyles';
 
@@ -9,7 +9,7 @@ interface Props {
   headerSubtitle: string;
   disableButton: boolean;
   buttonText: string;
-  redirectUrl: string;
+  priceId: string;
   children: JSX.Element[];
 }
 
@@ -19,10 +19,28 @@ const UpgradeCard = ({
   headerSubtitle,
   disableButton,
   buttonText,
-  redirectUrl,
+  priceId,
   children,
 }: Props): JSX.Element => {
   const classes = useStyles();
+  const { updateSnackBarMessage } = useSnackBar();
+
+  const handleSubmit = async () => {
+    const res = await fetch('/stripe/pay', {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({ priceId }),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    });
+
+    if (res.status !== 303) return updateSnackBarMessage('Error connecting to the Stripe API');
+
+    const checkOutURL = await res.json();
+    window.location.replace(checkOutURL);
+  };
 
   const renderText = children.map((element, idx) => {
     return (
@@ -40,11 +58,9 @@ const UpgradeCard = ({
       <Box pb={4} className={classes.upgradeBox}>
         <h1 style={{ color: headerColor }}>{headerText}</h1>
         <h2 style={{ marginTop: '-10px' }}>{headerSubtitle}</h2>
-        <Link to={redirectUrl} style={{ textDecoration: 'none' }}>
-          <Button disabled={disableButton} variant="contained" className={classes.upgradeButton}>
-            {buttonText}
-          </Button>
-        </Link>
+        <Button onClick={handleSubmit} disabled={disableButton} variant="contained" className={classes.upgradeButton}>
+          {buttonText}
+        </Button>
       </Box>
       <Box className={classes.textBox}>{renderText}</Box>
     </Box>

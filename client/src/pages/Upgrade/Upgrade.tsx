@@ -24,7 +24,7 @@ const Upgrade = (): JSX.Element => {
             headerSubtitle="Free"
             disableButton={true}
             buttonText="Current"
-            redirectUrl="/upgrade"
+            priceId=""
           >
             <p>Limited Meetings</p>
             <p>Create Custom Events</p>
@@ -35,7 +35,7 @@ const Upgrade = (): JSX.Element => {
             headerSubtitle="$5/month"
             disableButton={false}
             buttonText="Upgrade"
-            redirectUrl="/checkout"
+            priceId="price_1JDNXxKWQLQuuRfnORSql3u5"
           >
             <p>Unlimited Meetings</p>
             <p>Group Meetings (Coming soon)</p>
