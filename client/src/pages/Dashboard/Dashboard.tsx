@@ -41,7 +41,7 @@ export default function Dashboard(): JSX.Element {
 
   useEffect(() => {
     if (loggedInUser) fetchMeetingsCallback(loggedInUser._id);
-  }, [fetchMeetingsCallback, loggedInUser, meetingDetail]);
+  }, [fetchMeetingsCallback, loggedInUser, meetingDetail.meetingId]);
 
   if (loggedInUser === undefined || loggedInUser === null) return <CircularProgress />;
 
