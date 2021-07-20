@@ -5,7 +5,7 @@ export interface Meeting {
 }
 
 export interface Meetings {
-  [index: number]: { userId: string; name: string; duration: number };
+  [index: number]: { _id: string; userId: string; name: string; duration: number };
 }
 
 export interface MeetingsApiData {

@@ -68,9 +68,11 @@ export default function Dashboard(): JSX.Element {
     const output = [];
 
     for (let i = 0; i < Object.keys(options).length; i++) {
+      console.log(options[i]);
       output.push(
         <ScheduleOption
           key={`meeting option ${i}`}
+          id={options[i]._id}
           name={options[i].name}
           schedTime={options[i].duration}
           colour={colors[i % colors.length]}
