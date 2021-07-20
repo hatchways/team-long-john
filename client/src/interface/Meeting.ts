@@ -14,3 +14,8 @@ export interface MeetingsApiData {
   };
   error?: { message: string };
 }
+
+export interface EventDetailEdit {
+  meetingId: string;
+  forEdit: boolean;
+}

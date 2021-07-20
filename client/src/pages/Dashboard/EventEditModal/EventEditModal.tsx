@@ -6,25 +6,29 @@ import useStyles from './useStyles';
 import { meetingInfoProp } from '../../../interface/SchedulerProps';
 import { useEffect } from 'react';
 import { editMeetingInfo, getMeetingInfo } from '../../../helpers/APICalls/meetings';
+import { useAuth } from '../../../context/useAuthContext';
+import { User } from '../../../interface/User';
+import { EventDetailEdit } from '../../../interface/Meeting';
 
 interface Props {
-  meetingId: string;
-  setMeetingId: React.Dispatch<React.SetStateAction<string>>;
+  meetingDetail: EventDetailEdit;
+  setMeetingDetail: React.Dispatch<React.SetStateAction<EventDetailEdit>>;
 }
 
-export default function EventEditModal({ meetingId, setMeetingId }: Props): JSX.Element {
+export default function EventEditModal({ meetingDetail, setMeetingDetail }: Props): JSX.Element {
   const classes = useStyles();
   const { updateSnackBarMessage } = useSnackBar();
+  const loggedInUser: User | null | undefined = useAuth().loggedInUser;
   const [meetingInfo, setMeetingInfo] = useState<meetingInfoProp>({
     userId: '',
     meetingTitle: '',
-    duration: 10,
+    duration: 15,
   });
   useEffect(() => {
-    if (meetingId !== 'N/A') {
-      getMeetingInfo(meetingId, setMeetingInfo);
+    if (meetingDetail.meetingId !== 'N/A') {
+      getMeetingInfo(meetingDetail.meetingId, setMeetingInfo);
     }
-  }, [meetingId]);
+  }, [meetingDetail]);
 
   const initialValues = {
     name: meetingInfo.meetingTitle,
@@ -37,58 +41,91 @@ export default function EventEditModal({ meetingId, setMeetingId }: Props): JSX.
       if (duration === '' || name === '') {
         updateSnackBarMessage('Please enter a valid event duration');
       } else {
-        editMeetingInfo(meetingId, name, duration, updateSnackBarMessage);
-        setMeetingId('N/A');
+        editMeetingInfo(meetingDetail.meetingId, name, duration, updateSnackBarMessage);
+        setMeetingDetail({
+          meetingId: 'N/A',
+          forEdit: false,
+        });
         resetForm();
       }
     },
   });
 
-  const handleClose = () => setMeetingId('N/A');
+  const handleClose = () => setMeetingDetail({ meetingId: 'N/A', forEdit: false });
 
-  const modalBody = (
-    <div className={classes.paper}>
-      <Box className={classes.formHeader}>
-        <h1>Edit Event</h1>
+  const editForm = (
+    <form onSubmit={formik.handleSubmit} className={classes.formBox}>
+      <Box className={classes.formItem}>
+        <h3>Enter a new name for the event:</h3>
+        <FormControl>
+          <OutlinedInput
+            name="name"
+            placeholder={initialValues.name}
+            value={formik.values.name}
+            onChange={formik.handleChange}
+          />
+        </FormControl>
       </Box>
-      <form onSubmit={formik.handleSubmit} className={classes.formBox}>
-        <Box className={classes.formItem}>
-          <h3>Enter a new name for the event:</h3>
-          <FormControl>
-            <OutlinedInput name="name" placeholder="Name" value={formik.values.name} onChange={formik.handleChange} />
-          </FormControl>
-        </Box>
-        <Box className={classes.formItem}>
-          <h3>Change the duration of the event:</h3>
-          <FormControl>
-            <InputLabel>Duration</InputLabel>
-            <Select
-              name="duration"
-              value={formik.values.duration}
-              onChange={formik.handleChange}
-              className={classes.formInput}
-            >
-              <MenuItem value="">None</MenuItem>
-              <MenuItem value={15}>15</MenuItem>
-              <MenuItem value={30}>30</MenuItem>
-              <MenuItem value={45}>45</MenuItem>
-              <MenuItem value={60}>60</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-        <Box className={classes.buttonBox}>
-          <Button type="submit" className={classes.button}>
-            Finish Editting
-          </Button>
-        </Box>
-      </form>
-    </div>
+      <Box className={classes.formItem}>
+        <h3>Change the duration of the event:</h3>
+        <FormControl>
+          <InputLabel>Duration</InputLabel>
+          <Select
+            name="duration"
+            value={formik.values.duration}
+            onChange={formik.handleChange}
+            className={classes.formInput}
+          >
+            <MenuItem value={15}>15</MenuItem>
+            <MenuItem value={30}>30</MenuItem>
+            <MenuItem value={45}>45</MenuItem>
+            <MenuItem value={60}>60</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      <Box className={classes.buttonBox}>
+        <Button type="submit" className={classes.button}>
+          Finish Editing
+        </Button>
+      </Box>
+    </form>
+  );
+
+  const shareLinkBody = (
+    <Box className={classes.shareBox}>
+      <h2>
+        SHARE LINK:&nbsp;
+        {loggedInUser && `${window.location.origin}/shared/${loggedInUser.username}/${meetingDetail.meetingId}`}
+      </h2>
+    </Box>
+  );
+
+  const detailForm = (
+    <Box className={classes.formBox}>
+      <Box className={classes.formItem}>
+        <h2> EVENT NAME: &ldquo;{meetingInfo.meetingTitle}&rdquo; </h2>
+      </Box>
+      <Box className={classes.formItem}>
+        <h2> EVENT DURATION: &ldquo;{meetingInfo.duration}&rdquo; </h2>
+      </Box>
+      <Box className={classes.buttonBox}>
+        <Button type="submit" className={classes.button} onClick={handleClose}>
+          CLOSE DETAILS
+        </Button>
+      </Box>
+    </Box>
   );
 
   return (
     <div>
-      <Modal open={meetingId !== 'N/A'} onClose={handleClose} className={classes.modal}>
-        {modalBody}
+      <Modal open={meetingDetail.meetingId !== 'N/A'} onClose={handleClose} className={classes.modal}>
+        <div className={meetingDetail.forEdit ? classes.paper : classes.eventDetail}>
+          <Box className={classes.formHeader}>
+            <h1>{meetingDetail.forEdit ? 'Edit Event' : 'Event Details'}</h1>
+          </Box>
+          {!meetingDetail.forEdit && shareLinkBody}
+          {meetingDetail.forEdit ? editForm : detailForm}
+        </div>
       </Modal>
     </div>
   );

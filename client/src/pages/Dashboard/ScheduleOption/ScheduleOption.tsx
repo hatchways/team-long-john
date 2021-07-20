@@ -10,13 +10,14 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { useAuth } from '../../../context/useAuthContext';
 import { User } from '../../../interface/User';
 import { useSnackBar } from '../../../context/useSnackbarContext';
+import { EventDetailEdit } from '../../../interface/Meeting';
 
 interface SchedProp {
   id: string;
   name: string;
   schedTime: number;
   colour: string;
-  setMeetingId: React.Dispatch<React.SetStateAction<string>>;
+  setMeetingDetail: React.Dispatch<React.SetStateAction<EventDetailEdit>>;
 }
 
 export default function ScheduleOption(prop: SchedProp): JSX.Element {
@@ -39,18 +40,18 @@ export default function ScheduleOption(prop: SchedProp): JSX.Element {
       alert('Please log in!');
     }
   };
-  const setSelectedMeeting = () => {
-    prop.setMeetingId(prop.id);
+  const setSelectedMeeting = (forEdit: boolean) => {
+    prop.setMeetingDetail({ meetingId: prop.id, forEdit: forEdit });
   };
 
   return (
     <Grid item xs={12} sm={4}>
       <Paper className={classes.scheduleOption}>
         <Box className={className} />
-        <IconButton className={classes.iconButtonStyle}>
+        <IconButton className={classes.iconButtonStyle} onClick={() => setSelectedMeeting(true)}>
           <SettingsIcon />
         </IconButton>
-        <Button className={classes.scheduleButton} onClick={setSelectedMeeting}>
+        <Button className={classes.scheduleButton} onClick={() => setSelectedMeeting(false)}>
           <Box className={classes.schedInfo}>
             <Typography className={classes.schedTitle}> {title} </Typography>
             <Typography> One-on-one </Typography>

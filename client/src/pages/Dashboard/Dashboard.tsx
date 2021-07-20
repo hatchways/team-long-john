@@ -14,7 +14,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useAuth } from '../../context/useAuthContext';
 import { fetchMeetings } from '../../helpers/APICalls/meetings';
 import EventModal from './EventModal/EventModal';
-import { Meetings } from '../../interface/Meeting';
+import { EventDetailEdit, Meetings } from '../../interface/Meeting';
 import { User } from '../../interface/User';
 import EventEditModal from './EventEditModal/EventEditModal';
 
@@ -29,7 +29,10 @@ export default function Dashboard(): JSX.Element {
   const loggedInUser: User | null | undefined = useAuth().loggedInUser;
   const [meetingOptions, setMeetingOptions] = useState<Meetings>([]);
   // Selected meeting id.
-  const [meetingId, setMeetingId] = React.useState<string>('N/A');
+  const [meetingDetail, setMeetingDetail] = React.useState<EventDetailEdit>({
+    meetingId: 'N/A',
+    forEdit: false,
+  });
 
   const fetchMeetingsCallback = useCallback(async (id) => {
     const meetings = await fetchMeetings(id);
@@ -38,7 +41,7 @@ export default function Dashboard(): JSX.Element {
 
   useEffect(() => {
     if (loggedInUser) fetchMeetingsCallback(loggedInUser._id);
-  }, [fetchMeetingsCallback, loggedInUser, meetingId]);
+  }, [fetchMeetingsCallback, loggedInUser, meetingDetail]);
 
   if (loggedInUser === undefined || loggedInUser === null) return <CircularProgress />;
 
@@ -78,7 +81,7 @@ export default function Dashboard(): JSX.Element {
           name={options[i].name}
           schedTime={options[i].duration}
           colour={colors[i % colors.length]}
-          setMeetingId={setMeetingId}
+          setMeetingDetail={setMeetingDetail}
         />,
       );
     }
@@ -126,7 +129,7 @@ export default function Dashboard(): JSX.Element {
       <CssBaseline />
       <Navigation />
       <EventModal fetchMeetingsCallback={fetchMeetingsCallback} open={open} setOpen={setOpen} />
-      <EventEditModal meetingId={meetingId} setMeetingId={setMeetingId} />
+      <EventEditModal meetingDetail={meetingDetail} setMeetingDetail={setMeetingDetail} />
       <Box className={classes.dashWrapper}>
         <Box className={classes.headerWrapper}>
           <Box className={classes.header}>

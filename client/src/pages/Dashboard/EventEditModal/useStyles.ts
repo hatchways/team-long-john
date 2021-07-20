@@ -17,6 +17,23 @@ const useStyles = makeStyles((theme) => ({
     height: '45vh',
     width: '70vh',
   },
+  eventDetail: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    overflow: 'auto',
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[24],
+    padding: theme.spacing(2, 0, 3),
+    width: '70vh',
+  },
+  shareBox: {
+    justifyContent: 'center',
+    margin: '10px',
+    display: 'flex',
+    border: '2px solid #F76900',
+    overflow: 'auto',
+  },
   formHeader: {
     paddingLeft: '25px',
     display: 'flex',
