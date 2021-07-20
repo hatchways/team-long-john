@@ -16,6 +16,7 @@ import { fetchMeetings } from '../../helpers/APICalls/meetings';
 import EventModal from './EventModal/EventModal';
 import { Meetings } from '../../interface/Meeting';
 import { User } from '../../interface/User';
+import EventEditModal from './EventEditModal/EventEditModal';
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
@@ -27,6 +28,8 @@ export default function Dashboard(): JSX.Element {
   const [schedSelect, setSchedSelect] = React.useState(schedOptions[0]);
   const loggedInUser: User | null | undefined = useAuth().loggedInUser;
   const [meetingOptions, setMeetingOptions] = useState<Meetings>([]);
+  // Selected meeting id.
+  const [meetingId, setMeetingId] = React.useState<string>('N/A');
 
   const fetchMeetingsCallback = useCallback(async (id) => {
     const meetings = await fetchMeetings(id);
@@ -35,7 +38,7 @@ export default function Dashboard(): JSX.Element {
 
   useEffect(() => {
     if (loggedInUser) fetchMeetingsCallback(loggedInUser._id);
-  }, [fetchMeetingsCallback, loggedInUser]);
+  }, [fetchMeetingsCallback, loggedInUser, meetingId]);
 
   if (loggedInUser === undefined || loggedInUser === null) return <CircularProgress />;
 
@@ -68,7 +71,6 @@ export default function Dashboard(): JSX.Element {
     const output = [];
 
     for (let i = 0; i < Object.keys(options).length; i++) {
-      console.log(options[i]);
       output.push(
         <ScheduleOption
           key={`meeting option ${i}`}
@@ -76,6 +78,7 @@ export default function Dashboard(): JSX.Element {
           name={options[i].name}
           schedTime={options[i].duration}
           colour={colors[i % colors.length]}
+          setMeetingId={setMeetingId}
         />,
       );
     }
@@ -123,6 +126,7 @@ export default function Dashboard(): JSX.Element {
       <CssBaseline />
       <Navigation />
       <EventModal fetchMeetingsCallback={fetchMeetingsCallback} open={open} setOpen={setOpen} />
+      <EventEditModal meetingId={meetingId} setMeetingId={setMeetingId} />
       <Box className={classes.dashWrapper}>
         <Box className={classes.headerWrapper}>
           <Box className={classes.header}>

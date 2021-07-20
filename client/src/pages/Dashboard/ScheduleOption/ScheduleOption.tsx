@@ -9,15 +9,18 @@ import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { useAuth } from '../../../context/useAuthContext';
 import { User } from '../../../interface/User';
+import { useSnackBar } from '../../../context/useSnackbarContext';
 
 interface SchedProp {
   id: string;
   name: string;
   schedTime: number;
   colour: string;
+  setMeetingId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function ScheduleOption(prop: SchedProp): JSX.Element {
+  const { updateSnackBarMessage } = useSnackBar();
   const loggedInUser: User | null | undefined = useAuth().loggedInUser;
   const classes = useStyles();
   const title = `${prop.name}`;
@@ -31,9 +34,13 @@ export default function ScheduleOption(prop: SchedProp): JSX.Element {
     if (loggedInUser) {
       const shareLink = `${window.location.origin}/shared/${loggedInUser.username}/${prop.id}`;
       navigator.clipboard.writeText(shareLink);
+      updateSnackBarMessage('Share link has been copied to your clipboard!');
     } else {
       alert('Please log in!');
     }
+  };
+  const setSelectedMeeting = () => {
+    prop.setMeetingId(prop.id);
   };
 
   return (
@@ -43,7 +50,7 @@ export default function ScheduleOption(prop: SchedProp): JSX.Element {
         <IconButton className={classes.iconButtonStyle}>
           <SettingsIcon />
         </IconButton>
-        <Button className={classes.scheduleButton}>
+        <Button className={classes.scheduleButton} onClick={setSelectedMeeting}>
           <Box className={classes.schedInfo}>
             <Typography className={classes.schedTitle}> {title} </Typography>
             <Typography> One-on-one </Typography>

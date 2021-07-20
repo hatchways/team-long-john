@@ -2,6 +2,8 @@ import { FetchOptions } from '../../interface/FetchOptions';
 import { MeetingsApiData } from '../../interface/Meeting';
 import { meetingInfoProp } from '../../interface/SchedulerProps';
 
+type snackBarFunc = (message: string) => void;
+
 export const fetchMeetings = async (id: string): Promise<MeetingsApiData> => {
   const fetchOptions: FetchOptions = {
     method: 'GET',
@@ -44,5 +46,35 @@ export const getMeetingInfo = (
     })
     .catch((error) => {
       alert(error);
+    });
+};
+
+export const editMeetingInfo = (
+  meetingId: string,
+  name: string,
+  duration: string,
+  updateSnackBarMessage: snackBarFunc,
+): void => {
+  const url = `/meeting/${meetingId}`;
+  const request = new Request(url, {
+    method: 'PATCH',
+    credentials: 'include',
+    body: JSON.stringify({
+      name: name,
+      duration: duration,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+  fetch(request)
+    .then((res) => {
+      if (res.status === 400) {
+        updateSnackBarMessage('Meeting with the given id could not be updated.');
+      }
+    })
+    .catch((error) => {
+      updateSnackBarMessage(error);
     });
 };
