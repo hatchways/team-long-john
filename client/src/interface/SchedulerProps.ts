@@ -5,38 +5,60 @@ type clickEventHandler = (args: React.MouseEvent<HTMLButtonElement>) => void;
 type strBoolFunc = (args: string) => boolean;
 type simpleFunc = () => void;
 
+// Used to specify information required to disable some timeslots on scheduler.
 export interface disableDateProp {
   activeStartDate: Date;
   date: Date;
   view: string;
 }
 
-export interface schedUrlProp {
+// Specified information being to loaded from useLocation.
+// The information was initally setup in /shared and passed to /scheduler with useHistory.
+export interface schedLocationProp {
   username: string;
-  duration: string;
+  meetingId: string;
+  duration: number;
+  meetingTitle: string;
+  hostInfo: hostInfoProp;
 }
 
+// Used to take username and meeting ID from url /shared/:username/:meetingId
+export interface schedUrlProp {
+  username: string;
+  meetingId: string;
+}
+
+// Used to take appointment ID from url /completion/:appointID.
 export interface completionUrlProp {
   appointID: string;
 }
 
+// Interface used to pass required information to Confirmation.
 export interface confirmProp {
+  hostUserName: string;
+  hostName: string;
+  hostEmail: string;
   username: string;
+  meetingTitle: string;
+  meetingId: string;
   duration: number;
   timeZone: string;
   time: Moment;
   cancelConfirmation: simpleFunc;
 }
 
+// Used for timezone selection on scheduler.
 export interface TimeZone {
   [key: string]: { tZone: string; abbr: string };
 }
 
+// Interface used to pass required information to BuildTimeZones.
 export interface BTZProps {
   userTimeZone: string;
   changeTimeZone: changeEventHandler;
 }
 
+// Interface used to pass required information to TimePopulator.
 export interface TPProps {
   startTime: string;
   endTime: string;
@@ -46,4 +68,41 @@ export interface TPProps {
   duration: number;
   checkConfirmation: clickEventHandler;
   checkDisableTime: strBoolFunc;
+}
+
+// Interface required to pass partial host user info to build hostInfoProp object.
+export interface userDataType {
+  id: string;
+  email: string;
+  name: string;
+  availableDays: string[];
+  timeZone: string;
+  startTime: string;
+  endTime: string;
+}
+
+// Interface containing concise info of all host user's appointments.
+// Takes information from either googleAppointmentType object or appointDataType object.
+export interface appointCompProp {
+  duration: number;
+  appointment: Date;
+}
+
+// Interface containing full information of the host user used for scheduler.
+export interface hostInfoProp {
+  hostId: string;
+  hostEmail: string;
+  hostName: string;
+  availableDays: string[];
+  timeZone: string;
+  startTime: string;
+  endTime: string;
+  appointments: appointCompProp[];
+}
+
+// Interface containing required meeting information.
+export interface meetingInfoProp {
+  userId: string;
+  meetingTitle: string;
+  duration: number;
 }

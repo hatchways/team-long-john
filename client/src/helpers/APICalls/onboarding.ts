@@ -1,4 +1,4 @@
-import { RouteComponentProps, useHistory } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 type simpleFunc = () => void;
 
@@ -7,7 +7,7 @@ interface times {
   end: string;
 }
 
-const CheckURL = (username: string, timeZone: string, email: string, history: RouteComponentProps['history']) => {
+const CheckURL = (username: string, timeZone: string, email: string, history: RouteComponentProps['history']): void => {
   const url = '/users/username';
   const request = new Request(url, {
     method: 'POST',
@@ -33,7 +33,12 @@ const CheckURL = (username: string, timeZone: string, email: string, history: Ro
     });
 };
 
-const UpdateURL = (username: string, timeZone: string, email: string, history: RouteComponentProps['history']) => {
+const UpdateURL = (
+  username: string,
+  timeZone: string,
+  email: string,
+  history: RouteComponentProps['history'],
+): void => {
   const url = `users/email/${email}`;
   const request = new Request(url, {
     method: 'PATCH',
@@ -60,7 +65,7 @@ const UpdateURL = (username: string, timeZone: string, email: string, history: R
     });
 };
 
-const UpdateAvail = (email: string, openTimes: times, openDays: string[], logout: simpleFunc) => {
+const UpdateAvail = (email: string, openTimes: times, openDays: string[], logout: simpleFunc): void => {
   const url = `users/email/${email}`;
   const request = new Request(url, {
     method: 'PATCH',

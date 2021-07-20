@@ -4,23 +4,20 @@ const moment = require("moment-timezone");
 const {
   getTokenWithRefresh,
   retrieveCalendar,
-  getAvailability,
+  deleteEvent,
 } = require("../utils/googleCalendar");
 
-// @route GET /googleAvailability?startISO={startISO}&email={hostEmail}
-// - day = ISO string of start of the day.
-// - email = Email of the person we're making an appt. with
-// @desc Returns the time the user is busy and we'll
-// filter out those times on the front end
+// @route DELETE /googleDelete
+// @desc Deletes a google event to the host user's google calendar.
 // @access Public
-exports.getAvailability = asyncHandler(async (req, res, next) => {
-  let { startISO, email } = req.query;
+exports.deleteGoogleEvent = asyncHandler(async (req, res, next) => {
+  const { email, eventId } = req.body;
+
   const user = await User.findOne({ email: email });
   if (!user) {
     res.status(404);
     throw new Error(`No account exists with the email: ${email}`);
   }
-  const endISO = moment(startISO).add(1, "day").toISOString();
 
   // Getting a new access token
   const accessToken = await getTokenWithRefresh(
@@ -36,13 +33,24 @@ exports.getAvailability = asyncHandler(async (req, res, next) => {
     accessToken
   );
 
-  // Returns the times when the user is busy based off of their availability
-  const availability = await getAvailability(
-    calendar,
-    startISO,
-    endISO,
-    user.timezone
-  );
+  // Create google calendar event object.
+  const parameters = {
+    calendarId: "primary",
+    eventId: eventId,
+  };
 
-  res.send(availability);
+  // Returns the times when the user is busy based off of their availability
+  const result = await deleteEvent(calendar, parameters);
+  if (!result) {
+    res.status(409);
+    throw new Error(
+      "Event could not be deleted from host user's Google Calendar"
+    );
+  }
+
+  res.status(200).json({
+    success: {
+      message: "Event deleted from host user's google calendar.",
+    },
+  });
 });

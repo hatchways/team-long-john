@@ -19,20 +19,22 @@ import { AuthProvider } from './context/useAuthContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
 
 import './App.css';
+import SchedulerWrapper from './pages/Scheduler/SchedulerWrapper';
 
 function App(): JSX.Element {
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
         <SnackBarProvider>
-          <AuthProvider>
-            <Switch>
+          <Switch>
+            <Route exact path="/shared/:username/:meetingId" component={SchedulerWrapper} />
+            <Route exact path="/scheduler" component={Scheduler} />
+            <Route exact path="/completion/:appointID" component={Completion} />
+            <AuthProvider>
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/AuthSetup" component={AuthSetUp} />
               <Route exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/scheduler/:username/:duration" component={Scheduler} />
-              <Route exact path="/completion" component={Completion} />
               <Route exact path="/profile_settings" component={ProfileSettings} />
               <Route exact path="/confirm" component={Confirm} />
               <Route exact path="/availability" component={Availability} />
@@ -41,8 +43,8 @@ function App(): JSX.Element {
               <Route path="*">
                 <Redirect to="/login" />
               </Route>
-            </Switch>
-          </AuthProvider>
+            </AuthProvider>
+          </Switch>
         </SnackBarProvider>
       </BrowserRouter>
     </MuiThemeProvider>
