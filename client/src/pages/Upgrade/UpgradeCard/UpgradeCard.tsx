@@ -29,7 +29,7 @@ const UpgradeCard = ({
     const res = await fetch('/stripe/pay', {
       method: 'POST',
       credentials: 'include',
-      body: JSON.stringify({ priceId }),
+      body: JSON.stringify({ priceId: priceId }),
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',

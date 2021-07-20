@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
 import Navigation from '../Navigation/Navigation';
 
-const Success = () => {
+const Success = (): JSX.Element => {
   return (
     <div>
       <Navigation />
