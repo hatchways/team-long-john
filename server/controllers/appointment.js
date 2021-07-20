@@ -76,8 +76,8 @@ exports.deleteAppointmentById = asyncHandler(async (req, res, next) => {
   }
 
   // Send Emails
-  appointCreateDeleteEmail(false, true, appointment);
-  appointCreateDeleteEmail(false, false, appointment);
+  appointCreateDeleteEmail(false, true, deleted);
+  appointCreateDeleteEmail(false, false, deleted);
   res.status(200).json({ success: { message: "Appointment deleted" } });
 });
 
