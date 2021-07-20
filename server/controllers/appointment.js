@@ -1,6 +1,6 @@
 const Appointment = require("../models/Appointment");
 const asyncHandler = require("express-async-handler");
-const { appointCreateEmail } = require("./emailHelper/emailSender");
+const { appointCreateDeleteEmail } = require("../utils/emailSender");
 
 // @route GET /appointment
 // @desc Fetches all appointments associated with user
@@ -43,8 +43,8 @@ exports.createAppointment = asyncHandler(async (req, res, next) => {
   }
 
   // Send Emails
-  appointCreateEmail(true, appointment);
-  appointCreateEmail(false, appointment);
+  appointCreateDeleteEmail(true, true, appointment);
+  appointCreateDeleteEmail(true, false, appointment);
   res.status(201).json({ success: { appointment: appointment } });
 });
 
@@ -75,6 +75,9 @@ exports.deleteAppointmentById = asyncHandler(async (req, res, next) => {
     throw new Error("No appointment found with given id");
   }
 
+  // Send Emails
+  appointCreateDeleteEmail(false, true, appointment);
+  appointCreateDeleteEmail(false, false, appointment);
   res.status(200).json({ success: { message: "Appointment deleted" } });
 });
 
