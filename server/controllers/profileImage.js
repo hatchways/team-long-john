@@ -82,6 +82,9 @@ exports.uploadToCloudinary = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: { cloudinaryRes: cloudinaryRes } });
 });
 
+// The main purpose of this function is to take a buffer (of image) from the client
+// and upload an image using that buffer to cloudinary. Buffer is used to avoid
+// saving the image from the client (locally) on the server.
 communicateCloudinary = (req) => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader
