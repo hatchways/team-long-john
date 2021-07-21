@@ -1,6 +1,15 @@
 import { RouteComponentProps } from 'react-router-dom';
 import { appointmentInfoProp, appointmentProp } from '../../interface/AppointmentProps';
 
+const fetchAppointments = async (username: string, type: string): Promise<void> => {
+  const test = await fetch(`/appointment?username=${username}&type=${type}`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+
+  console.log(test);
+};
+
 const getAppointInfo = (
   appointId: string,
   setter: React.Dispatch<React.SetStateAction<appointmentInfoProp>>,
@@ -102,4 +111,4 @@ const deleteAppointment = (appointId: string): void => {
     });
 };
 
-export { getAppointInfo, deleteAppointment, CreateAppointment };
+export { fetchAppointments, getAppointInfo, deleteAppointment, CreateAppointment };

@@ -1,11 +1,12 @@
 const Appointment = require("../models/Appointment");
 const asyncHandler = require("express-async-handler");
+const { convertToTimeZone } = require("../utils/dateTime");
 
-// @route GET /appointment
-// @desc Fetches all appointments associated with user
+// @route GET /appointment?username=USERNAME&type=all
+// @desc Fetches all appointments associated with user based on type
 // @access Public
 exports.fetchAppointments = asyncHandler(async (req, res, next) => {
-  const { username } = req.query;
+  const { username, type } = req.query;
 
   // Finds all appointments associated with the email
   const appointments = await Appointment.find({ hostUserName: username });
@@ -16,7 +17,32 @@ exports.fetchAppointments = asyncHandler(async (req, res, next) => {
     throw new Error("You do not have any appointments");
   }
 
-  res.status(200).json({ success: { appointments: appointments } });
+  if (type === "all") {
+    res.status(200).json({ success: { appointments: appointments } });
+  } else if (type === "past") {
+    const pastAppointments = [];
+    let currentTime = new Date().getTime();
+
+    for (let key in appointments) {
+      const appointmentTime = new Date(appointments[key].time);
+
+      // Converting our time to the appointment's timezone
+      currentTime = new Date(
+        convertToTimeZone(currentTime, appointments[key].timezone)
+      );
+
+      // If the appointment time is before current time, then push into pastAppointments
+      if (currentTime.getTime() < appointmentTime.getTime())
+        pastAppointments.push(appointments[key]);
+    }
+
+    res.status(200).json({ success: { appointments: appointments } });
+  } else {
+    res.status(400);
+    throw new Error(
+      "I haven't been created yet, I can only return all or past appointments!"
+    );
+  }
 });
 
 // @route POST /appointment

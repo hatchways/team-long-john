@@ -16,6 +16,7 @@ import { fetchMeetings } from '../../helpers/APICalls/meetings';
 import EventModal from './EventModal/EventModal';
 import { Meetings } from '../../interface/Meeting';
 import { User } from '../../interface/User';
+import { fetchAppointments } from '../../helpers/APICalls/appointment';
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
@@ -23,7 +24,7 @@ export default function Dashboard(): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
   const dashOptions = ['EVENT TYPES', 'SCHEDULED EVENTS'];
   const [dashOptionSelected, setDashOption] = React.useState(dashOptions[0]);
-  const schedOptions = ['UPCOMING', 'PENDING', 'PAST'];
+  const schedOptions = ['PAST'];
   const [schedSelect, setSchedSelect] = React.useState(schedOptions[0]);
   const loggedInUser: User | null | undefined = useAuth().loggedInUser;
   const [meetingOptions, setMeetingOptions] = useState<Meetings>([]);
@@ -83,7 +84,9 @@ export default function Dashboard(): JSX.Element {
   const populateSchedEvent = () => {
     const output = [];
     const events = [];
+    // Populates the "Past" appointments section
     if (schedSelect === schedOptions[0]) {
+      fetchAppointments(loggedInUser.username, 'past');
       // Need to fill in the code where all of the appropriate events are getting populated.
       // Note that this is just a dummy data and this code needs to change depending on the structure
       // of the data recieved from the database.
