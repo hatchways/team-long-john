@@ -1,13 +1,20 @@
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { appointmentInfoProp, appointmentProp } from '../../interface/AppointmentProps';
 
-const fetchAppointments = async (username: string, type: string): Promise<void> => {
-  const test = await fetch(`/appointment?username=${username}&type=${type}`, {
+import { appointmentInfoProp, appointmentProp } from '../../interface/AppointmentProps';
+import { FetchOptions } from '../../interface/FetchOptions';
+
+const fetchAppointments = async (username: string, type: string): Promise<any> => {
+  const fetchOptions: FetchOptions = {
     method: 'GET',
     credentials: 'include',
-  });
+  };
 
-  console.log(test);
+  return await fetch(`/appointment?username=${username}&type=${type}`, fetchOptions)
+    .then((res) => res.json())
+    .catch(() => ({
+      error: { message: 'Unable to connect to server. Please try again' },
+    }));
 };
 
 const getAppointInfo = (

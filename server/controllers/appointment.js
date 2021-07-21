@@ -17,9 +17,7 @@ exports.fetchAppointments = asyncHandler(async (req, res, next) => {
     throw new Error("You do not have any appointments");
   }
 
-  if (type === "all") {
-    res.status(200).json({ success: { appointments: appointments } });
-  } else if (type === "past") {
+  if (type === "past") {
     const pastAppointments = [];
     let currentTime = new Date().getTime();
 
@@ -32,16 +30,14 @@ exports.fetchAppointments = asyncHandler(async (req, res, next) => {
       );
 
       // If the appointment time is before current time, then push into pastAppointments
-      if (currentTime.getTime() < appointmentTime.getTime())
+      if (currentTime.getTime() < appointmentTime.getTime()) {
         pastAppointments.push(appointments[key]);
+      }
     }
 
     res.status(200).json({ success: { appointments: appointments } });
   } else {
-    res.status(400);
-    throw new Error(
-      "I haven't been created yet, I can only return all or past appointments!"
-    );
+    res.status(200).json({ success: { appointments: appointments } });
   }
 });
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Box } from '@material-ui/core';
@@ -10,13 +10,14 @@ import UserDashInfo from './UserDashInfo/UserDashInfo';
 import ScheduleOption from './ScheduleOption/ScheduleOption';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import moment from 'moment-timezone';
 
+import { fetchAppointments } from '../../helpers/APICalls/appointment';
 import { useAuth } from '../../context/useAuthContext';
 import { fetchMeetings } from '../../helpers/APICalls/meetings';
 import EventModal from './EventModal/EventModal';
 import { Meetings } from '../../interface/Meeting';
 import { User } from '../../interface/User';
-import { fetchAppointments } from '../../helpers/APICalls/appointment';
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
@@ -28,6 +29,7 @@ export default function Dashboard(): JSX.Element {
   const [schedSelect, setSchedSelect] = React.useState(schedOptions[0]);
   const loggedInUser: User | null | undefined = useAuth().loggedInUser;
   const [meetingOptions, setMeetingOptions] = useState<Meetings>([]);
+  const events = useRef<any>(null);
 
   const fetchMeetingsCallback = useCallback(async (id) => {
     const meetings = await fetchMeetings(id);
@@ -81,30 +83,35 @@ export default function Dashboard(): JSX.Element {
     return output;
   };
 
+  const fetchEvents = async (type: string) => {
+    const appointments = await fetchAppointments(loggedInUser.username, type);
+    events.current = appointments.success;
+  };
+
   const populateSchedEvent = () => {
     const output = [];
-    const events = [];
-    // Populates the "Past" appointments section
-    if (schedSelect === schedOptions[0]) {
-      fetchAppointments(loggedInUser.username, 'past');
-      // Need to fill in the code where all of the appropriate events are getting populated.
-      // Note that this is just a dummy data and this code needs to change depending on the structure
-      // of the data recieved from the database.
-      events.push({ name: 'Alan', duration: 60 });
-      events.push({ name: 'Rickman', duration: 30 });
-    }
-    if (events.length > 0) {
-      for (let i = 0; i < events.length; i++) {
-        // Note that this is using a dummy data and this code needs to change in the future accordingly.
+
+    if (schedSelect === schedOptions[0]) fetchEvents('past');
+
+    if (events.current) {
+      for (let i = 0; i < events.current.appointments.length; i++) {
+        const { appointeeEmail, appointeeName, duration, time, timezone } = events.current.appointments[i];
+
         output.push(
           <Box key={`schedule ${i}`} className={classes.schedEventData}>
-            <Box className={`${classes.schedInfo} ${classes.timeInfo}`}> TIME INFORMATION TO BE FILLED </Box>
-            <Box className={classes.schedInfo}>
-              <Typography> Meeting with {events[i].name} </Typography>
-              <Typography> {events[i].duration} minutes meeting </Typography>
+            <Box className={`${classes.schedInfo} ${classes.timeInfo}`}>
+              <Typography>
+                Meeting with{' '}
+                <b>
+                  {appointeeName} ({appointeeEmail})
+                </b>
+              </Typography>
             </Box>
             <Box className={classes.schedInfo}>
-              <Button> {'>'} DETAILS </Button>
+              <Typography>
+                You had a <b>{duration} minute</b> meeting on{' '}
+                <b>{moment(time).tz(timezone).format('MM/DD/YYYY (h:mma z)')}</b>
+              </Typography>
             </Box>
           </Box>,
         );
