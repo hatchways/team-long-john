@@ -1,10 +1,10 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { appointmentInfoProp, appointmentProp } from '../../interface/AppointmentProps';
+import { appointmentInfoProp, appointmentProp, AppointmentApiData } from '../../interface/AppointmentProps';
 import { FetchOptions } from '../../interface/FetchOptions';
 
-const fetchAppointments = async (username: string, type: string): Promise<any> => {
+const fetchAppointments = async (username: string, type: string): Promise<AppointmentApiData> => {
   const fetchOptions: FetchOptions = {
     method: 'GET',
     credentials: 'include',

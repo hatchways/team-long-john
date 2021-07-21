@@ -47,6 +47,12 @@ export interface appointmentInfoProp {
   time: string;
 }
 
+// Success call when fetching appointments
+export interface AppointmentApiData {
+  success?: appointmentInfoProp[];
+  error?: { message: string };
+}
+
 // Used to pass required information to create an event in host user's google calendar.
 export interface googleCreateEventProp {
   email: string;
