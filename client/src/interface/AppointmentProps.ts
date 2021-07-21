@@ -47,9 +47,25 @@ export interface appointmentInfoProp {
   time: string;
 }
 
+export interface Appointments {
+  appointments: {
+    meetingId: string;
+    hostGoogleEid: string;
+    hostUserName: string;
+    hostName: string;
+    hostEmail: string;
+    appointeeGoogleEid: string;
+    appointeeName: string;
+    appointeeEmail: string;
+    timezone: string;
+    duration: string;
+    time: string;
+  }[];
+}
+
 // Success call when fetching appointments
 export interface AppointmentApiData {
-  success?: appointmentInfoProp[];
+  success?: Appointments;
   error?: { message: string };
 }
 

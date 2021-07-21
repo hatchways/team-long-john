@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Box } from '@material-ui/core';
@@ -18,6 +18,7 @@ import { fetchMeetings } from '../../helpers/APICalls/meetings';
 import EventModal from './EventModal/EventModal';
 import { Meetings } from '../../interface/Meeting';
 import { User } from '../../interface/User';
+import { Appointments } from '../../interface/AppointmentProps';
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
@@ -29,7 +30,7 @@ export default function Dashboard(): JSX.Element {
   const [schedSelect, setSchedSelect] = React.useState(schedOptions[0]);
   const loggedInUser: User | null | undefined = useAuth().loggedInUser;
   const [meetingOptions, setMeetingOptions] = useState<Meetings>([]);
-  const events = useRef<any>(null);
+  const [events, setEvents] = useState<Appointments | undefined>({ appointments: [] });
 
   const fetchMeetingsCallback = useCallback(async (id) => {
     const meetings = await fetchMeetings(id);
@@ -38,11 +39,26 @@ export default function Dashboard(): JSX.Element {
 
   useEffect(() => {
     if (loggedInUser) fetchMeetingsCallback(loggedInUser._id);
-  }, [fetchMeetingsCallback, loggedInUser]);
+  }, [fetchMeetingsCallback, loggedInUser, events]);
 
   if (loggedInUser === undefined || loggedInUser === null) return <CircularProgress />;
 
   const handleOpen = () => setOpen(true);
+
+  // Handles logic for dashboard and schedule options
+  const handleClickDashOptions = () => {
+    // Fetches events based on appointment type
+    const fetchEvents = async (type: string) => {
+      const appointments = await fetchAppointments(loggedInUser.username, type);
+      setEvents(appointments.success);
+    };
+
+    // If we are on "Scheduled Events"...
+    if (dashOptionSelected === dashOptions[0]) {
+      // If user is on the 'Past' section...
+      if (schedSelect === schedOptions[0]) fetchEvents('past');
+    }
+  };
 
   const createOptions = (
     choices: string[],
@@ -83,19 +99,12 @@ export default function Dashboard(): JSX.Element {
     return output;
   };
 
-  const fetchEvents = async (type: string) => {
-    const appointments = await fetchAppointments(loggedInUser.username, type);
-    events.current = appointments.success;
-  };
-
   const populateSchedEvent = () => {
     const output = [];
 
-    if (schedSelect === schedOptions[0]) fetchEvents('past');
-
-    if (events.current) {
-      for (let i = 0; i < events.current.appointments.length; i++) {
-        const { appointeeEmail, appointeeName, duration, time, timezone } = events.current.appointments[i];
+    if (events) {
+      for (let i = 0; i < events.appointments.length; i++) {
+        const { appointeeEmail, appointeeName, duration, time, timezone } = events.appointments[i];
 
         output.push(
           <Box key={`schedule ${i}`} className={classes.schedEventData}>
@@ -135,7 +144,9 @@ export default function Dashboard(): JSX.Element {
         <Box className={classes.headerWrapper}>
           <Box className={classes.header}>
             <Typography className={classes.headerTitle}> My CalendApp </Typography>
-            <Box className={classes.headerMenu}> {createOptions(dashOptions, dashOptionSelected, setDashOption)} </Box>
+            <Box onClick={handleClickDashOptions} className={classes.headerMenu}>
+              {createOptions(dashOptions, dashOptionSelected, setDashOption)}
+            </Box>
           </Box>
         </Box>
         {dashOptionSelected === dashOptions[0] ? (
