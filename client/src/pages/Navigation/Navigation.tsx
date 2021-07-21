@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -23,6 +23,7 @@ export default function Navigation(): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const classes = useStyles();
   const { loggedInUser, logout } = useAuth();
+  const history = useHistory();
 
   if (loggedInUser === undefined || loggedInUser === null) {
     return <CircularProgress />;
@@ -34,6 +35,9 @@ export default function Navigation(): JSX.Element {
 
   const handleClose = () => setAnchorEl(null);
   const handleLogout = () => logout();
+  const handleSetting = () => {
+    history.push('/userSetting');
+  };
 
   return (
     <AppBar position="static" className={classes.root}>
@@ -69,6 +73,7 @@ export default function Navigation(): JSX.Element {
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList>
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={handleSetting}>Setting</MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>

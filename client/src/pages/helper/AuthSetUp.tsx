@@ -19,7 +19,7 @@ export default function AuthSetUp(): JSX.Element {
     })
     .then((data) => {
       updateLoginContext(data.success);
-      if (!data.success.user.username) history.push('profile_settings');
+      if (!data.success.user.username) history.push('initialSettings');
       else history.push('dashboard');
     })
     .catch((error) => alert(error));
