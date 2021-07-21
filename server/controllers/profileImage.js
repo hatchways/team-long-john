@@ -9,8 +9,6 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
   secure: true,
 });
-// Setup multer:
-const multer = require("multer");
 
 // @route GET /profileImage
 // @desc Fetches profile image associated with user
@@ -20,7 +18,7 @@ exports.fetchProfileImage = asyncHandler(async (req, res, next) => {
 
   const profileImage = await ProfileImage.findOne({ userId: userId });
 
-  if (profileImage) {
+  if (!profileImage) {
     res.status(404);
     throw new Error("Profile image module not found for given user.");
   }
@@ -52,15 +50,16 @@ exports.createProfileImage = asyncHandler(async (req, res, next) => {
   res.status(201).json({ success: { profileImage: profileImage } });
 });
 
-// @route PATCH /profileImage/:id
+// @route PATCH /profileImage
 // @desc Edits (patches) a profile image by id.
 // @access Public
 exports.editProfileImageById = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
+  const { userId } = req.query;
   const updates = req.body;
   const options = { new: true };
 
-  const editted = await ProfileImage.findByIdAndUpdate(id, updates, options);
+  const query = { userId: userId };
+  const editted = await ProfileImage.findOneAndUpdate(query, updates, options);
 
   if (!editted) {
     res.status(400);

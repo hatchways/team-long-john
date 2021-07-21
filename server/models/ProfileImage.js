@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const profileImageSchema = new mongoose.Schema({
   userId: {
-    type: String,
+    type: mongoose.Types.ObjectId,
     required: true,
     unique: true,
   },

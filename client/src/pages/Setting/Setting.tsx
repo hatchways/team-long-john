@@ -5,23 +5,37 @@ import tempImg from '../../Images/b1f0e680702e811aa8ba333cb19c0e0ea95e8e31.png';
 import { useSnackBar } from '../../context/useSnackbarContext';
 import useStyles from './useStyles';
 import { useState } from 'react';
-import { uploadToCloudinary } from '../../helpers/APICalls/settings';
+import { loadProfileImage, uploadToCloudinary } from '../../helpers/APICalls/settings';
+import { useAuth } from '../../context/useAuthContext';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { useEffect } from 'react';
 
 export default function Setting(): JSX.Element {
   const classes = useStyles();
-  const [imgSource, setImgSource] = useState<File>();
+  const { loggedInUser } = useAuth();
   const { updateSnackBarMessage } = useSnackBar();
+  const [imgSource, setImgSource] = useState<File>();
+  const [profileUrl, setProfileUrl] = useState(tempImg);
+
+  useEffect(() => {
+    if (loggedInUser) {
+      loadProfileImage(loggedInUser._id, setProfileUrl, updateSnackBarMessage);
+    }
+  }, [loggedInUser, updateSnackBarMessage]);
+
+  if (loggedInUser === undefined || loggedInUser === null) return <CircularProgress />;
 
   const getFilePath = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileObj = event.target.files;
     if (fileObj && fileObj.length > 0) {
       setImgSource(fileObj[0]);
+      setProfileUrl(URL.createObjectURL(imgSource));
     }
   };
 
   const uploadProfilePic = () => {
     if (imgSource) {
-      uploadToCloudinary(imgSource, updateSnackBarMessage);
+      uploadToCloudinary(loggedInUser._id, imgSource, updateSnackBarMessage);
     }
   };
 
@@ -31,7 +45,7 @@ export default function Setting(): JSX.Element {
       <Box className={classes.wrapper}>
         <Typography className={classes.headerTitle}> PROFILE SETTING </Typography>
         <Box className={classes.contentBox}>
-          <img className={classes.iconImage} src={imgSource ? URL.createObjectURL(imgSource) : tempImg} />
+          <img className={classes.iconImage} src={profileUrl} />
           <Typography> Change your profile picture: </Typography>
           <input type="file" onChange={getFilePath} />
           <Button onClick={uploadProfilePic}> Update your profile picture </Button>

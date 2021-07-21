@@ -15,8 +15,7 @@ const upload = multer();
 
 router.route("/").get(fetchProfileImage);
 router.route("/").post(createProfileImage);
-router.route("/:id").patch(editProfileImageById);
-// router.route("/upload").post(uploadToMulter);
+router.route("/").patch(editProfileImageById);
 router.route("/upload").post(upload.single("fileSource"), uploadToCloudinary);
 
 module.exports = router;
