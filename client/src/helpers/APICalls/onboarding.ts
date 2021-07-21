@@ -65,7 +65,7 @@ const UpdateURL = (
     });
 };
 
-const UpdateAvail = (email: string, openTimes: times, openDays: string[], logout: simpleFunc): void => {
+const UpdateAvail = (email: string, openTimes: times, openDays: string[], logout?: simpleFunc): void => {
   const url = `users/email/${email}`;
   const request = new Request(url, {
     method: 'PATCH',
@@ -82,8 +82,12 @@ const UpdateAvail = (email: string, openTimes: times, openDays: string[], logout
   fetch(request)
     .then((res) => {
       if (res && res.status === 200) {
-        alert('Your account has successfully been created. Please login to use your account.');
-        logout();
+        if (logout) {
+          alert('Your account has successfully been created. Please login to use your account.');
+          logout();
+        } else {
+          alert('Your account has successfully been updated.');
+        }
       } else if (res && res.status === 404) {
         alert('There is no user with the specified email.');
       }

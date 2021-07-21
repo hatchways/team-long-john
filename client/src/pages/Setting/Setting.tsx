@@ -9,6 +9,7 @@ import { loadProfileImage, uploadToCloudinary } from '../../helpers/APICalls/set
 import { useAuth } from '../../context/useAuthContext';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useEffect } from 'react';
+import Availability from './Availability/Availability';
 
 export default function Setting(): JSX.Element {
   const classes = useStyles();
@@ -44,25 +45,28 @@ export default function Setting(): JSX.Element {
       <Navigation />
       <Box className={classes.wrapper}>
         <Typography className={classes.headerTitle}> PROFILE SETTING </Typography>
-        <Box className={classes.imageSettingBox}>
-          <img className={classes.iconImage} src={profileUrl} />
-          <input className={classes.imgInput} type="file" onChange={getFilePath} />
-          <Button className={classes.imgInputButton} onClick={uploadProfilePic}>
-            Update your profile picture
-          </Button>
+        <Box className={classes.profileWrapper}>
+          <Box className={classes.imageSettingBox}>
+            <img className={classes.iconImage} src={profileUrl} />
+            <input className={classes.imgInput} type="file" onChange={getFilePath} />
+            <Button className={classes.imgInputButton} onClick={uploadProfilePic}>
+              Update your profile picture
+            </Button>
+          </Box>
+          <Box className={classes.userInfoBox}>
+            <Typography className={classes.subHeader}> USER INFO </Typography>
+            <Typography className={classes.infoContent}>
+              <strong> NAME: </strong> <u> {loggedInUser.name} </u>
+            </Typography>
+            <Typography className={classes.infoContent}>
+              <strong> USER NAME: </strong> <u> {loggedInUser.username} </u>
+            </Typography>
+            <Typography className={classes.infoContent}>
+              <strong> EMAIL: </strong> <u> {loggedInUser.email} </u>
+            </Typography>
+          </Box>
         </Box>
-        <Box className={classes.userInfoBox}>
-          <Typography className={classes.subHeader}> USER INFO </Typography>
-          <Typography className={classes.infoContent}>
-            <strong> NAME: </strong> <u> {loggedInUser.name} </u>
-          </Typography>
-          <Typography className={classes.infoContent}>
-            <strong> USER NAME: </strong> <u> {loggedInUser.username} </u>
-          </Typography>
-          <Typography className={classes.infoContent}>
-            <strong> EMAIL: </strong> <u> {loggedInUser.email} </u>
-          </Typography>
-        </Box>
+        <Availability />
       </Box>
     </Box>
   );

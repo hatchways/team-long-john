@@ -15,8 +15,14 @@ const useStyles = makeStyles(() => ({
     marginBottom: '40px',
     paddingBottom: '10px',
     borderBottom: '2px solid #f76900',
+    textAlign: 'left',
     fontSize: '2.5em',
     fontWeight: 'bold',
+  },
+  profileWrapper: {
+    display: 'flex',
+    height: '100%',
+    marginBottom: '30px',
   },
   imageSettingBox: {
     float: 'left',
@@ -34,8 +40,9 @@ const useStyles = makeStyles(() => ({
     margin: '7px 15px',
   },
   imgInputButton: {
-    border: '2px solid #f76900',
     margin: '7px 15px',
+    color: 'white',
+    backgroundColor: '#F76900',
   },
   userInfoBox: {
     float: 'left',

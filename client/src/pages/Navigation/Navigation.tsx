@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,19 +12,28 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import useStyles from './useStyles';
-import tempImg from '../../Images/b1f0e680702e811aa8ba333cb19c0e0ea95e8e31.png';
+import tempImg from '../../Images/loading.gif';
 import logo from '../../Images/logo.png';
 import { Box } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { useAuth } from '../../context/useAuthContext';
+import { useSnackBar } from '../../context/useSnackbarContext';
+import { loadProfileImage } from '../../helpers/APICalls/settings';
 
 export default function Navigation(): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const classes = useStyles();
+  const [profileUrl, setProfileUrl] = useState(tempImg);
+  const { updateSnackBarMessage } = useSnackBar();
   const { loggedInUser, logout } = useAuth();
   const history = useHistory();
 
+  useEffect(() => {
+    if (loggedInUser) {
+      loadProfileImage(loggedInUser._id, setProfileUrl, updateSnackBarMessage);
+    }
+  }, [loggedInUser, updateSnackBarMessage]);
   if (loggedInUser === undefined || loggedInUser === null) {
     return <CircularProgress />;
   }
@@ -56,7 +65,7 @@ export default function Navigation(): JSX.Element {
           </Link>
         </Box>
         <Button className={classes.dropdown} onClick={handleMenu}>
-          <img src={tempImg} className={classes.iconImage} />
+          <img src={profileUrl} className={classes.iconImage} />
           <Box className={classes.usernameContainer}>
             <Typography className={classes.username}>
               {loggedInUser.name ? loggedInUser.name : loggedInUser.username}

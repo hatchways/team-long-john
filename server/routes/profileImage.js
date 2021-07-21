@@ -6,7 +6,6 @@ const {
   createProfileImage,
   editProfileImageById,
   uploadToCloudinary,
-  uploadToMulter,
 } = require("../controllers/profileImage");
 
 // Setup multer:

@@ -4,7 +4,10 @@ export interface User {
   username: string;
   name: string;
   timezone: string;
-  availableHours: string[];
+  availableHours: {
+    start: string;
+    end: string;
+  };
   availableDays: string[];
 }
 
