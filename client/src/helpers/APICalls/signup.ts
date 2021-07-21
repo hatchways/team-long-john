@@ -1,4 +1,8 @@
-const initiateSignUp = (userEmail: string, setValidated: React.Dispatch<React.SetStateAction<boolean>>): void => {
+const initiateSignUp = (
+  userEmail: string,
+  setValidated: React.Dispatch<React.SetStateAction<boolean>>,
+  updateSnackBarMessage: (message: string) => void,
+): void => {
   // We need to check if there is already an account with the associated userEmail.
   const url = '/users';
   const request = new Request(url, {
@@ -15,14 +19,10 @@ const initiateSignUp = (userEmail: string, setValidated: React.Dispatch<React.Se
   fetch(request)
     .then((res) => {
       if (res && res.status === 200) {
-        alert('An user with the given email exists. Please try logging in with this email.');
-      } else if (res && res.status === 404) {
-        setValidated(true);
-      }
+        updateSnackBarMessage('An user with the given email exists. Please try logging in with this email.');
+      } else if (res && res.status === 404) setValidated(true);
     })
-    .catch((error) => {
-      alert(error);
-    });
+    .catch((error) => updateSnackBarMessage(error.message));
 };
 
 export default initiateSignUp;

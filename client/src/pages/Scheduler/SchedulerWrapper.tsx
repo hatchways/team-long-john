@@ -5,12 +5,14 @@ import { getHostInfo } from '../../helpers/APICalls/scheduler';
 import Box from '@material-ui/core/Box';
 import { useEffect } from 'react';
 import { getMeetingInfo } from '../../helpers/APICalls/meetings';
+import { useSnackBar } from '../../context/useSnackbarContext';
 
 export default function SchedulerWrapper(): JSX.Element {
   // The purpose of the scheduler wrapper is to make a single call to load the user information,
   // and then pass this information to the scheduler.
 
   const history = useHistory();
+  const { updateSnackBarMessage } = useSnackBar();
   // This is the username of the person who is hosting the appointment.
   const { username, meetingId } = useParams<schedUrlProp>();
   const [meetingInfo, setMeetingInfo] = useState<meetingInfoProp>({
@@ -19,8 +21,8 @@ export default function SchedulerWrapper(): JSX.Element {
     duration: 10,
   });
   useEffect(() => {
-    getMeetingInfo(meetingId, setMeetingInfo);
-  }, [meetingId]);
+    getMeetingInfo(meetingId, setMeetingInfo, updateSnackBarMessage);
+  }, [meetingId, updateSnackBarMessage]);
   const [hostInfo, setHostInfo] = useState<hostInfoProp>({
     hostId: '',
     hostEmail: '',
@@ -32,8 +34,8 @@ export default function SchedulerWrapper(): JSX.Element {
     appointments: [],
   });
   useEffect(() => {
-    getHostInfo(username, setHostInfo, history);
-  }, [username, history]);
+    getHostInfo(username, setHostInfo, history, updateSnackBarMessage);
+  }, [username, history, updateSnackBarMessage]);
 
   useEffect(() => {
     if (meetingInfo.userId && hostInfo.hostId) {
@@ -49,7 +51,7 @@ export default function SchedulerWrapper(): JSX.Element {
           },
         });
       } else {
-        alert('This meeting does not belong to this user.');
+        updateSnackBarMessage('This meeting does not belong to this user.');
         history.push('/login');
       }
     }

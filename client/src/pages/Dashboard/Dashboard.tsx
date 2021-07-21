@@ -16,9 +16,12 @@ import { fetchMeetings } from '../../helpers/APICalls/meetings';
 import EventModal from './EventModal/EventModal';
 import { Meetings } from '../../interface/Meeting';
 import { User } from '../../interface/User';
+import { useSnackBar } from '../../context/useSnackbarContext';
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
+  const { updateSnackBarMessage } = useSnackBar();
+
   // Controls whether to open or close our modal
   const [open, setOpen] = React.useState<boolean>(false);
   const dashOptions = ['EVENT TYPES', 'SCHEDULED EVENTS'];
@@ -28,10 +31,13 @@ export default function Dashboard(): JSX.Element {
   const loggedInUser: User | null | undefined = useAuth().loggedInUser;
   const [meetingOptions, setMeetingOptions] = useState<Meetings>([]);
 
-  const fetchMeetingsCallback = useCallback(async (id) => {
-    const meetings = await fetchMeetings(id);
-    if (meetings.success) setMeetingOptions(meetings.success.data);
-  }, []);
+  const fetchMeetingsCallback = useCallback(
+    async (id) => {
+      const meetings = await fetchMeetings(id, updateSnackBarMessage);
+      if (meetings.success) setMeetingOptions(meetings.success.data);
+    },
+    [updateSnackBarMessage],
+  );
 
   useEffect(() => {
     if (loggedInUser) fetchMeetingsCallback(loggedInUser._id);

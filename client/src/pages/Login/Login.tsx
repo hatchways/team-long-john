@@ -5,9 +5,11 @@ import GetStarted from '../helper/GetStarted/GetStarted';
 import AuthenticateMenu from '../helper/AuthenticateMenu/AuthenticateMenu';
 import React from 'react';
 import initiateLogIn from '../../helpers/APICalls/login';
+import { useSnackBar } from '../../context/useSnackbarContext';
 
 export default function Login(): JSX.Element {
   const classes = useStyles();
+  const { updateSnackBarMessage } = useSnackBar();
 
   const [validated, setValidated] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState('');
@@ -31,7 +33,7 @@ export default function Login(): JSX.Element {
           signup={false}
           redirTarget="/signup"
           textChange={textChange}
-          initiater={() => initiateLogIn(userEmail, setValidated)}
+          initiater={() => initiateLogIn(userEmail, setValidated, updateSnackBarMessage)}
         />
       )}
     </Grid>

@@ -11,10 +11,12 @@ import { appointmentInfoProp } from '../../../interface/AppointmentProps';
 import { CreateGoogleEvent, deleteGoogleEvent } from '../../../helpers/APICalls/googleCalendarEvent';
 import { getMeetingInfo } from '../../../helpers/APICalls/meetings';
 import { useEffect } from 'react';
+import { useSnackBar } from '../../../context/useSnackbarContext';
 
 export default function Completion(): JSX.Element {
   const history = useHistory();
   const classes = useStyles();
+  const { updateSnackBarMessage } = useSnackBar();
 
   // Using the appointID, search an appointment by ID to fill in all the information.
   const { appointID } = useParams<completionUrlProp>();
@@ -37,23 +39,23 @@ export default function Completion(): JSX.Element {
     time: '',
   });
   useEffect(() => {
-    getAppointInfo(appointID, setAppointInfo, history);
-  }, [appointID, history]);
+    getAppointInfo(appointID, setAppointInfo, history, updateSnackBarMessage);
+  }, [appointID, history, updateSnackBarMessage]);
   useEffect(() => {
     if (appointInfo.meetingId) {
-      getMeetingInfo(appointInfo.meetingId, setMeetingInfo);
+      getMeetingInfo(appointInfo.meetingId, setMeetingInfo, updateSnackBarMessage);
     }
-  }, [appointInfo.meetingId]);
+  }, [appointInfo.meetingId, updateSnackBarMessage]);
 
   const timeMoment = appointInfo.time === '' ? moment() : moment.tz(appointInfo.time, appointInfo.timeZone);
   const timeStr = timeMoment.format('HH:mm on MMMM DD, YYYY');
 
   const cancelAppointment = (reschedule: boolean) => {
     // Using appointID, delete this specific appointment from DB.
-    deleteAppointment(appointID);
-    deleteGoogleEvent(appointInfo.hostEmail, appointInfo.hostGoogleEid);
+    deleteAppointment(appointID, updateSnackBarMessage);
+    deleteGoogleEvent(appointInfo.hostEmail, appointInfo.hostGoogleEid, updateSnackBarMessage);
     if (appointInfo.appointeeGoogleEid !== 'N/A') {
-      deleteGoogleEvent(appointInfo.appointeeEmail, appointInfo.appointeeGoogleEid);
+      deleteGoogleEvent(appointInfo.appointeeEmail, appointInfo.appointeeGoogleEid, updateSnackBarMessage);
     }
     if (reschedule) {
       history.push(`/shared/${appointInfo.hostUserName}/${appointInfo.meetingId}`);
@@ -63,9 +65,8 @@ export default function Completion(): JSX.Element {
   };
 
   const appointeeGEvent = () => {
-    const propAppointeeGE = {
-      appointmentId: appointID,
-    };
+    const propAppointeeGE = { appointmentId: appointID };
+
     const propGoogleCreate = {
       email: appointInfo.appointeeEmail,
       summary: meetingInfo.meetingTitle,
@@ -76,7 +77,8 @@ export default function Completion(): JSX.Element {
       timeZone: appointInfo.timeZone,
       colorId: 1,
     };
-    CreateGoogleEvent(false, propGoogleCreate, propAppointeeGE, undefined, setAppointInfo);
+
+    CreateGoogleEvent(false, propGoogleCreate, propAppointeeGE, updateSnackBarMessage, undefined, setAppointInfo);
   };
 
   return (
