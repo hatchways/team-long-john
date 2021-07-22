@@ -34,7 +34,7 @@ exports.fetchAppointments = asyncHandler(async (req, res, next) => {
       }
     }
 
-    res.status(200).json({ success: { appointments: appointments } });
+    res.status(200).json({ success: { appointments: pastAppointments } });
   } else {
     res.status(200).json({ success: { appointments: appointments } });
   }
