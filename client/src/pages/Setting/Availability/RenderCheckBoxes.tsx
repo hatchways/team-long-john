@@ -23,7 +23,7 @@ const RenderCheckBoxes = (prop: availSettingProp): JSX.Element[] => {
     const isEnabled = prop.openDays[idx] === day;
     if (idx === 0) {
       return (
-        <Box key={day} className={classes.checkboxContainer} style={{ borderRight: '1px solid #c4c4c4' }}>
+        <Box key={day} className={`${classes.checkboxContainer} ${classes.checkboxLeft}`}>
           <Checkbox
             value={day}
             onChange={(e) => handleChangeDays(e, idx)}
@@ -35,7 +35,7 @@ const RenderCheckBoxes = (prop: availSettingProp): JSX.Element[] => {
       );
     } else if (idx === days.length - 1) {
       return (
-        <Box key={day} className={classes.checkboxContainer} style={{ borderRight: '0px' }}>
+        <Box key={day} className={`${classes.checkboxContainer} ${classes.checkboxRight}`}>
           <Checkbox
             value={day}
             onChange={(e) => handleChangeDays(e, idx)}
@@ -47,7 +47,7 @@ const RenderCheckBoxes = (prop: availSettingProp): JSX.Element[] => {
       );
     } else {
       return (
-        <Box key={day} className={classes.checkboxContainer} style={{ borderRight: '1px solid #c4c4c4' }}>
+        <Box key={day} className={`${classes.checkboxContainer} ${classes.checkboxLeft}`}>
           <Checkbox
             value={day}
             onChange={(e) => handleChangeDays(e, idx)}

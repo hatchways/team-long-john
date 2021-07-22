@@ -67,10 +67,10 @@ const Availability = (): JSX.Element => {
             type="time"
             value={openTimes.start}
             InputProps={{
-              style: { fontSize: 15, fontWeight: 'bold' },
+              className: classes.inputProp,
             }}
           />
-          <p style={{ fontSize: '30px', margin: '0 50px' }}>-</p>
+          <p className={classes.timeDash}>-</p>
           <TextField
             onChange={(e) => handleChangeTimes(e)}
             name="end"
@@ -79,7 +79,7 @@ const Availability = (): JSX.Element => {
             type="time"
             value={openTimes.end}
             InputProps={{
-              style: { fontSize: 15, fontWeight: 'bold' },
+              className: classes.inputProp,
             }}
           />
         </Box>

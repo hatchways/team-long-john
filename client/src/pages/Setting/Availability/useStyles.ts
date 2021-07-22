@@ -26,6 +26,14 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
   },
+  inputProp: {
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  timeDash: {
+    fontSize: '30px',
+    margin: '0 50px',
+  },
   formDays: {
     border: '1px solid #c4c4c4',
     borderRadius: '10px',
@@ -38,6 +46,12 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
     alignItems: 'center',
     padding: '0 5px',
+  },
+  checkboxLeft: {
+    borderRight: '1px solid #c4c4c4',
+  },
+  checkboxRight: {
+    borderRight: '0px',
   },
   disabledCheckbox: {
     color: '#c4c4c4 !important',
