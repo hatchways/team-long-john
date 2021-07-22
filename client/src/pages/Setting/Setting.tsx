@@ -1,4 +1,4 @@
-import { Box, FormControl, OutlinedInput, Button, Grid, Typography } from '@material-ui/core';
+import { Box, Button, Typography } from '@material-ui/core';
 
 import Navigation from '../Navigation/Navigation';
 import tempImg from '../../Images/loading.gif';

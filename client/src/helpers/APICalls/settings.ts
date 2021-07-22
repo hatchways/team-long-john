@@ -1,5 +1,4 @@
-import { RouteComponentProps } from 'react-router-dom';
-import { appointmentInfoProp, appointmentProp } from '../../interface/AppointmentProps';
+import { times } from '../../interface/Settings';
 
 type snackBarFunc = (message: string) => void;
 
@@ -90,4 +89,38 @@ const loadProfileImage = (
     });
 };
 
-export { uploadToCloudinary, loadProfileImage };
+const UpdateAvail = (
+  email: string,
+  openTimes: times,
+  openDays: string[],
+  timeZone: string,
+  updateSnackBarMessage: snackBarFunc,
+): void => {
+  const url = `users/email/${email}`;
+  const request = new Request(url, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      availableHours: openTimes,
+      availableDays: openDays.filter(Boolean),
+      timezone: timeZone,
+    }),
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+  fetch(request)
+    .then((res) => {
+      if (res && res.status === 200) {
+        updateSnackBarMessage('Your account has successfully been updated.');
+      } else if (res && res.status === 404) {
+        updateSnackBarMessage('There is no user with the specified email.');
+      }
+    })
+    .catch((error) => {
+      alert(error);
+    });
+};
+
+export { uploadToCloudinary, loadProfileImage, UpdateAvail };

@@ -56,6 +56,13 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  timeZoneForm: {
+    width: '35%',
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: '30px',
+    marginLeft: '50px',
+  },
   finish: {
     color: 'white',
     backgroundColor: '#F76900',
