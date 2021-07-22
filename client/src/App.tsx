@@ -14,6 +14,7 @@ import Availability from './pages/Onboarding/Availability/Availability';
 import AuthSetUp from './pages/helper/AuthSetUp';
 import Upgrade from './pages/Upgrade/Upgrade';
 import Checkout from './pages/Checkout/Checkout';
+import Events from './pages/Events/Events';
 
 import { AuthProvider } from './context/useAuthContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
@@ -40,6 +41,7 @@ function App(): JSX.Element {
               <Route exact path="/availability" component={Availability} />
               <Route exact path="/upgrade" component={Upgrade} />
               <Route exact path="/checkout" component={Checkout} />
+              <Route exact path="/events" component={Events} />
               <Route path="*">
                 <Redirect to="/login" />
               </Route>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -23,6 +23,7 @@ export default function Navigation(): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const classes = useStyles();
   const { loggedInUser, logout } = useAuth();
+  const history = useHistory();
 
   if (loggedInUser === undefined || loggedInUser === null) {
     return <CircularProgress />;
@@ -43,9 +44,6 @@ export default function Navigation(): JSX.Element {
         <Box className={classes.navButtons}>
           <Link to="/upgrade" className={`${classes.option} ${classes.premium}`} style={{ textDecoration: 'none' }}>
             Upgrade Account
-          </Link>
-          <Link to="/integration" className={classes.option} style={{ textDecoration: 'none' }}>
-            Integration
           </Link>
           <Link to="/dashboard" className={classes.option} style={{ textDecoration: 'none' }}>
             Home
@@ -69,6 +67,7 @@ export default function Navigation(): JSX.Element {
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList>
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={() => history.push('/events')}>Events</MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
