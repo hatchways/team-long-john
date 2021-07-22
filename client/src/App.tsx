@@ -41,7 +41,7 @@ function App(): JSX.Element {
               <Route exact path="/availability" component={Availability} />
               <Route exact path="/upgrade" component={Upgrade} />
               <Route exact path="/checkout" component={Checkout} />
-              <Route exact path="/events" component={Events} />
+              <Route exact path="/:username/events" component={Events} />
               <Route path="*">
                 <Redirect to="/login" />
               </Route>

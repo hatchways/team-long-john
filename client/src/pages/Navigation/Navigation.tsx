@@ -67,7 +67,7 @@ export default function Navigation(): JSX.Element {
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList>
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={() => history.push('/events')}>Events</MenuItem>
+                    <MenuItem onClick={() => history.push(`/${loggedInUser.username}/events`)}>Events</MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
