@@ -1,7 +1,7 @@
 import { Box, Checkbox } from '@material-ui/core/';
 
-import useStyles from './useStyles';
 import { availSettingProp } from '../../../interface/Settings';
+import useStyles from './useStyles';
 
 const RenderCheckBoxes = (prop: availSettingProp): JSX.Element[] => {
   const classes = useStyles();

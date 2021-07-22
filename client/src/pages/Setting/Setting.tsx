@@ -1,15 +1,14 @@
+import { useEffect, useState } from 'react';
 import { Box, Button, Typography } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
+import Availability from './Availability/Availability';
 import Navigation from '../Navigation/Navigation';
 import tempImg from '../../Images/loading.gif';
-import { useSnackBar } from '../../context/useSnackbarContext';
 import useStyles from './useStyles';
-import { useState } from 'react';
-import { loadProfileImage, uploadToCloudinary } from '../../helpers/APICalls/settings';
 import { useAuth } from '../../context/useAuthContext';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { useEffect } from 'react';
-import Availability from './Availability/Availability';
+import { useSnackBar } from '../../context/useSnackbarContext';
+import { loadProfileImage, uploadToCloudinary } from '../../helpers/APICalls/settings';
 
 export default function Setting(): JSX.Element {
   const classes = useStyles();

@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import { Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import useStyles from './useStyles';
-import tempImg from '../../Images/loading.gif';
-import logo from '../../Images/logo.png';
-import { Box } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
+import logo from '../../Images/logo.png';
+import { loadProfileImage } from '../../helpers/APICalls/settings';
+import tempImg from '../../Images/loading.gif';
 import { useAuth } from '../../context/useAuthContext';
 import { useSnackBar } from '../../context/useSnackbarContext';
-import { loadProfileImage } from '../../helpers/APICalls/settings';
+import useStyles from './useStyles';
 
 export default function Navigation(): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

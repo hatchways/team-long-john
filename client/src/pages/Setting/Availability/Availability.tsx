@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Box, Button, FormControl, TextField, Typography } from '@material-ui/core/';
 
-import useStyles from './useStyles';
-import { useAuth } from '../../../context/useAuthContext';
-import RenderCheckBoxes from './RenderCheckBoxes';
 import BuildTimeZones from '../../Scheduler/BuildTimeZones';
-import { useSnackBar } from '../../../context/useSnackbarContext';
+import RenderCheckBoxes from './RenderCheckBoxes';
 import { UpdateAvail } from '../../../helpers/APICalls/settings';
+import { useSnackBar } from '../../../context/useSnackbarContext';
+import { useAuth } from '../../../context/useAuthContext';
+import useStyles from './useStyles';
 
 const Availability = (): JSX.Element => {
   const { loggedInUser } = useAuth();

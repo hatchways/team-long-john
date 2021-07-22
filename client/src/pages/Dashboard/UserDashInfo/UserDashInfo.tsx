@@ -1,19 +1,19 @@
-import useStyles from './useStyles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { Box } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { Table } from '@material-ui/core';
 import { TableBody } from '@material-ui/core';
 import { TableCell } from '@material-ui/core';
 import { TableRow } from '@material-ui/core';
 import { TableContainer } from '@material-ui/core';
-import { Button } from '@material-ui/core';
-import { Box } from '@material-ui/core';
+import { useState, useEffect } from 'react';
+
 import tempImg from '../../../Images/loading.gif';
-import { useAuth } from '../../../context/useAuthContext';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import { loadProfileImage } from '../../../helpers/APICalls/settings';
+import { useAuth } from '../../../context/useAuthContext';
 import { useSnackBar } from '../../../context/useSnackbarContext';
+import useStyles from './useStyles';
 
 interface Props {
   handleOpen: React.MouseEventHandler<HTMLButtonElement>;
