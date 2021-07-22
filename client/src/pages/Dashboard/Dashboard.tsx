@@ -16,9 +16,10 @@ import { fetchAppointments } from '../../helpers/APICalls/appointment';
 import { useAuth } from '../../context/useAuthContext';
 import { fetchMeetings } from '../../helpers/APICalls/meetings';
 import EventModal from './EventModal/EventModal';
-import { Meetings } from '../../interface/Meeting';
+import { EventDetailEdit, Meetings } from '../../interface/Meeting';
 import { User } from '../../interface/User';
 import { Appointments } from '../../interface/AppointmentProps';
+import EventEditModal from './EventEditModal/EventEditModal';
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
@@ -32,6 +33,13 @@ export default function Dashboard(): JSX.Element {
   const [meetingOptions, setMeetingOptions] = useState<Meetings>([]);
   const [events, setEvents] = useState<Appointments | undefined>({ appointments: [] });
 
+  // Selected meeting id.
+  const [meetingDetail, setMeetingDetail] = React.useState<EventDetailEdit>({
+    meetingId: 'N/A',
+    forEdit: false,
+  });
+
+
   const fetchMeetingsCallback = useCallback(async (id) => {
     const meetings = await fetchMeetings(id);
     if (meetings.success) setMeetingOptions(meetings.success.data);
@@ -39,7 +47,7 @@ export default function Dashboard(): JSX.Element {
 
   useEffect(() => {
     if (loggedInUser) fetchMeetingsCallback(loggedInUser._id);
-  }, [fetchMeetingsCallback, loggedInUser, events]);
+  }, [fetchMeetingsCallback, loggedInUser, meetingDetail.meetingId]);
 
   if (loggedInUser === undefined || loggedInUser === null) return <CircularProgress />;
 
@@ -90,9 +98,11 @@ export default function Dashboard(): JSX.Element {
       output.push(
         <ScheduleOption
           key={`meeting option ${i}`}
+          id={options[i]._id}
           name={options[i].name}
           schedTime={options[i].duration}
           colour={colors[i % colors.length]}
+          setMeetingDetail={setMeetingDetail}
         />,
       );
     }
@@ -140,6 +150,7 @@ export default function Dashboard(): JSX.Element {
       <CssBaseline />
       <Navigation />
       <EventModal fetchMeetingsCallback={fetchMeetingsCallback} open={open} setOpen={setOpen} />
+      <EventEditModal meetingDetail={meetingDetail} setMeetingDetail={setMeetingDetail} />
       <Box className={classes.dashWrapper}>
         <Box className={classes.headerWrapper}>
           <Box className={classes.header}>
