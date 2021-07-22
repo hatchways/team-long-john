@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Modal, Box, FormControl, Select, InputLabel, MenuItem, Button, OutlinedInput } from '@material-ui/core';
-import { useSnackBar } from '../../../context/useSnackbarContext';
-import useStyles from './useStyles';
-import { meetingInfoProp } from '../../../interface/SchedulerProps';
-import { useEffect } from 'react';
+import { Box, Button, FormControl, InputLabel, MenuItem, Modal, OutlinedInput, Select } from '@material-ui/core';
+
 import { editMeetingInfo, getMeetingInfo } from '../../../helpers/APICalls/meetings';
+import { EventDetailEdit } from '../../../interface/Meeting';
+import { meetingInfoProp } from '../../../interface/SchedulerProps';
+import { useSnackBar } from '../../../context/useSnackbarContext';
 import { useAuth } from '../../../context/useAuthContext';
 import { User } from '../../../interface/User';
-import { EventDetailEdit } from '../../../interface/Meeting';
+import useStyles from './useStyles';
 
 interface Props {
   meetingDetail: EventDetailEdit;
