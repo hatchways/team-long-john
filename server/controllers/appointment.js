@@ -1,6 +1,7 @@
 const Appointment = require("../models/Appointment");
 const asyncHandler = require("express-async-handler");
 const { convertToTimeZone } = require("../utils/dateTime");
+const moment = require("moment");
 
 // @route GET /appointment?username=USERNAME&type=all
 // @desc Fetches all appointments associated with user based on type
@@ -22,15 +23,13 @@ exports.fetchAppointments = asyncHandler(async (req, res, next) => {
     let currentTime = new Date().getTime();
 
     for (let key in appointments) {
-      const appointmentTime = new Date(appointments[key].time);
+      const appointmentTime = appointments[key].time;
 
       // Converting our time to the appointment's timezone
-      currentTime = new Date(
-        convertToTimeZone(currentTime, appointments[key].timezone)
-      );
+      currentTime = convertToTimeZone(currentTime, appointments[key].timezone);
 
       // If the appointment time is before current time, then push into pastAppointments
-      if (currentTime.getTime() < appointmentTime.getTime()) {
+      if (moment(appointmentTime).isBefore(currentTime)) {
         pastAppointments.push(appointments[key]);
       }
     }
