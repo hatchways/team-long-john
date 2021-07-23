@@ -3,6 +3,7 @@ import { CircularProgress, Box } from '@material-ui/core';
 import Navigation from '../Navigation/Navigation';
 import UpgradeCard from './UpgradeCard/UpgradeCard';
 import { useAuth } from '../../context/useAuthContext';
+import { premium } from '../../helpers/subscriptions';
 import useStyles from './useStyles';
 
 const Upgrade = (): JSX.Element => {
@@ -24,7 +25,7 @@ const Upgrade = (): JSX.Element => {
             headerSubtitle="Free"
             disableButton={true}
             buttonText="Current"
-            redirectUrl="/upgrade"
+            priceId=""
           >
             <p>Limited Meetings</p>
             <p>Create Custom Events</p>
@@ -35,7 +36,7 @@ const Upgrade = (): JSX.Element => {
             headerSubtitle="$5/month"
             disableButton={false}
             buttonText="Upgrade"
-            redirectUrl="/checkout"
+            priceId={premium}
           >
             <p>Unlimited Meetings</p>
             <p>Group Meetings (Coming soon)</p>

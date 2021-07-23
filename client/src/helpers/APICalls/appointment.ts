@@ -1,5 +1,21 @@
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { appointmentInfoProp, appointmentProp } from '../../interface/AppointmentProps';
+
+import { appointmentInfoProp, appointmentProp, AppointmentApiData } from '../../interface/AppointmentProps';
+import { FetchOptions } from '../../interface/FetchOptions';
+
+const fetchAppointments = async (username: string, type: string): Promise<AppointmentApiData> => {
+  const fetchOptions: FetchOptions = {
+    method: 'GET',
+    credentials: 'include',
+  };
+
+  return await fetch(`/appointment?username=${username}&type=${type}`, fetchOptions)
+    .then((res) => res.json())
+    .catch(() => ({
+      error: { message: 'Unable to connect to server. Please try again' },
+    }));
+};
 
 const getAppointInfo = (
   appointId: string,
@@ -91,4 +107,4 @@ const deleteAppointment = (appointId: string, updateSnackBarMessage: (message: s
     .catch((error) => updateSnackBarMessage(error.message));
 };
 
-export { getAppointInfo, deleteAppointment, CreateAppointment };
+export { fetchAppointments, getAppointInfo, deleteAppointment, CreateAppointment };

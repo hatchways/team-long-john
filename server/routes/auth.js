@@ -4,6 +4,8 @@ const passport = require("passport");
 const { logOut } = require("../controllers/auth");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
+const { isDev } = require("../utils/isDev");
+
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -16,8 +18,8 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: `${process.env.CALEND_APP_DEV_URL}/AuthSetup`,
-    failureRedirect: `${process.env.CALEND_APP_DEV_URL}/login`,
+    successRedirect: `${isDev()}/AuthSetup`,
+    failureRedirect: `${isDev()}/login`,
   })
 );
 

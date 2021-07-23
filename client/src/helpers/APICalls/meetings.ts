@@ -43,3 +43,33 @@ export const getMeetingInfo = (
     })
     .catch((error) => updateSnackBarMessage(error.message));
 };
+
+export const editMeetingInfo = (
+  meetingId: string,
+  name: string,
+  duration: string,
+  updateSnackBarMessage: snackBarFunc,
+): void => {
+  const url = `/meeting/${meetingId}`;
+  const request = new Request(url, {
+    method: 'PATCH',
+    credentials: 'include',
+    body: JSON.stringify({
+      name: name,
+      duration: duration,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+  fetch(request)
+    .then((res) => {
+      if (res.status === 400) {
+        updateSnackBarMessage('Meeting with the given id could not be updated.');
+      }
+    })
+    .catch((error) => {
+      updateSnackBarMessage(error);
+    });
+};

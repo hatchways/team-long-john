@@ -3,6 +3,7 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
 const User = require("../models/User");
+const { userCreationEmail } = require("./emailSender");
 
 passport.use(
   new GoogleStrategy(
@@ -35,6 +36,7 @@ passport.use(
         },
       });
       newUser.save();
+      userCreationEmail(newUser);
 
       await new Meeting({
         userId: newUser._id,
