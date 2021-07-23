@@ -1,6 +1,6 @@
 import { MuiThemeProvider } from '@material-ui/core';
 import { theme } from './themes/theme';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Login from './pages/Login/Login';
 import Signup from './pages/SignUp/SignUp';
@@ -42,9 +42,6 @@ function App(): JSX.Element {
               <Route exact path="/upgrade" component={Upgrade} />
               <Route exact path="/userSetting" component={Setting} />
               <Route exact path="/success" component={Success} />
-              <Route path="*">
-                <Redirect to="/login" />
-              </Route>
             </AuthProvider>
           </Switch>
         </SnackBarProvider>

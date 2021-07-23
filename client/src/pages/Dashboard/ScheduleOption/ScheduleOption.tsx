@@ -58,8 +58,10 @@ export default function ScheduleOption(prop: SchedProp): JSX.Element {
           </Box>
         </Button>
         <Box className={classes.subInfo}>
-          <QueryBuilderIcon className={classes.iconStyle} />
-          <Typography className={classes.subInfoText}> {prop.schedTime} min </Typography>
+          <Box>
+            <QueryBuilderIcon className={classes.iconStyle} />
+            <Typography className={classes.subInfoText}> {prop.schedTime} min </Typography>
+          </Box>
           <Button variant="outlined" className={classes.outlinedButton} onClick={copyLink}>
             COPY LINK
           </Button>
