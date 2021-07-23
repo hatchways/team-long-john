@@ -4,7 +4,7 @@ const useStyles = makeStyles(() => ({
   wrapper: {
     position: 'relative',
     minHeight: '60vh',
-    maxWidth: '1050px',
+    width: '1050px',
     margin: 'auto',
     marginTop: '7vh',
     padding: '50px',
