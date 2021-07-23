@@ -4,7 +4,7 @@ const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
 const User = require("../models/User");
 const { userCreationEmail } = require("./emailSender");
-const isDev = require("./isDev");
+const { isDev } = require("../utils/isDev");
 
 passport.use(
   new GoogleStrategy(
