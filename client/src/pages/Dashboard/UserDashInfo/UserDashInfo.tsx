@@ -1,15 +1,19 @@
-import useStyles from './useStyles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { Box } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { Table } from '@material-ui/core';
 import { TableBody } from '@material-ui/core';
 import { TableCell } from '@material-ui/core';
 import { TableRow } from '@material-ui/core';
 import { TableContainer } from '@material-ui/core';
-import { Button } from '@material-ui/core';
-import { Box } from '@material-ui/core';
-import tempImg from '../../../Images/b1f0e680702e811aa8ba333cb19c0e0ea95e8e31.png';
+import { useState, useEffect } from 'react';
+
+import tempImg from '../../../Images/loading.gif';
+import { loadProfileImage } from '../../../helpers/APICalls/settings';
 import { useAuth } from '../../../context/useAuthContext';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { useSnackBar } from '../../../context/useSnackbarContext';
+import useStyles from './useStyles';
 
 interface Props {
   handleOpen: React.MouseEventHandler<HTMLButtonElement>;
@@ -17,8 +21,15 @@ interface Props {
 
 export default function UserDashInfo({ handleOpen }: Props): JSX.Element {
   const classes = useStyles();
-
+  const [profileUrl, setProfileUrl] = useState(tempImg);
+  const { updateSnackBarMessage } = useSnackBar();
   const { loggedInUser } = useAuth();
+
+  useEffect(() => {
+    if (loggedInUser) {
+      loadProfileImage(loggedInUser._id, setProfileUrl, updateSnackBarMessage);
+    }
+  }, [loggedInUser, updateSnackBarMessage]);
 
   if (loggedInUser === undefined || loggedInUser === null) {
     return <CircularProgress />;
@@ -30,7 +41,7 @@ export default function UserDashInfo({ handleOpen }: Props): JSX.Element {
         <TableBody>
           <TableRow>
             <TableCell className={classes.iconWrapper}>
-              <img src={tempImg} className={classes.iconImage} />
+              <img src={profileUrl} className={classes.iconImage} />
             </TableCell>
             <TableCell>
               <Box>

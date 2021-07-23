@@ -13,6 +13,7 @@ const passport = require("passport");
 require("./utils/passport");
 
 const userRouter = require("./routes/user");
+const profileImageRouter = require("./routes/profileImage");
 const authRouter = require("./routes/auth");
 const appointmentRouter = require("./routes/appointment");
 const meetingRouter = require("./routes/meeting");
@@ -54,6 +55,7 @@ app.use(express.static(join(__dirname, "public")));
 // Routes
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
+app.use("/profileImage", profileImageRouter);
 app.use("/appointment", appointmentRouter);
 app.use("/meeting", meetingRouter);
 app.use("/stripe", stripeRouter);

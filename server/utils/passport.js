@@ -44,6 +44,13 @@ passport.use(
         duration: 60,
       }).save();
 
+      await new ProfileImage({
+        userId: newUser._id,
+        url: "http://res.cloudinary.com/calend-app/image/upload/v1626886286/DO_NOT_DELETE.png",
+        secureUrl:
+          "https://res.cloudinary.com/calend-app/image/upload/v1626886286/DO_NOT_DELETE.png",
+      }).save();
+
       return done(null, profile);
     }
   )
