@@ -11,6 +11,7 @@ const addGoogleAppointee = (
   props: appointeeGEventProp,
   googleEventId: string,
   setter: React.Dispatch<React.SetStateAction<appointmentInfoProp>>,
+  updateSnackBarMessage: (message: string) => void,
 ): void => {
   const url = `/appointment/${props.appointmentId}`;
   const request = new Request(url, {
@@ -26,11 +27,8 @@ const addGoogleAppointee = (
   });
   fetch(request)
     .then((res) => {
-      if (res && res.status === 200) {
-        return res.json();
-      } else {
-        alert('Google event could not be created for the appointee. ');
-      }
+      if (res && res.status === 200) return res.json();
+      else updateSnackBarMessage('Google event could not be created for the appointee. ');
     })
     .then((data) => {
       if (data) {
@@ -48,17 +46,16 @@ const addGoogleAppointee = (
           time: appointment.time,
         });
       }
-      alert('Appointment has been added to your google calendar!');
+      updateSnackBarMessage('Appointment has been added to your google calendar!');
     })
-    .catch((error) => {
-      alert(error);
-    });
+    .catch((error) => updateSnackBarMessage(error));
 };
 
 const CreateGoogleEvent = (
   forHost: boolean,
   googleProps: googleCreateEventProp,
   props: appointmentProp | appointeeGEventProp,
+  updateSnackBarMessage: (message: string) => void,
   history?: RouteComponentProps['history'],
   setter?: React.Dispatch<React.SetStateAction<appointmentInfoProp>>,
 ): void => {
@@ -83,10 +80,9 @@ const CreateGoogleEvent = (
   });
   fetch(request)
     .then((res) => {
-      if (res && res.status === 201) {
-        return res.json();
-      } else {
-        alert(
+      if (res && res.status === 201) return res.json();
+      else {
+        updateSnackBarMessage(
           'Event could not be added to google calendar. If you are an appointee, ' +
             'this time slot might already be occupied in your own calendar.',
         );
@@ -96,29 +92,27 @@ const CreateGoogleEvent = (
       if (data) {
         if (forHost) {
           if ('appointmentId' in props) {
-            alert('You are passing in appointee information when forHost is true.');
+            updateSnackBarMessage('You are passing in appointee information when forHost is true.');
           } else if (history === undefined) {
-            alert('You must provide history if forHost is true.');
+            updateSnackBarMessage('You must provide history if forHost is true.');
           } else {
-            CreateAppointment(props, data.success.googleEventId, history);
+            CreateAppointment(props, data.success.googleEventId, history, updateSnackBarMessage);
           }
         } else {
           if (!('appointmentId' in props)) {
-            alert('You are passing in host user information when forHost is false.');
+            updateSnackBarMessage('You are passing in host user information when forHost is false.');
           } else if (setter === undefined) {
-            alert('You must provide setter if forHost is false.');
+            updateSnackBarMessage('You must provide setter if forHost is false.');
           } else {
-            addGoogleAppointee(props, data.success.googleEventId, setter);
+            addGoogleAppointee(props, data.success.googleEventId, setter, updateSnackBarMessage);
           }
         }
       }
     })
-    .catch((error) => {
-      alert(error);
-    });
+    .catch((error) => updateSnackBarMessage(error.message));
 };
 
-const deleteGoogleEvent = (email: string, eventId: string): void => {
+const deleteGoogleEvent = (email: string, eventId: string, updateSnackBarMessage: (message: string) => void): void => {
   const url = '/googleDelete';
   const request = new Request(url, {
     method: 'DELETE',
@@ -134,13 +128,9 @@ const deleteGoogleEvent = (email: string, eventId: string): void => {
   });
   fetch(request)
     .then((res) => {
-      if (!(res && res.status === 200)) {
-        alert(`The appointment could not be deleted for ${email}.`);
-      }
+      if (!(res && res.status === 200)) updateSnackBarMessage(`The appointment could not be deleted for ${email}.`);
     })
-    .catch((error) => {
-      alert(error);
-    });
+    .catch((error) => updateSnackBarMessage(error.message));
 };
 
 export { CreateGoogleEvent, deleteGoogleEvent };

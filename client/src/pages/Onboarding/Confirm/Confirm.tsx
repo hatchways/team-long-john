@@ -5,21 +5,21 @@ import CalendAppLogo from '../../../components/CalendAppLogo/CalendAppLogo';
 import OnboardingHeader from '../OnboardingHeader/OnboardingHeader';
 import useStyles from './useStyles';
 import { useAuth } from '../../../context/useAuthContext';
+import { useSnackBar } from '../../../context/useSnackbarContext';
 
 const Confirm = (): JSX.Element => {
   const classes = useStyles();
   const history = useHistory();
+  const { updateSnackBarMessage } = useSnackBar();
   const { loggedInUser } = useAuth();
 
   if (!loggedInUser) {
-    alert('Please login to your account.');
+    updateSnackBarMessage('Please login to your account.');
     history.push('/login');
     return <Box />;
   }
 
-  const handleClickContinue = async () => {
-    history.push('availability');
-  };
+  const handleClickContinue = async () => history.push('availability');
 
   return (
     <Box mt={5} className={classes.page}>

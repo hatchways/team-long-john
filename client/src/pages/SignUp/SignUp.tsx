@@ -5,9 +5,11 @@ import React from 'react';
 import GetStarted from '../helper/GetStarted/GetStarted';
 import AuthenticateMenu from '../helper/AuthenticateMenu/AuthenticateMenu';
 import initiateSignUp from '../../helpers/APICalls/signup';
+import { useSnackBar } from '../../context/useSnackbarContext';
 
 export default function Register(): JSX.Element {
   const classes = useStyles();
+  const { updateSnackBarMessage } = useSnackBar();
 
   const [validated, setValidated] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState('');
@@ -31,7 +33,7 @@ export default function Register(): JSX.Element {
           signup={true}
           redirTarget="/login"
           textChange={textChange}
-          initiater={() => initiateSignUp(userEmail, setValidated)}
+          initiater={() => initiateSignUp(userEmail, setValidated, updateSnackBarMessage)}
         />
       )}
     </Grid>

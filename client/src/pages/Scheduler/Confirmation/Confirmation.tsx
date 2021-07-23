@@ -7,10 +7,12 @@ import Button from '@material-ui/core/Button';
 import { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { CreateGoogleEvent } from '../../../helpers/APICalls/googleCalendarEvent';
+import { useSnackBar } from '../../../context/useSnackbarContext';
 
 export default function Confirmation(props: confirmProp): JSX.Element {
   const history = useHistory();
   const classes = useStyles();
+  const { updateSnackBarMessage } = useSnackBar();
 
   // This regex is used to check if the email is valid or not.
   const emailREGEX = /\S+@\S+\.\S+/;
@@ -20,11 +22,11 @@ export default function Confirmation(props: confirmProp): JSX.Element {
 
   const completeAppointment = () => {
     if (!emailREGEX.test(appointeeEmail)) {
-      alert('Please enter a valid email address!');
+      updateSnackBarMessage('Please enter a valid email address!');
       return;
     }
     if (appointeeName.length === 0) {
-      alert('Please enter a valid (preferred) name!');
+      updateSnackBarMessage('Please enter a valid (preferred) name!');
       return;
     }
     // Create an appointment in DB and in host user's google calendar
@@ -52,7 +54,7 @@ export default function Confirmation(props: confirmProp): JSX.Element {
       timeZone: props.timeZone,
       colorId: 1,
     };
-    CreateGoogleEvent(true, propGoogleCreate, propCA, history);
+    CreateGoogleEvent(true, propGoogleCreate, propCA, updateSnackBarMessage, history);
   };
 
   const handleEmailChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {

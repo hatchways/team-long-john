@@ -16,15 +16,17 @@ import Confirmation from './Confirmation/Confirmation';
 import { loadGoogleAppointments } from '../../helpers/APICalls/scheduler';
 import fitNewTimeSlot from './helper/fitNewTimeSlot';
 import loadFromLocation from './helper/loadFromLocation';
+import { useSnackBar } from '../../context/useSnackbarContext';
 
 export default function Scheduler(): JSX.Element {
   const history = useHistory();
   const location = useLocation<schedLocationProp>();
+  const { updateSnackBarMessage } = useSnackBar();
+
   const { username, meetingId, duration, hostInfo, meetingTitle } = loadFromLocation(location);
   // Accessing this page without going through /shared is prevented.
-  if (location.state === undefined) {
-    history.push('/login');
-  }
+  if (location.state === undefined) history.push('/login');
+
   const classes = useStyles();
 
   // Google calendar events from the specified host.
@@ -48,7 +50,7 @@ export default function Scheduler(): JSX.Element {
     // Load user's google calendar events using selected date as start ISO.
     const dateInfo = moment(event).format('YYYY-MM-DD');
     const startOfDay = moment.tz(`${dateInfo} 00:00`, timeZone);
-    loadGoogleAppointments(hostInfo.hostEmail, startOfDay.toISOString(), setGoogleAppoitments);
+    loadGoogleAppointments(hostInfo.hostEmail, startOfDay.toISOString(), setGoogleAppoitments, updateSnackBarMessage);
     setDateSelected(event);
   };
 

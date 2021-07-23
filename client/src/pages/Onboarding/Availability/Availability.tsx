@@ -6,10 +6,12 @@ import OnboardingHeader from '../OnboardingHeader/OnboardingHeader';
 import useStyles from './useStyles';
 import { UpdateAvail } from '../../../helpers/APICalls/onboarding';
 import { useAuth } from '../../../context/useAuthContext';
+import { useSnackBar } from '../../../context/useSnackbarContext';
 
 const Availability = (): JSX.Element => {
   const { loggedInUser, logout } = useAuth();
   const classes = useStyles();
+  const { updateSnackBarMessage } = useSnackBar();
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   // Keeps track of available hours and days
@@ -33,11 +35,8 @@ const Availability = (): JSX.Element => {
   };
 
   const handleClickFinish = () => {
-    if (loggedInUser) {
-      UpdateAvail(loggedInUser.email, openTimes, openDays, logout);
-    } else {
-      alert('Please login to your account.');
-    }
+    if (loggedInUser) UpdateAvail(loggedInUser.email, openTimes, openDays, logout, updateSnackBarMessage);
+    else updateSnackBarMessage('Please login to your account.');
   };
 
   const renderCheckboxes = days.map((day: string, idx: number) => {

@@ -6,6 +6,7 @@ import CalendAppLogo from '../../../components/CalendAppLogo/CalendAppLogo';
 import OnboardingHeader from '../OnboardingHeader/OnboardingHeader';
 import useStyles from './useStyles';
 import { CheckURL } from '../../../helpers/APICalls/onboarding';
+import { useSnackBar } from '../../../context/useSnackbarContext';
 
 import {
   Box,
@@ -32,6 +33,7 @@ const ProfileSettings = (): JSX.Element => {
   const filteredTimeZones: TimeZone = {};
   const { loggedInUser } = useAuth();
   const history = useHistory();
+  const { updateSnackBarMessage } = useSnackBar();
 
   const [profileSettings, setProfileSettings] = useState<ProfileSettings>({
     username: '',
@@ -42,10 +44,8 @@ const ProfileSettings = (): JSX.Element => {
     // Error handling
     if (profileSettings.username.trim() === '' || profileSettings.timezone.trim() === '') return;
     if (loggedInUser) {
-      CheckURL(profileSettings.username, profileSettings.timezone, loggedInUser.email, history);
-    } else {
-      alert('Please login to your account.');
-    }
+      CheckURL(profileSettings.username, profileSettings.timezone, loggedInUser.email, history, updateSnackBarMessage);
+    } else updateSnackBarMessage('Please login to your account.');
   };
 
   const handleChangeUsername = (e: { target: HTMLInputElement | HTMLTextAreaElement }) => {
