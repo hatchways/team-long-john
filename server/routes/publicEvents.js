@@ -3,8 +3,8 @@ const router = express.Router();
 
 const {
   createPublicEvent,
-  findPublicEvenByComb,
-  findPublicEvenById,
+  findPublicEventByComb,
+  findPublicEventById,
   addPublicEvent,
   deletePublicEvent,
 } = require("../controllers/publicEvent");
@@ -12,12 +12,13 @@ const {
   validatePublicEvent,
   validateCombination,
   validateCombPatch,
+  validateCombDel,
 } = require("../middleware/validatePublicEvent");
 
 router.route("/").post(validatePublicEvent, createPublicEvent);
-router.route("/").get(validateCombination, findPublicEvenByComb);
-router.route("/:id").get(findPublicEvenById);
+router.route("/").get(validateCombination, findPublicEventByComb);
+router.route("/:id").get(findPublicEventById);
 router.route("/").patch(validateCombPatch, addPublicEvent);
-router.route("/").delete(validateCombPatch, deletePublicEvent);
+router.route("/").delete(validateCombDel, deletePublicEvent);
 
 module.exports = router;

@@ -21,6 +21,8 @@ const stripeRouter = require("./routes/stripe");
 const googleAvailabilityRouter = require("./routes/availability");
 const googleCreateRouter = require("./routes/googleCreate");
 const googleDeleteRouter = require("./routes/googleDelete");
+const categoryRouter = require("./routes/category");
+const publicEventRouter = require("./routes/publicEvents");
 
 const { json, urlencoded } = express;
 
@@ -62,6 +64,8 @@ app.use("/stripe", stripeRouter);
 app.use("/googleAvailability", googleAvailabilityRouter);
 app.use("/googleCreate", googleCreateRouter);
 app.use("/googleDelete", googleDeleteRouter);
+app.use("/category", categoryRouter);
+app.use("/publicEvent", publicEventRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));

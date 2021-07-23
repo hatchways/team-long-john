@@ -17,7 +17,7 @@ exports.createPublicEvent = asyncHandler(async (req, res, next) => {
 // @route GET /publicEvent?categoryId=...&hostUserName=...
 // @desc Get all Meetings (events) hosted by specific user, under specific category.
 // @access Public
-exports.findPublicEvenByComb = asyncHandler(async (req, res, next) => {
+exports.findPublicEventByComb = asyncHandler(async (req, res, next) => {
   const publicEvents = await PublicEvent.find(req.query);
 
   if (!publicEvents) {
@@ -35,13 +35,13 @@ exports.findPublicEvenByComb = asyncHandler(async (req, res, next) => {
 // @route GET /publicEvent/:id
 // @desc Get public event information with specific id.
 // @access Public
-exports.findPublicEvenById = asyncHandler(async (req, res, next) => {
+exports.findPublicEventById = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
   const publicEvents = await PublicEvent.findById(id);
 
-  if (!category) {
+  if (!publicEvents) {
     res.status(404);
-    throw new Error(`No category exists with the given name: ${categoryName}`);
+    throw new Error(`No public event exists with given id.`);
   }
   res.status(200).json({
     success: {
