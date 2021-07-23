@@ -17,6 +17,7 @@ router.get(
 
 router.get(
   "/google/callback",
+  () => console.log(isDev()),
   passport.authenticate("google", {
     successRedirect: `${isDev()}/AuthSetup`,
     failureRedirect: `${isDev()}/login`,
