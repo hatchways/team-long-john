@@ -18,8 +18,8 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: `https://calendapp-io.herokuapp.com/AuthSetup`,
-    failureRedirect: `https://calendapp-io.herokuapp.com/login`,
+    successRedirect: `${process.env.PROD_URL}/AuthSetup`,
+    failureRedirect: `${process.env.PROD_URL}/login`,
   })
 );
 
