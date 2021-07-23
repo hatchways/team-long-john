@@ -4,7 +4,7 @@ This is a little description about your project.
 
 **Tech Stack:** MongoDB, Express.js, React.js, Node.js, Typescript
 
-**Contributors**: [Luke Kim](https://github.com/LKhyeon) [Andy Garcia](https://github.com/garzeah)
+**Contributors**: [Luke Kim](https://github.com/LKhyeon), [Andy Garcia](https://github.com/garzeah)
 
 ---
 
