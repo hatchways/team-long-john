@@ -57,9 +57,6 @@ export default function Navigation(): JSX.Element {
           <Link to="/upgrade" className={`${classes.option} ${classes.premium}`} style={{ textDecoration: 'none' }}>
             Upgrade Account
           </Link>
-          <Link to="/integration" className={classes.option} style={{ textDecoration: 'none' }}>
-            Integration
-          </Link>
           <Link to="/dashboard" className={classes.option} style={{ textDecoration: 'none' }}>
             Home
           </Link>
@@ -81,7 +78,6 @@ export default function Navigation(): JSX.Element {
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList>
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
                     <MenuItem onClick={handleSetting}>Setting</MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </MenuList>

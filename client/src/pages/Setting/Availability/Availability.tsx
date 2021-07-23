@@ -47,7 +47,7 @@ const Availability = (): JSX.Element => {
       loggedInUser.availableHours = openTimes;
       loggedInUser.timezone = timeZone;
     } else {
-      alert('Please login to your account.');
+      updateSnackBarMessage('Please login to your account.');
     }
   };
 

@@ -44,6 +44,9 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
   },
   subInfo: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: '30px',
     borderTop: 'solid 3px',
     borderTopColor: '#f9fbff',

@@ -38,6 +38,7 @@ const useStyles = makeStyles({
     maxWidth: '200px',
   },
   username: {
+    marginLeft: '10px',
     position: 'relative',
     paddingRight: '20px',
     fontWeight: 'bold',

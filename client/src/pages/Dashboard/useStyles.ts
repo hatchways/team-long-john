@@ -119,9 +119,10 @@ const useStyles = makeStyles((theme) => ({
     color: 'gray',
   },
   helpButton: {
-    position: 'fixed',
-    bottom: '100px',
-    right: '100px',
+    position: 'absolute',
+    bottom: '0',
+    right: '0',
+    margin: '30px',
     padding: '10px',
     paddingLeft: '20px',
     paddingRight: '20px',
