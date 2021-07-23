@@ -50,7 +50,7 @@ app.use(cookieParser());
 app.use(session(cookieSettings));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(join(__dirname, "public")));
+app.use(express.static(join(__dirname, "public", { dotfiles: "allow" })));
 
 // Routes
 app.use("/auth", authRouter);
