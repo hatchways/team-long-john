@@ -23,6 +23,7 @@ const googleCreateRouter = require("./routes/googleCreate");
 const googleDeleteRouter = require("./routes/googleDelete");
 
 const { json, urlencoded } = express;
+const { isDev } = require("./utils/isDev");
 
 connectDB();
 const app = express();
@@ -44,6 +45,7 @@ if (process.env.NODE_ENV === "development") {
   app.use(logger("dev"));
 }
 
+console.log(isDev());
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
