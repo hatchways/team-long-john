@@ -42,7 +42,6 @@ export default function Dashboard(): JSX.Element {
     forEdit: false,
   });
 
-
   const fetchMeetingsCallback = useCallback(
     async (id) => {
       const meetings = await fetchMeetings(id, updateSnackBarMessage);

@@ -13,7 +13,6 @@ import Confirm from './pages/Onboarding/Confirm/Confirm';
 import Availability from './pages/Onboarding/Availability/Availability';
 import AuthSetUp from './pages/helper/AuthSetUp';
 import Upgrade from './pages/Upgrade/Upgrade';
-import Checkout from './pages/Checkout/Checkout';
 import Setting from './pages/Setting/Setting';
 import Success from './pages/Success/Success';
 
@@ -41,7 +40,6 @@ function App(): JSX.Element {
               <Route exact path="/confirm" component={Confirm} />
               <Route exact path="/availability" component={Availability} />
               <Route exact path="/upgrade" component={Upgrade} />
-              <Route exact path="/checkout" component={Checkout} />
               <Route exact path="/userSetting" component={Setting} />
               <Route exact path="/success" component={Success} />
               <Route path="*">

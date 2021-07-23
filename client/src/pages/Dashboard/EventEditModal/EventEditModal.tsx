@@ -26,9 +26,9 @@ export default function EventEditModal({ meetingDetail, setMeetingDetail }: Prop
   });
   useEffect(() => {
     if (meetingDetail.meetingId !== 'N/A') {
-      getMeetingInfo(meetingDetail.meetingId, setMeetingInfo);
+      getMeetingInfo(meetingDetail.meetingId, setMeetingInfo, updateSnackBarMessage);
     }
-  }, [meetingDetail]);
+  }, [meetingDetail, updateSnackBarMessage]);
 
   const initialValues = {
     name: meetingInfo.meetingTitle,
