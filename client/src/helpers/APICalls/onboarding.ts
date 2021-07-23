@@ -7,7 +7,13 @@ interface times {
   end: string;
 }
 
-const CheckURL = (username: string, timeZone: string, email: string, history: RouteComponentProps['history']): void => {
+const CheckURL = (
+  username: string,
+  timeZone: string,
+  email: string,
+  history: RouteComponentProps['history'],
+  updateSnackBarMessage: (message: string) => void,
+): void => {
   const url = '/users/username';
   const request = new Request(url, {
     method: 'POST',
@@ -22,15 +28,10 @@ const CheckURL = (username: string, timeZone: string, email: string, history: Ro
   });
   fetch(request)
     .then((res) => {
-      if (res && res.status === 200) {
-        alert('This url is already taken!');
-      } else if (res && res.status === 404) {
-        UpdateURL(username, timeZone, email, history);
-      }
+      if (res && res.status === 200) updateSnackBarMessage('This url is already taken!');
+      else if (res && res.status === 404) UpdateURL(username, timeZone, email, history, updateSnackBarMessage);
     })
-    .catch((error) => {
-      alert(error);
-    });
+    .catch((error) => updateSnackBarMessage(error.message));
 };
 
 const UpdateURL = (
@@ -38,6 +39,7 @@ const UpdateURL = (
   timeZone: string,
   email: string,
   history: RouteComponentProps['history'],
+  updateSnackBarMessage: (message: string) => void,
 ): void => {
   const url = `users/email/${email}`;
   const request = new Request(url, {
@@ -54,18 +56,19 @@ const UpdateURL = (
   });
   fetch(request)
     .then((res) => {
-      if (res && res.status === 200) {
-        history.push('/confirm');
-      } else if (res && res.status === 404) {
-        alert('There is no user with the specified email.');
-      }
+      if (res && res.status === 200) history.push('/confirm');
+      else if (res && res.status === 404) updateSnackBarMessage('There is no user with the specified email.');
     })
-    .catch((error) => {
-      alert(error);
-    });
+    .catch((error) => updateSnackBarMessage(error.message));
 };
 
-const UpdateAvail = (email: string, openTimes: times, openDays: string[], logout?: simpleFunc): void => {
+const UpdateAvail = (
+  email: string,
+  openTimes: times,
+  openDays: string[],
+  logout: simpleFunc,
+  updateSnackBarMessage: (message: string) => void,
+): void => {
   const url = `users/email/${email}`;
   const request = new Request(url, {
     method: 'PATCH',
@@ -82,19 +85,11 @@ const UpdateAvail = (email: string, openTimes: times, openDays: string[], logout
   fetch(request)
     .then((res) => {
       if (res && res.status === 200) {
-        if (logout) {
-          alert('Your account has successfully been created. Please login to use your account.');
-          logout();
-        } else {
-          alert('Your account has successfully been updated.');
-        }
-      } else if (res && res.status === 404) {
-        alert('There is no user with the specified email.');
-      }
+        updateSnackBarMessage('Your account has successfully been created. Please login to use your account.');
+        logout();
+      } else if (res && res.status === 404) updateSnackBarMessage('There is no user with the specified email.');
     })
-    .catch((error) => {
-      alert(error);
-    });
+    .catch((error) => updateSnackBarMessage(error.message));
 };
 
 export { CheckURL, UpdateURL, UpdateAvail };

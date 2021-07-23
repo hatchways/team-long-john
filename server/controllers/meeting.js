@@ -70,3 +70,21 @@ exports.getMeetingInfo = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ success: { meeting: meeting } });
 });
+
+// @route PATCH /meeting/:id
+// @desc Edit the meeting information associated with id.
+// @access Public
+exports.editMeetingInfo = asyncHandler(async (req, res, next) => {
+  const id = req.params.id;
+  const updates = req.body;
+  const options = { new: true };
+
+  const editted = await Meeting.findByIdAndUpdate(id, updates, options);
+
+  if (!editted) {
+    res.status(400);
+    throw new Error("Meeting with the given id could not be updated.");
+  }
+
+  res.status(200).json({ success: { meeting: editted } });
+});

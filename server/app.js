@@ -17,7 +17,8 @@ const profileImageRouter = require("./routes/profileImage");
 const authRouter = require("./routes/auth");
 const appointmentRouter = require("./routes/appointment");
 const meetingRouter = require("./routes/meeting");
-const availabilityRouter = require("./routes/availability");
+const stripeRouter = require("./routes/stripe");
+const googleAvailabilityRouter = require("./routes/availability");
 const googleCreateRouter = require("./routes/googleCreate");
 const googleDeleteRouter = require("./routes/googleDelete");
 
@@ -57,7 +58,8 @@ app.use("/users", userRouter);
 app.use("/profileImage", profileImageRouter);
 app.use("/appointment", appointmentRouter);
 app.use("/meeting", meetingRouter);
-app.use("/googleAvailability", availabilityRouter);
+app.use("/stripe", stripeRouter);
+app.use("/googleAvailability", googleAvailabilityRouter);
 app.use("/googleCreate", googleCreateRouter);
 app.use("/googleDelete", googleDeleteRouter);
 

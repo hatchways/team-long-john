@@ -10,36 +10,69 @@ import UserDashInfo from './UserDashInfo/UserDashInfo';
 import ScheduleOption from './ScheduleOption/ScheduleOption';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import moment from 'moment-timezone';
 
+import { fetchAppointments } from '../../helpers/APICalls/appointment';
 import { useAuth } from '../../context/useAuthContext';
 import { fetchMeetings } from '../../helpers/APICalls/meetings';
 import EventModal from './EventModal/EventModal';
-import { Meetings } from '../../interface/Meeting';
+import { EventDetailEdit, Meetings } from '../../interface/Meeting';
 import { User } from '../../interface/User';
+import { useSnackBar } from '../../context/useSnackbarContext';
+import { Appointments } from '../../interface/AppointmentProps';
+import EventEditModal from './EventEditModal/EventEditModal';
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
+  const { updateSnackBarMessage } = useSnackBar();
+
   // Controls whether to open or close our modal
   const [open, setOpen] = React.useState<boolean>(false);
   const dashOptions = ['EVENT TYPES', 'SCHEDULED EVENTS'];
   const [dashOptionSelected, setDashOption] = React.useState(dashOptions[0]);
-  const schedOptions = ['UPCOMING', 'PENDING', 'PAST'];
+  const schedOptions = ['PAST'];
   const [schedSelect, setSchedSelect] = React.useState(schedOptions[0]);
   const loggedInUser: User | null | undefined = useAuth().loggedInUser;
   const [meetingOptions, setMeetingOptions] = useState<Meetings>([]);
+  const [events, setEvents] = useState<Appointments | undefined>({ appointments: [] });
 
-  const fetchMeetingsCallback = useCallback(async (id) => {
-    const meetings = await fetchMeetings(id);
-    if (meetings.success) setMeetingOptions(meetings.success.data);
-  }, []);
+  // Selected meeting id.
+  const [meetingDetail, setMeetingDetail] = React.useState<EventDetailEdit>({
+    meetingId: 'N/A',
+    forEdit: false,
+  });
+
+
+  const fetchMeetingsCallback = useCallback(
+    async (id) => {
+      const meetings = await fetchMeetings(id, updateSnackBarMessage);
+      if (meetings.success) setMeetingOptions(meetings.success.data);
+    },
+    [updateSnackBarMessage],
+  );
 
   useEffect(() => {
     if (loggedInUser) fetchMeetingsCallback(loggedInUser._id);
-  }, [fetchMeetingsCallback, loggedInUser]);
+  }, [fetchMeetingsCallback, loggedInUser, meetingDetail.meetingId]);
 
   if (loggedInUser === undefined || loggedInUser === null) return <CircularProgress />;
 
   const handleOpen = () => setOpen(true);
+
+  // Handles logic for dashboard and schedule options
+  const handleClickDashOptions = () => {
+    // Fetches events based on appointment type
+    const fetchEvents = async (type: string) => {
+      const appointments = await fetchAppointments(loggedInUser.username, type);
+      setEvents(appointments.success);
+    };
+
+    // If we are on "Scheduled Events"...
+    if (dashOptionSelected === dashOptions[0]) {
+      // If user is on the 'Past' section...
+      if (schedSelect === schedOptions[0]) fetchEvents('past');
+    }
+  };
 
   const createOptions = (
     choices: string[],
@@ -71,9 +104,11 @@ export default function Dashboard(): JSX.Element {
       output.push(
         <ScheduleOption
           key={`meeting option ${i}`}
+          id={options[i]._id}
           name={options[i].name}
           schedTime={options[i].duration}
           colour={colors[i % colors.length]}
+          setMeetingDetail={setMeetingDetail}
         />,
       );
     }
@@ -82,26 +117,26 @@ export default function Dashboard(): JSX.Element {
 
   const populateSchedEvent = () => {
     const output = [];
-    const events = [];
-    if (schedSelect === schedOptions[0]) {
-      // Need to fill in the code where all of the appropriate events are getting populated.
-      // Note that this is just a dummy data and this code needs to change depending on the structure
-      // of the data recieved from the database.
-      events.push({ name: 'Alan', duration: 60 });
-      events.push({ name: 'Rickman', duration: 30 });
-    }
-    if (events.length > 0) {
-      for (let i = 0; i < events.length; i++) {
-        // Note that this is using a dummy data and this code needs to change in the future accordingly.
+
+    if (events) {
+      for (let i = 0; i < events.appointments.length; i++) {
+        const { appointeeEmail, appointeeName, duration, time, timezone } = events.appointments[i];
+
         output.push(
           <Box key={`schedule ${i}`} className={classes.schedEventData}>
-            <Box className={`${classes.schedInfo} ${classes.timeInfo}`}> TIME INFORMATION TO BE FILLED </Box>
-            <Box className={classes.schedInfo}>
-              <Typography> Meeting with {events[i].name} </Typography>
-              <Typography> {events[i].duration} minutes meeting </Typography>
+            <Box className={`${classes.schedInfo} ${classes.timeInfo}`}>
+              <Typography>
+                Meeting with{' '}
+                <b>
+                  {appointeeName} ({appointeeEmail})
+                </b>
+              </Typography>
             </Box>
             <Box className={classes.schedInfo}>
-              <Button> {'>'} DETAILS </Button>
+              <Typography>
+                You had a <b>{duration} minute</b> meeting on{' '}
+                <b>{moment(time).tz(timezone).format('MM/DD/YYYY (h:mma z)')}</b>
+              </Typography>
             </Box>
           </Box>,
         );
@@ -121,11 +156,14 @@ export default function Dashboard(): JSX.Element {
       <CssBaseline />
       <Navigation />
       <EventModal fetchMeetingsCallback={fetchMeetingsCallback} open={open} setOpen={setOpen} />
+      <EventEditModal meetingDetail={meetingDetail} setMeetingDetail={setMeetingDetail} />
       <Box className={classes.dashWrapper}>
         <Box className={classes.headerWrapper}>
           <Box className={classes.header}>
             <Typography className={classes.headerTitle}> My CalendApp </Typography>
-            <Box className={classes.headerMenu}> {createOptions(dashOptions, dashOptionSelected, setDashOption)} </Box>
+            <Box onClick={handleClickDashOptions} className={classes.headerMenu}>
+              {createOptions(dashOptions, dashOptionSelected, setDashOption)}
+            </Box>
           </Box>
         </Box>
         {dashOptionSelected === dashOptions[0] ? (

@@ -1,11 +1,17 @@
 const Appointment = require("../models/Appointment");
 const asyncHandler = require("express-async-handler");
+const { convertToTimeZone } = require("../utils/dateTime");
+const moment = require("moment");
+const {
+  appointCreateEmail,
+  appointDeleteEmail,
+} = require("../utils/emailSender");
 
-// @route GET /appointment
-// @desc Fetches all appointments associated with user
+// @route GET /appointment?username=USERNAME&type=all
+// @desc Fetches all appointments associated with user based on type
 // @access Public
 exports.fetchAppointments = asyncHandler(async (req, res, next) => {
-  const { username } = req.query;
+  const { username, type } = req.query;
 
   // Finds all appointments associated with the email
   const appointments = await Appointment.find({ hostUserName: username });
@@ -16,7 +22,26 @@ exports.fetchAppointments = asyncHandler(async (req, res, next) => {
     throw new Error("You do not have any appointments");
   }
 
-  res.status(200).json({ success: { appointments: appointments } });
+  if (type === "past") {
+    const pastAppointments = [];
+    let currentTime = new Date().getTime();
+
+    for (let key in appointments) {
+      const appointmentTime = appointments[key].time;
+
+      // Converting our time to the appointment's timezone
+      currentTime = convertToTimeZone(currentTime, appointments[key].timezone);
+
+      // If the appointment time is before current time, then push into pastAppointments
+      if (moment(appointmentTime).isBefore(currentTime)) {
+        pastAppointments.push(appointments[key]);
+      }
+    }
+
+    res.status(200).json({ success: { appointments: pastAppointments } });
+  } else {
+    res.status(200).json({ success: { appointments: appointments } });
+  }
 });
 
 // @route POST /appointment
@@ -41,6 +66,8 @@ exports.createAppointment = asyncHandler(async (req, res, next) => {
     );
   }
 
+  // Send Emails
+  appointCreateEmail(appointment);
   res.status(201).json({ success: { appointment: appointment } });
 });
 
@@ -71,6 +98,8 @@ exports.deleteAppointmentById = asyncHandler(async (req, res, next) => {
     throw new Error("No appointment found with given id");
   }
 
+  // Send Emails
+  appointDeleteEmail(deleted);
   res.status(200).json({ success: { message: "Appointment deleted" } });
 });
 
