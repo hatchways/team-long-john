@@ -38,7 +38,7 @@ exports.allCategories = asyncHandler(async (req, res, next) => {
 });
 
 // @route GET /category?categoryName=
-// @desc Get information with specific name.
+// @desc Get category with specific name.
 // @access Public
 exports.findCategoryByName = asyncHandler(async (req, res, next) => {
   const { categoryName } = req.query;
@@ -59,7 +59,7 @@ exports.findCategoryByName = asyncHandler(async (req, res, next) => {
 });
 
 // @route GET /category/:id
-// @desc Get information with specific name.
+// @desc Get category with specific id.
 // @access Public
 exports.findCategoryById = asyncHandler(async (req, res, next) => {
   const id = req.params.id;

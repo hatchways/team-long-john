@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Meeting = require("./Meeting");
 
 const publicEventSchema = new mongoose.Schema({
   categoryId: {
@@ -10,12 +11,8 @@ const publicEventSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  hostEmail: {
-    type: String,
-    required: true,
-  },
-  events: {
-    type: [String],
+  meetings: {
+    type: [mongoose.Types.ObjectId],
     default: [],
   },
 });
