@@ -10,7 +10,6 @@ const logger = require("morgan");
 const session = require("express-session");
 const cloudinary = require("cloudinary");
 const passport = require("passport");
-const { isDev } = require("./utils/isDev");
 require("./utils/passport");
 
 const userRouter = require("./routes/user");
