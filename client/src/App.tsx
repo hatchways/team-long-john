@@ -1,6 +1,6 @@
 import { MuiThemeProvider, StylesProvider } from '@material-ui/core';
 import { theme } from './themes/theme';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Login from './pages/Login/Login';
 import Signup from './pages/SignUp/SignUp';
@@ -24,34 +24,29 @@ import SchedulerWrapper from './pages/Scheduler/SchedulerWrapper';
 
 function App(): JSX.Element {
   return (
-    <StylesProvider injectFirst>
-      <MuiThemeProvider theme={theme}>
-        <BrowserRouter>
-          <SnackBarProvider>
-            <Switch>
-              <Route exact path="/shared/:username/:meetingId" component={SchedulerWrapper} />
-              <Route exact path="/scheduler" component={Scheduler} />
-              <Route exact path="/completion/:appointID" component={Completion} />
-              <AuthProvider>
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/signup" component={Signup} />
-                <Route exact path="/AuthSetup" component={AuthSetUp} />
-                <Route exact path="/dashboard" component={Dashboard} />
-                <Route exact path="/initialSettings" component={ProfileSettings} />
-                <Route exact path="/confirm" component={Confirm} />
-                <Route exact path="/availability" component={Availability} />
-                <Route exact path="/upgrade" component={Upgrade} />
-                <Route exact path="/userSetting" component={Setting} />
-                <Route exact path="/success" component={Success} />
-                <Route path="*">
-                  <Redirect to="/login" />
-                </Route>
-              </AuthProvider>
-            </Switch>
-          </SnackBarProvider>
-        </BrowserRouter>
-      </MuiThemeProvider>
-    </StylesProvider>
+    <MuiThemeProvider theme={theme}>
+      <BrowserRouter>
+        <SnackBarProvider>
+          <Switch>
+            <Route exact path="/shared/:username/:meetingId" component={SchedulerWrapper} />
+            <Route exact path="/scheduler" component={Scheduler} />
+            <Route exact path="/completion/:appointID" component={Completion} />
+            <AuthProvider>
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={Signup} />
+              <Route exact path="/AuthSetup" component={AuthSetUp} />
+              <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/initialSettings" component={ProfileSettings} />
+              <Route exact path="/confirm" component={Confirm} />
+              <Route exact path="/availability" component={Availability} />
+              <Route exact path="/upgrade" component={Upgrade} />
+              <Route exact path="/userSetting" component={Setting} />
+              <Route exact path="/success" component={Success} />
+            </AuthProvider>
+          </Switch>
+        </SnackBarProvider>
+      </BrowserRouter>
+    </MuiThemeProvider>
   );
 }
 

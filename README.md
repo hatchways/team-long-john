@@ -1,10 +1,10 @@
-## Project Name
+## CalendApp
 
-This is a little description about your project.
+A scheduling platform that helps users create appointments easily.
 
 **Tech Stack:** MongoDB, Express.js, React.js, Node.js, Typescript
 
-**Contributors**: [Hatchways](https://github.com/hatchways) (replace)
+**Contributors**: [Luke Kim](https://github.com/LKhyeon), [Andy Garcia](https://github.com/garzeah)
 
 ---
 
