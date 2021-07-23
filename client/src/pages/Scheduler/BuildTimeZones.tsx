@@ -43,7 +43,11 @@ export default function BuildTimeZones(props: BTZProps): JSX.Element {
     });
 
   return (
-    <Select value={props.userTimeZone ? props.userTimeZone : ' '} MenuProps={MenuProps} onChange={props.changeTimeZone}>
+    <Select
+      defaultValue={props.userTimeZone ? props.userTimeZone : ' '}
+      MenuProps={MenuProps}
+      onChange={props.changeTimeZone}
+    >
       {renderTimeZones}
     </Select>
   );
