@@ -5,14 +5,6 @@ const asyncHandler = require("express-async-handler");
 // @desc Creates a category.
 // @access Public
 exports.createCategory = asyncHandler(async (req, res, next) => {
-  // Checking for valid input
-  const { categoryName } = req.body;
-  if (typeof categoryName !== "string" || categoryName.trim() === "") {
-    res.status(406);
-    throw new Error("Invalid input, please send non-empty string input.");
-  }
-
-  // Creates a new category.
   const category = await EventCategory.create(req.body);
   if (!category) {
     res.status(406);
@@ -70,6 +62,7 @@ exports.findCategoryById = asyncHandler(async (req, res, next) => {
     res.status(404);
     throw new Error(`No category exists with the given name: ${categoryName}`);
   }
+
   res.status(200).json({
     success: {
       id: category._id,

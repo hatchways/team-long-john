@@ -9,8 +9,9 @@ const {
   deleteCategoryByName,
   deleteCategoryById,
 } = require("../controllers/category");
+const { validateInput } = require("../middleware/validateCategory");
 
-router.route("/").post(createCategory);
+router.route("/").post(validateInput, createCategory);
 router.route("/all").get(allCategories);
 router.route("/").get(findCategoryByName);
 router.route("/:id").get(findCategoryById);
