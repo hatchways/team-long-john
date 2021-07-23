@@ -5,6 +5,7 @@ const useStyles = makeStyles({
     float: 'left',
     marginTop: '20px',
     width: '100%',
+    height: '220px',
   },
   paperStyleP: {
     height: '5px',
@@ -28,7 +29,9 @@ const useStyles = makeStyles({
   scheduleButton: {
     paddingBottom: '30px',
     width: '100%',
+    height: '85px',
     textAlign: 'left',
+    overflow: 'auto',
   },
   schedInfo: {
     width: '100%',
