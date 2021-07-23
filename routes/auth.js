@@ -18,8 +18,8 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: `${process.env.PROD_URL}/AuthSetup`,
-    failureRedirect: `${process.env.PROD_URL}/login`,
+    successRedirect: `${isDev()}/AuthSetup`,
+    failureRedirect: `${isDev()}/login`,
   })
 );
 
