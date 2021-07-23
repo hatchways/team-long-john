@@ -48,7 +48,7 @@ export const editMeetingInfo = (
   meetingId: string,
   name: string,
   duration: string,
-  updateSnackBarMessage: snackBarFunc,
+  updateSnackBarMessage: (message: string) => void,
 ): void => {
   const url = `/meeting/${meetingId}`;
   const request = new Request(url, {
