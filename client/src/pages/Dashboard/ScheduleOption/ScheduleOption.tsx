@@ -37,7 +37,7 @@ export default function ScheduleOption(prop: SchedProp): JSX.Element {
       navigator.clipboard.writeText(shareLink);
       updateSnackBarMessage('Share link has been copied to your clipboard!');
     } else {
-      alert('Please log in!');
+      updateSnackBarMessage('Please log in!');
     }
   };
   const setSelectedMeeting = (forEdit: boolean) => {

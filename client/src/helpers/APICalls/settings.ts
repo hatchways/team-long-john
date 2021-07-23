@@ -31,7 +31,7 @@ const uploadToCloudinary = (userId: string, imgSrc: File, updateSnackBarMessage:
       }
     })
     .catch((error) => {
-      alert(error);
+      updateSnackBarMessage(error.message);
     });
 };
 
@@ -85,7 +85,7 @@ const loadProfileImage = (
       }
     })
     .catch((error) => {
-      alert(error);
+      updateSnackBarMessage(error.message);
     });
 };
 
@@ -119,7 +119,7 @@ const UpdateAvail = (
       }
     })
     .catch((error) => {
-      alert(error);
+      updateSnackBarMessage(error.message);
     });
 };
 
